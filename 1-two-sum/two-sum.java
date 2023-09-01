@@ -1,4 +1,4 @@
-/** Striver SDE Sheet Challenge By Asma 
+/** 
 Problem : Two Sum 
 Approach : Using Hashing
 */
