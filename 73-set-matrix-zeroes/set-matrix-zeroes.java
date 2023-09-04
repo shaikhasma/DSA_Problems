@@ -1,13 +1,13 @@
 class Solution {
     public void setZeroes(int[][] matrix) {
      // Step 1. Mark in set of row and set of column
-     Set<Integer> rowSet = new HashSet<>();
-     Set<Integer> colSet = new HashSet<>();
+     int[] rowSet = new int[matrix.length];
+    int[] colSet = new  int[matrix[0].length];
      for(int row = 0; row < matrix.length; row++){
          for(int col = 0 ; col < matrix[0].length ; col++){
             if(matrix[row][col] == 0){
-               rowSet.add(row);
-               colSet.add(col);
+               rowSet[row] = 1;
+               colSet[col] = 1;
             }
          }
      }
@@ -17,7 +17,7 @@ class Solution {
      for(int row = 0; row < matrix.length; row++){
          for(int col = 0 ; col < matrix[0].length ; col++){
             if(matrix[row][col] != 0){
-                if(rowSet.contains(row) || colSet.contains(col)){
+                if(rowSet[row] == 1 || colSet[col] == 1){
                     matrix[row][col] = 0;
                 }
             }
