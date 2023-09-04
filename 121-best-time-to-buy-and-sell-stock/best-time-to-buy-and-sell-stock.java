@@ -1,6 +1,6 @@
-/** Approcah 2 Using RightPrefix
+/** Approcah 3 Using Valley approach / kadanes algorithm
 TC - 0(n)
-SC - 0(n)
+SC - 0(1)
  */
 class Solution {
     public int maxProfit(int[] price) { 
