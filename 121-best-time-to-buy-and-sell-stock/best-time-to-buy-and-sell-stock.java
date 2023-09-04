@@ -4,16 +4,12 @@ SC - 0(n)
  */
 class Solution {
     public int maxProfit(int[] price) { 
-      int[] rightPrefix = new int[price.length];
+      int minPrice = Integer.MAX_VALUE;
       int maxProfit = Integer.MIN_VALUE;
 
-      rightPrefix[price.length - 1] = price[price.length - 1];
-      for(int index = price.length - 2; index >= 0; index--){
-          rightPrefix[index] = Math.max(rightPrefix[index + 1] , price[index]);
-      }
-     
-      for(int currDay = 0; currDay< price.length; currDay++){
-        maxProfit = Math.max(maxProfit, rightPrefix[currDay] - price[currDay]);
+      for(int day = 0; day < price.length; day++){
+          minPrice = Math.min(minPrice, price[day]);
+          maxProfit = Math.max(maxProfit, price[day] - minPrice);
       }
 
       return maxProfit;
