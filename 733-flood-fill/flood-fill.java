@@ -12,7 +12,7 @@ class Solution {
       boolean[][] visited = new boolean[image.length][image[0].length];
       int initColor = image[sr][sc];
       
-      //Step 1. push starting cell with row & col to Q
+      //Step 1. push starting cell with row & col to Q Mark it as visited
       q.add(new Cell(sr, sc));
       visited[sr][sc] = true;
 
@@ -22,7 +22,7 @@ class Solution {
           int row = cell.row;
           int col = cell.col;
 
-          //color with new color
+          //color with new color in same image
           image[row][col] = color;
 
         
@@ -32,7 +32,8 @@ class Solution {
           for(int dIndex = 0; dIndex <= 3 ; dIndex++){
               int nRow = row + dRow[dIndex];
               int nCol = col + dCol[dIndex];
-
+            // move in 4 direction if yet cell has not color with new color
+            // color it & mark it as visited
               if(nRow >= 0 && nRow < image.length &&
                  nCol >= 0 && nCol < image[0].length &&
                  image[nRow][nCol] == initColor && !visited[nRow][nCol]){
