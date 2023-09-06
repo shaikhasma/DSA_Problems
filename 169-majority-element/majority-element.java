@@ -5,19 +5,30 @@ SC - 0(n)
 */
 class Solution {
     public int majorityElement(int[] nums) {
-       HashMap<Integer,Integer> map = new HashMap<>();
+    int element = 0;
+    int count = 0;
+    for(int index = 0; index < nums.length; index++){
+        if(count == 0){
+            element = nums[index];
+            count++;
+        }else if(nums[index] != element){
+            count--;
+        }else{
+            count++;
+        }
+    }
 
-       for(int index = 0; index < nums.length; index++){
-           int count = map.getOrDefault(nums[index], 0);
-           map.put(nums[index], count + 1);
+    //verify count is more than n /2 or not
+    int occurence = 0;
+    for(int index = 0; index < nums.length; index++){
+       if(element == nums[index]){
+           occurence++;
        }
+    }
 
-       for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-          if(entry.getValue() > (nums.length / 2)){
-              return entry.getKey();
-          }
-       }
+    if( occurence > (nums.length / 2))
+        return element;
 
-       return -1;
-    } 
+    return -1;
+  }
 }
