@@ -1,16 +1,15 @@
-/* Approac - Hashing
-TC - 0(n)
-SC - 0(n)
+/* Approach2 - sort + traversal
+TC - 0(nlogn)
+SC - 0(logn)
 */
 class Solution {
     public boolean containsDuplicate(int[] nums) {
-        HashSet<Integer> set = new HashSet<>();
-        for(int index = 0; index < nums.length; index++){
-            if(set.contains(nums[index]))
-                return true;
-
-            set.add(nums[index]);
+      Arrays.sort(nums); 
+        for (int i = 0; i < nums.length - 1; i++) {
+                if (nums[i] == nums[i+1]) {
+                    return true;
+                }
         }
-    return false;
+        return false;
     }
 }
