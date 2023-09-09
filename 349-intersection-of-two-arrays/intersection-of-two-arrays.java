@@ -1,3 +1,13 @@
+/* Approach - Hashing
+1. Traverse & Add all elements of array 1 into HashSet
+2. Traverse all element of array 2 
+-  check if array2[index] is already contains in set
+-  If yes then it's intersection add into result array
+-  remove from set so it wont cansider again for result array
+TC - 0(n+ nlogn + m)
+Sc - 0(n)
+*/
+
 class Solution {
     public int[] intersection(int[] nums1, int[] nums2) {
         HashSet<Integer> set = new HashSet<>();
