@@ -1,3 +1,8 @@
+/* Approach 1 - Brute force
+TC- 0(nlogn + n + m)
+  - 0( N  + M)
+SC- 0(n+m)
+*/
 class Solution {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
      int[] ans = new int[n + m];
