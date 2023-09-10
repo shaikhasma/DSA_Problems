@@ -1,4 +1,8 @@
 /* Approach 1 - Brute force
+1. Create new array n + m size
+2. take all num1 & num2 elements
+3. Sort new array
+4. Keep all element in 
 TC- 0(nlogn + n + m)
   - 0( N  + M)
 SC- 0(n+m)
@@ -17,13 +21,7 @@ class Solution {
      Arrays.sort(ans);
 
      pos = 0;
-     for(int index = 0; index < m  ; index++)
-         nums1[index] = ans[pos++];
-
-     for(int index = 0 ; index < n; index++){
-        nums1[pos] = ans[pos++];
-     }
-
-     
+     for(int index = 0; index < m + n  ; index++)
+         nums1[index] = ans[pos++];   
     }
 }
