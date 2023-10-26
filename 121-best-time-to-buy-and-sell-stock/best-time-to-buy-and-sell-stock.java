@@ -4,14 +4,14 @@ SC - 0(1)
  */
 class Solution {
     public int maxProfit(int[] price) { 
-      int minPrice = Integer.MAX_VALUE;
-      int maxProfit = Integer.MIN_VALUE;
+     int minPrice = Integer.MAX_VALUE;
+     int maxProfit = 0;
 
-      for(int day = 0; day < price.length; day++){
-          minPrice = Math.min(minPrice, price[day]);
-          maxProfit = Math.max(maxProfit, price[day] - minPrice);
-      }
+     for(int day = 0; day < price.length; day++){
+         minPrice = Math.min(minPrice, price[day]);
+         maxProfit = Math.max(maxProfit, price[day] - minPrice);
+     }
 
-      return maxProfit;
+     return maxProfit;
     }
 }
