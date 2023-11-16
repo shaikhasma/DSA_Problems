@@ -3,7 +3,7 @@ TC - 0(n)
 SC- 0(1)
 1. start left & mid from 0
 2. start right from n-1
-3. move mid 
+3. move mid <= right
 -- if we found 0 swap with left  move left , mid
 -- if we found 2 swap with right move right -- 
 -- if we found 1 dont do any thing move mid
