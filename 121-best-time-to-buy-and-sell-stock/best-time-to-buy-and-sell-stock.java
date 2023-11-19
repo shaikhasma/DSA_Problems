@@ -1,17 +1,15 @@
-/** Approcah 3 Using Valley approach / kadanes algorithm
+/** Approcah 2 Vally Approach
 TC - 0(n)
 SC - 0(1)
  */
 class Solution {
     public int maxProfit(int[] price) { 
-     int minPrice = Integer.MAX_VALUE;
-     int maxProfit = 0;
-
-     for(int day = 0; day < price.length; day++){
-         minPrice = Math.min(minPrice, price[day]);
-         maxProfit = Math.max(maxProfit, price[day] - minPrice);
-     }
-
-     return maxProfit;
+        int maxProfit = Integer.MIN_VALUE;
+        int minPrice = Integer.MAX_VALUE;
+      for(int index = 0 ; index < price.length ; index++){
+          minPrice = Math.min(minPrice, price[index]);
+          maxProfit = Math.max(maxProfit, price[index] - minPrice);
+      }
+      return maxProfit;
     }
 }
