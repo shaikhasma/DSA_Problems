@@ -4,20 +4,20 @@ SC- 0(1)
 */
 class Solution {
     public void moveZeroes(int[] nums) {
-       int leftMostZero = 0;
-       int i = 0;
-
-        while(i < nums.length){
-            if( nums[i] != 0){
-               if(leftMostZero != i){
-                 nums[leftMostZero] = nums[i];
-                 nums[i] = 0;
-               }
-               leftMostZero++;
+        int leftZero = 0;
+        int current = 0;
+        while(current < nums.length ){
+            if(nums[current] != 0){
+                if(leftZero != current){
+                   nums[leftZero] = nums[current];
+                   nums[current] = 0;   
+                }
+              leftZero++;
             }
-            i++;
+            current++;
         }
-      
     }
+       
 }
+
 
