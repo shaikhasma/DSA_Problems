@@ -6,12 +6,15 @@ class Solution {
     public void moveZeroes(int[] nums) {
         int leftZero = 0;
         int current = 0;
+        if(nums.length == 1)
+        return;
         while(current < nums.length ){
             if(nums[current] != 0){
-                if(leftZero != current){
+            //    if(leftZero != current){
+                 int temp = nums[leftZero];
                    nums[leftZero] = nums[current];
-                   nums[current] = 0;   
-                }
+                   nums[current] = temp;   
+              //  }
               leftZero++;
             }
             current++;
