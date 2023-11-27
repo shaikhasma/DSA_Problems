@@ -10,11 +10,9 @@ class Solution {
         return;
         while(current < nums.length ){
             if(nums[current] != 0){
-            //    if(leftZero != current){
-                 int temp = nums[leftZero];
+                   int temp = nums[leftZero];
                    nums[leftZero] = nums[current];
                    nums[current] = temp;   
-              //  }
               leftZero++;
             }
             current++;
