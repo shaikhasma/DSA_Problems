@@ -1,13 +1,18 @@
 
-/* Approach 1 - Check all substring + hashing
+/* Approach 2 - Sliding window + hashing
 
-1. Traverse all substring 
-2. once we find duplicate  calculate leng from start to end and stop 
-  and break that substring there it self
-3. Maintain max len
-4. Add character ( if character is already added it wont add again so add directly)
-TC- 0(N^2)
-SC - 0(N)
+1. start left right both from 0 
+2. move right by one step every time check 
+ - if righ char present Check 
+  --- if prevIndex is not in range dont move left 
+      else move  left to prevIndex of character + 1
+ - add right character into map with index
+
+ - Calculate length ( right - left + 1)
+
+TC- 0(N)
+SC - 0(N) 
+
 */
 
 class Solution {
@@ -15,26 +20,23 @@ class Solution {
        if(s.length() == 0|| s.length() == 1)
           return s.length();
 
-
        int len = 0;
+       int left = 0;
        int maxLen = 0;
-       for(int left = 0; left < s.length(); left++){
-          HashSet<Character> set = new HashSet<Character>();
-          len = 0; 
-          for(int right = left; right < s.length(); right++){
+       Map<Character , Integer> map = new HashMap<Character,Integer>();
+          for(int right = 0; right < s.length(); right++){
             char ch = s.charAt(right);
          
-              if(set.contains(ch)){
-                  // we are at duplicate character that why not right - left + 1
-                  break;
+              if(map.containsKey(ch)){
+                 int prevIndex = map.get(ch);
+                  left = Math.max(prevIndex + 1, left);
               }
 
               //if will never add repeat char
-              set.add(ch);
-              len++; 
+              map.put(ch, right);
+              len = right - left + 1;
               maxLen = Math.max(len, maxLen);
           }
-       }
        return maxLen;
     }
 }
