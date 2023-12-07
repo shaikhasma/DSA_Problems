@@ -17,24 +17,25 @@ SC - 0(N)
 
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-      if(s.length() == 0 ){
-          return 0;
+      if(s.length() == 0 || s.length() == 0){
+          return s.length();
       }
 
-      int left = 0;
-      int len = 0;
+     
       int maxLen = 0;
-      HashMap<Character, Integer> map = new HashMap<Character,Integer>();
-      for(int right = 0; right < s.length(); right++){
-          char ch = s.charAt(right);
-          if(map.containsKey(ch)){
-              int prevIndex = map.get(ch);
-              left = Math.max(prevIndex + 1, left);
+      for(int left = 0; left < s.length(); left++){
+          HashSet<Character> set = new HashSet<>();
+          int len = 0;
+          for(int right = left ; right< s.length(); right++){
+              
+                 if(set.contains(s.charAt(right))){
+                     break;
+                 }
+    
+          set.add(s.charAt(right));
+          len++;
+          maxLen = Math.max(maxLen,len);
           }
-
-          map.put(ch, right);
-          len = right - left + 1;
-          maxLen = Math.max(maxLen, len);
       }
       return maxLen;
     }
