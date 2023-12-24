@@ -18,7 +18,7 @@ class Solution {
             char current = s.charAt(index);
             if(current == prevChar){
                 totalFlip++;
-                prevChar = (prevChar == ZERO ? ONE: ZERO ); 
+                prevChar = (current == ZERO ? ONE: ZERO ); 
             }else{
                 prevChar = current;
             }
