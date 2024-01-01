@@ -16,25 +16,23 @@ class Solution {
 
        ListNode prev = null;
        ListNode current = head;
-       ListNode next = current.next;
 
-       while(next != null){
-        current.next = prev;
+       while(current != null){
+        ListNode next = current.next;
         
+        current.next = prev;
         prev = current;
         current = next ;
-        next = next.next;        
        }
        
-       current.next = prev;
-       head = current;
+       head = prev;
        return head;
     }
 }
 
 /*
      1 -> 2 ->  3 ->  4 -> 5
-                      p    c    n
+                           p    c    n
 
  5 - > 4 -> 3 - > 2 -> 1 - > null
 
