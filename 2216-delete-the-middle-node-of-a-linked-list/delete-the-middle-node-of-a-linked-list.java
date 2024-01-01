@@ -19,15 +19,14 @@ class Solution {
         }
 
         ListNode slowPointer = head;
-        ListNode fastPointer = head;
-        ListNode prev = null;
+        ListNode fastPointer = head.next.next;
+
         while(fastPointer != null && fastPointer.next != null){
-            prev = slowPointer;
             slowPointer = slowPointer.next;
             fastPointer = fastPointer.next.next;
         }
 
-        prev.next = slowPointer.next;
+        slowPointer.next = slowPointer.next.next;
         return head;
 
         
