@@ -1,26 +1,18 @@
-/** Striver SDE Sheet Challenge By Asma 
-Problem : Two Sum 
-Approach : Using Hashing
-*/
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
-         int[] ans = new int[2];
-        for(int index = 0; index < nums.length; index++){
-            int secondPart = target - nums[index];
-          
-            if(map.containsKey(secondPart)){
-                ans[0] = index;
-                ans[1] = map.get(secondPart);
+        HashMap<Integer,Integer> map=new HashMap<Integer, Integer>();
+        int[] ans=new int[2];
+
+        for(int i=0; i<nums.length; i++){
+            int secondNo= target - nums[i];
+            
+            if(map.containsKey(secondNo)){
+                ans[0] = i;
+                ans[1] = map.get(secondNo);
                 return ans;
             }
-            
-            map.put(nums[index], index);
+            map.put(nums[i], i);
         }
         return ans;
     }
 }
-/**
-TC : 0(N)
-SC : 0(N)
- */
