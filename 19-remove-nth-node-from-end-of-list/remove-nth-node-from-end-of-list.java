@@ -1,10 +1,13 @@
 /*
 Approach - slow pointer & fast pointer
-1. start dummyLL from given head
-2. slowPointer & fast pointer both start from dummyLL
-3. gap of slowPointer & fastPointer should be n
+1. slowPointer & fast pointer both start from dummyLL
+2. gap of slowPointer & fastPointer should be n
    so, 1st traverse fastPointers for n steps 
-4. Start moving slowPointer & fastPointer by one step
+
+Note: If n is equal to size then fastPointer pointer will be null
+so in this case delete 1st node of linkedlist and return the new head
+
+3. Start moving slowPointer & fastPointer by one step
    once fast pointer reached till end 
    slowPointer will be at nth last node we can delete that
 
@@ -26,11 +29,9 @@ class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
         if(head == null)
          return null;
-     ListNode dummy = new ListNode();
-     dummy.next = head;
 
-     ListNode slowPointer = dummy;
-     ListNode fastPointer = dummy;
+     ListNode slowPointer = head;
+     ListNode fastPointer = head;
 
      for(int index = 1; index <= n ; index++){
          fastPointer = fastPointer.next;
@@ -41,7 +42,12 @@ class Solution {
          fastPointer = fastPointer.next;
      } 
      
+     if(fastPointer == null){
+        head = head.next;
+        return head;
+     }
+       
      slowPointer.next = slowPointer.next.next;
-     return dummy.next;
+     return head;
     }
 }
