@@ -12,18 +12,40 @@ once fast pointer reached at end slow would be at middle
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+ /* Approach - 1 size / 2
+ 1. Calculate size of LL
+ 2. Traverse till []size / 2 - 1]
+ 3. return the middle node
+ TC - O(n)
+ SC - O(1)
+ */
+ 
 class Solution {
     public ListNode middleNode(ListNode head) {
-     
-     if(head == null)
-        return head;
-        
-     ListNode slowPointer = head;
-     ListNode fastPointer = head;
-     while(fastPointer != null && fastPointer.next != null){
-         slowPointer = slowPointer.next;
-         fastPointer = fastPointer.next.next;
+     if(head == null){
+         return null;
      }
-     return slowPointer;
+     int middle = getSize(head)/ 2;
+     
+     ListNode temp = head;
+     for ( int index = 1 ; index <= middle; index++){
+        temp = temp.next;
+     }
+
+     return temp;
+
+    }
+    private int getSize(ListNode head ){
+       if(head == null)
+          return 0;
+    
+       ListNode temp = head ;
+       int size = 0;
+       while(temp != null){
+           size++;
+           temp = temp.next;
+       }
+
+       return size ;
     }
 }
