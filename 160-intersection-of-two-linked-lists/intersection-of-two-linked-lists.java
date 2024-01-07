@@ -9,39 +9,29 @@
  *     }
  * }
  */
- /* 
- Approacth - using hashing
- TC - 0(n) + 0( n) = 0(2n) ~ 0(n)
- SC - 0(n)
- */
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        HashSet<ListNode> set  = new HashSet<>();
-        ListNode temp = headA;
-        while(temp != null){
-            set.add(temp);
-            temp = temp.next;
+        if(headA == null || headB == null){
+            return headA;
         }
+    
 
-        temp = headB;
-        while(temp != null){
-            if(set.contains(temp)){
-                return temp;
-            }
-            temp = temp.next;
-        }
+       ListNode temp1 = headA;
+       ListNode temp2 = headB;
 
-        return null;
+       while(temp1 != temp2){
+           
+           
+           temp1 = temp1.next;
+           temp2 = temp2.next;
+           
+           if(temp1 == temp2) return temp1;        
+           
+           if(temp1 == null) temp1 = headB;
+           if(temp2 == null) temp2 = headA;
+       }
 
+      return temp1;
+      
     }
 }
-
-
-
-
-
-
-
-
-
-
