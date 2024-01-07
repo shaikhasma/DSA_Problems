@@ -15,6 +15,9 @@
  1. find the middle node
  2. Go till previous node of middle node
  3. rereference previous of middle node to next of next node
+ TC - 0(n/2) + 0(n/2) =
+      0(n)
+ SC- 0(1)
  */
 class Solution {
     public ListNode deleteMiddle(ListNode head) {
