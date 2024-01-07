@@ -20,18 +20,13 @@ public class Solution {
        if(diff <  0){
            temp2 = headB;
            
-           while(diff != 0){
-               temp2 = temp2.next;
-               diff++;
-           }
+           while(diff++ != 0) temp2 = temp2.next;
        }
        else if(diff > 0){
            temp1 = headA;
            
-           while ( diff != 0){
-              temp1 = temp1.next;
-              diff--;
-           }
+           while ( diff-- != 0) temp1 = temp1.next;
+              
        }
 
        while(temp1 != temp2){
