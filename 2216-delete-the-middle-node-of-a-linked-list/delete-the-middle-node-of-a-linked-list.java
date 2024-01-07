@@ -8,25 +8,49 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+
+ /*
+ Approach 1. Middle + goto prev middle and then delete it
+
+ 1. find the middle node
+ 2. Go till previous node of middle node
+ 3. rereference previous of middle node to next of next node
+ */
 class Solution {
     public ListNode deleteMiddle(ListNode head) {
-       if(head == null) return null;
+       if(head == null) return head;
        if(head.next == null){
-           head = null;
-           return head;
+            head = null;
+            return head;
        }
+       
+       ListNode  middleNode = getMiddleNode(head);
+       ListNode temp = head;
 
-       ListNode slowPointer = head;
-       ListNode fastPointer = head.next.next;
-       
-       while(fastPointer != null && fastPointer.next != null){
-            slowPointer = slowPointer.next;
-            fastPointer = fastPointer.next.next;
+       while(temp != null){
+          if(temp.next == middleNode){
+             temp.next = temp.next.next;
+             return head;
+          }
+          
+          temp = temp.next;
        }
-       
-       slowPointer.next = slowPointer.next.next;
+      
       return head;
         
+    }
+
+    ListNode getMiddleNode(ListNode head){
+        if(head == null) return head;
+
+        ListNode slowPointer = head;
+        ListNode fastPointer = head;
+      
+        while(fastPointer != null && fastPointer.next != null){
+            slowPointer = slowPointer.next;
+            fastPointer = fastPointer.next.next;
+        }
+        return slowPointer;
     }
 }
 
