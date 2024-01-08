@@ -9,23 +9,25 @@
  *     }
  * }
  */
- /* Approach 1 : Using hasing
- 1. Traverse LL and put node into set
- 2. while putting into set if we already found then return true as there is cycle
+ /* Approach 2 : slow & fast pointer
+ 1. start both pointers from head 
+ 2. slow moves by one step where fast moves by 2 steps
+ 3. while moving if both matching then its loop return true
+ 4. if fast pointer reaches last or null then return false as there is not cycle
  */
 public class Solution {
     public boolean hasCycle(ListNode head) {
         if(head == null) return false;
-        
-        HashSet<ListNode> set = new HashSet<>();
-        ListNode temp = head;
-        while(temp != null){
-            if(set.contains(temp)) return true;
+
+        ListNode slowPointer = head;
+        ListNode fastPointer = head;
+        while(fastPointer != null && fastPointer.next != null){
             
-            set.add(temp);
-            temp = temp.next;
+            slowPointer = slowPointer.next;
+            fastPointer = fastPointer.next.next;
+
+            if(slowPointer == fastPointer) return true;
         }
-     
-      return false;
+        return false;
     }
 }
