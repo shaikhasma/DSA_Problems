@@ -9,45 +9,31 @@
  *     }
  * }
  */
+ /* Approach 1 : brute force / Naive approach 
+ 1. Keep of one node of list and traverse other LL 
+ 2. if we found match return that intersection node
+    else 
+      continue step 1
+3. At 1st list compeleted still we did not found intersection means there is not intersection 
+  return null
+  TC - 0(n * M)
+  SC- 0(A)
+  ===> TLE
+ */
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-       int len1 = getSize(headA);
-       int len2 = getSize(headB);
-       int diff = len1 - len2;
-
-       ListNode temp1 = headA;
-       ListNode temp2 = headB;
-       if(diff <  0){
-           temp2 = headB;
+      ListNode temp1 = headA;
+       while(temp1 != null){
+           ListNode temp2 = headB;
            
-           while(diff++ != 0) temp2 = temp2.next;
-       }
-       else if(diff > 0){
-           temp1 = headA;
-           
-           while ( diff-- != 0) temp1 = temp1.next;
-              
-       }
+           while(temp2 != null){
+               if(temp2 == temp1) return temp2;
 
-       while(temp1 != temp2){
+               temp2 = temp2.next;
+           }
            temp1 = temp1.next;
-           temp2 = temp2.next;
        }
-
-       return temp1;
-      
-    }
-
-    int getSize(ListNode head){
-        ListNode temp = head;
-        int len = 0;
-        
-        while(temp != null){
-            len++;
-            temp = temp.next;
-        }
-
-        return len;
+       return null;
     }
 
 }
