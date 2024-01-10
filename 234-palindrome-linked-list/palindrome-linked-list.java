@@ -19,32 +19,55 @@
 class Solution {
 
     public boolean isPalindrome(ListNode head) {
-        if(head == null)
-          return false;
+      if(head == null || head.next == null)
+        return true;
 
-      ArrayList<Integer> list = toArray(head);
-      int left = 0;
-      int right = list.size() - 1;
+      ListNode middle = getMiddle(head);
+      ListNode right = reverseLL(middle.next);
+      ListNode left = head;
 
-      while(left < right){
-          if(list.get(left) != list.get(right))
-              return false;
+      while(right != null){
+          if(left.val != right.val)
+            return false;
 
-          left++;
-          right--;
+          left = left.next;
+          right = right.next;
       }
 
       return true;
+      
     }
 
-    ArrayList<Integer> toArray(ListNode head){
-        ArrayList<Integer> list = new ArrayList<>();
-        ListNode temp = head ;
+    ListNode reverseLL(ListNode head){
+        if(head == null)
+            return head;
         
-        while(temp != null){
-          list.add(temp.val);
-          temp = temp.next;
-      }
-      return list;
+        ListNode prev = null;
+        ListNode current = head;
+
+        while(current != null){
+            ListNode next = current.next;
+
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        return prev;
+    }
+
+    ListNode getMiddle(ListNode head){
+        if(head == null || head.next == null)
+          return null;
+
+        ListNode slowPointer = head;
+        ListNode fastPointer = head;
+
+        while(fastPointer.next != null && fastPointer.next.next != null){
+            slowPointer = slowPointer.next;
+            fastPointer = fastPointer.next.next;
+        }
+
+        return slowPointer;
     }
 }
