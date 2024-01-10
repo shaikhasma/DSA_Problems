@@ -15,29 +15,36 @@
  TC - o(n) + 0(n) = 0(n)
  SC = 0(n)
  */
- 
+
 class Solution {
 
     public boolean isPalindrome(ListNode head) {
-      ArrayList<Integer> list = new ArrayList<>();
-      ListNode temp = head ;
-      
-      while(temp != null){
-          list.add(temp.val);
-          temp = temp.next;
-      }
-      
+        if(head == null)
+          return false;
+
+      ArrayList<Integer> list = toArray(head);
       int left = 0;
       int right = list.size() - 1;
 
       while(left < right){
-          if(list.get(left) != list.get(right)){
+          if(list.get(left) != list.get(right))
               return false;
-          }
+
           left++;
           right--;
       }
 
       return true;
+    }
+
+    ArrayList<Integer> toArray(ListNode head){
+        ArrayList<Integer> list = new ArrayList<>();
+        ListNode temp = head ;
+        
+        while(temp != null){
+          list.add(temp.val);
+          temp = temp.next;
+      }
+      return list;
     }
 }
