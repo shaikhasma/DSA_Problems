@@ -8,12 +8,13 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
- /* Approach. 1 - Using Array & Two Pointer approach
- 1. Iterate LinkedList and store values into array
+ /* Approach. 2 - Middle of LL + reverse 2n half & Two Pointer approach
+ 1. Find the middle 
+ 2. Reverse 2nd half of LL
  2. Using two pointer check array is palindrom or not
 
- TC - o(n) + 0(n) = 0(n)
- SC = 0(n)
+ TC - o(n) + 0(n/2) = 0(n)
+ SC = 0(1)
  */
 
 class Solution {
