@@ -9,10 +9,9 @@
  * }
  */
  /*Approach - 1 using two list and join those two list
- 1. create new list which hold odd nodes
- 2. create another list which hold even nodes
- 3. Attach 2nd list to last of 1st list 
- 4. return head
+ 1. create temp list which hold first odd node values then copy even nodes values.
+ 2. copy values from temp list original nodes of linked list
+ 4. co
  TC - 0(n) + 0(n)
  SC - 0(n) 
 
