@@ -8,47 +8,47 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
- /*Approach 1 - using ArrayList
- 1. copy all the list & list2 node values into new arrayList
- 2. sort arrayList
- 3. create new linked list and copy arraylist values into that
+ /*Approach 1 - Using two Pointers
+ 1. create two pointer points to head of list 1 & list2
+ 2. Take dummyHead with -1 value
+ 3. check which pointer value is small 
+   - point dummyHead to small value node & move that small value pointer ahead
+   do the same if other node valu is small
+4. If any one of list is finished point other list as it is & vice versa
 
- TC - 0(N1) + 0(n2) + o(nlogn) + 0(n)
-      list1.   list2     sort.    fill new ll
- SC - 0(N) + 0(N) arraylist + new linked list 
+ TC - 0(N)
+ SC - 0(1)
 
  */
 class Solution {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if(list1 == null) return list2;
-        if(list2 == null) return list1;
+    
+        ListNode temp1 = list1;
+        ListNode temp2 = list2;
+        ListNode dummyHead = new ListNode(-1);
+        ListNode dummyTemp = dummyHead;
 
-        ArrayList<Integer> list = new ArrayList<>();
-        fillArray(list1, list);
-        fillArray(list2, list);
-
-        Collections.sort(list);
-
-        return toLinkedList(list);
-        
-    }
-    void fillArray(ListNode head,ArrayList<Integer> list){
-        ListNode temp = head;
-        while(temp != null){
-            list.add(temp.val);
-            temp = temp.next;
-        }
-    }
-
-    ListNode toLinkedList(ArrayList<Integer> list){
-
-        ListNode head = new ListNode(list.get(0));
-        ListNode temp = head;
-        for(int index = 1; index < list.size(); index++){
-            temp.next = new ListNode(list.get(index));
-            temp = temp.next;
+        while(temp1 != null && temp2 != null){
+            if(temp2.val < temp1.val ){
+                dummyTemp.next = temp2;
+                temp2 = temp2.next;
+            }
+            else{
+                dummyTemp.next = temp1;
+                temp1 = temp1.next;
+            }
+            dummyTemp = dummyTemp.next;
         }
 
-        return head;
+        if(temp1 == null){
+           dummyTemp.next = temp2;
+        }
+
+        if(temp2 == null){
+            dummyTemp.next = temp1;
+        }
+
+        return dummyHead.next;
     }
+    
 }
