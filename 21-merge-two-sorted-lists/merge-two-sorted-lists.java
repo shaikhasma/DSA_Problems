@@ -8,6 +8,16 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+ /*Approach 1 - using ArrayList
+ 1. copy all the list & list2 node values into new arrayList
+ 2. sort arrayList
+ 3. create new linked list and copy arraylist values into that
+
+ TC - 0(N1) + 0(n2) + o(nlogn) + 0(n)
+      list1.   list2     sort.    fill new ll
+ SC - 0(N) + 0(N) arraylist + new linked list 
+
+ */
 class Solution {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
         if(list1 == null) return list2;
