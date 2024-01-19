@@ -24,6 +24,12 @@
 1-- > 2 --> 3.     4---> 5.---> 1-- > 2 --> 3.   k = 2
            p1      l1.  temp.   head
                         p2
+
+ TC : 0(n) + 0(n)    + 0(n-k)
+      size  k-1th
+      = 0(n)
+SC - 0(1)
+
  */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
