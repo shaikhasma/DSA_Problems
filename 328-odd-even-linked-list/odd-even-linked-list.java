@@ -8,57 +8,23 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
- /*Approach - 1 using two list and join those two list
- 1. create temp list which hold first odd node values then copy even nodes values.
- 2. copy values from temp list original nodes of linked list
- 4. co
- TC - 0(n) + 0(n)
- SC - 0(n) 
-
- */
 class Solution {
     public ListNode oddEvenList(ListNode head) {
-        ArrayList<Integer> arr = new ArrayList<>();
-        ListNode temp = head;
-
-        if(head == null || head.next == null)
-            return head;
-        fillOddNodes(head, arr);
-        fillEvenNodes(head, arr);
-      
-        //copy values from temp llist to original linked list
-        temp = head;
-        for(int index = 0; index < arr.size(); index++){
-            temp.val = arr.get(index);
-            temp = temp.next;
-        }
-
-        return head;
-    }
-
-   void fillOddNodes(ListNode head, ArrayList<Integer> list){
-      // starting copying odd list nodes 
-       ListNode temp = head;
-        while(temp != null && temp.next != null){
-            list.add(temp.val);
-            temp = temp.next.next;
-        } 
-
-        // To add the last element if it's odd length
-        if(temp != null)
-            list.add(temp.val);
+        if(head == null || head.next == null) return head;
         
-   }
-    void fillEvenNodes(ListNode head, ArrayList<Integer> list){
-        // starting copying even list nodes 
-        ListNode temp = head.next;
-        while(temp != null && temp.next != null){
-            list.add(temp.val);
-            temp = temp.next.next;
-        }
+        ListNode temp1 = head;
+        ListNode evenListHead = head.next;
 
-        if(temp != null)
-            list.add(temp.val);
-    
+        ListNode temp2 = evenListHead;
+        
+        while(temp2 != null && temp2.next != null ){
+            temp1.next = temp2.next;
+            temp1 = temp1.next;
+
+            temp2.next = temp1.next;
+            temp2 = temp2.next;
+        }
+        temp1.next = evenListHead;
+        return head;
     }
 }
