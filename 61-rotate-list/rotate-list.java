@@ -8,25 +8,35 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
- /* Approach - Using Two pointer reach till k - 1 th node &  attach the reverse to head
- 1. start both pointers from head
- 2. move 2nd pointer k times
- 3. now move both pointer one by one till 2nd pointer reaches
-    last node
-    -- Here 1st pointer reached at k - 1th node
- 4.  take there reference of remaining list from k to end into 
-     l1
-    --- list = p1.next
-5.  point p1 next to null as we have to cut the list
-5. traverse l1 till end using temp pointer
-   -- once temp is at last node attach head to the next of temp
+ /* Approach 3 - Convert into circular LL
+ 1. Traverse LL and calculate length
+ 2. if k == length return head as it is
+ 3. if k > length k = k % len;
+    
+ 4. find breakPoint len - k need to traverse breakPoint - 1 
+    -- create breakPoint - 1 next element as head
+    -- break the link
+    
+5.  Return the new head
 
-1-- > 2 --> 3.     4---> 5.---> 1-- > 2 --> 3.   k = 2
-           p1      l1.  temp.   head
-                        p2
+1-- > 2 --> 3 ---> 4---> 5  k = 7
+           
+len = 5
+7>5
+k = 7 % 5 
+k = 2
+if k == len return head
+convert it into circular
+1--- > 2 ---> 3 --->4---> 5 ---> 1 ---> 2......
+breakPoint = 5 - 2
+traverse breakPoint
 
- TC : 0(n) + 0(n)    + 0(n-k)
-      size  k-1th
+1.    2.    3   h
+1-- > 2 --> 3   4---> 5---> 1--- > 2 ---> 3  
+                      
+
+ TC : 0(n) + 0(n)
+      size    traverse till breakpoint
       = 0(n)
 SC - 0(1)
 
@@ -45,16 +55,14 @@ class Solution {
        //convert linear to circutlar if k not equal to length
         if( k == len + 1) 
            return head;
-           
+
        //calculate last node in length and pointing last node to head    
        temp.next = head;
        len++;
 
         if(k > len)
            k = k % len;
-        
-      
-        
+          
         // identify breaking point
         int breakLinkPoint = len - k;
         temp = head;
