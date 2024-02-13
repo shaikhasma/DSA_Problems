@@ -33,44 +33,40 @@ SC - 0(1)
  */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
-        if(head == null || head.next == null) 
+        if(head == null || head.next == null || k == 0) 
           return head;
-        int size = getSize(head);
-        while(size < k ) k = k - size; 
+       
+       int len = 0;
+       ListNode temp = head;
+       while(temp.next != null){
+           len++;
+           temp = temp.next;
+       }
+       //convert linear to circutlar if k not equal to length
+        if( k == len + 1) 
+           return head;
+           
+       //calculate last node in length and pointing last node to head    
+       temp.next = head;
+       len++;
 
-         if(k == 0 || getSize(head) == k)  return head ;
+        if(k > len)
+           k = k % len;
         
-        ListNode firstPointer = head;
-        ListNode secondPointer = head;
+      
         
-        for(int count = 1; count <= k; count++){
-           secondPointer = secondPointer.next;
-        }
-
-        while(secondPointer.next != null){
-            firstPointer = firstPointer.next;
-            secondPointer = secondPointer.next;
-        }
-
-        ListNode l1 = firstPointer.next;
-        firstPointer.next = null;
-
-        ListNode temp = l1;
-        while(temp != null && temp.next != null){
+        // identify breaking point
+        int breakLinkPoint = len - k;
+        temp = head;
+        for(int index = 1; index < breakLinkPoint; index++ ){
             temp = temp.next;
         }
-        temp.next = head;
-        head = l1;
+        
+        head = temp.next;
+        temp.next = null;
+
         return head;
     
     }
-    int getSize(ListNode head){
-        int count = 0;
-        ListNode temp = head;
-        while(temp != null){
-            temp = temp.next;
-            count++;
-        }
-        return count;
-    }
+    
 }
