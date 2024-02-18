@@ -8,58 +8,60 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
- /* Approach - length , Using two pointer approach reverse k nodes 
- 1. calcualte length
- 2. count = 0 
- 3. start reversing the node using two pointer approach 
-    while reversing nodes increment count 
-    once count is k-1 then stop
-4. l = l - k substract the node which we already reversed
-5. if remaining node and still more than k repeate the steps 2 , 3  & 4
-6. if not attach the remaining node as it is
-7. return the head
+ /* Approach - 1 
+ 1. calculate length 
+ 2. count = 0
+ 3. reverse nodes one by one using two pointer approach
+    count++ everytime
+    if count is equal to k - 1 stop reversing nodes
+    here we reverse first k groups
+4.  l = l - k
+    count = 0
+    if( l >=0 && l <=k)
+     repeate step 3, 4
+5. return prev
 
  */
 class Solution {
-
     public ListNode reverseKGroup(ListNode head, int k) {
-     int size = getSize(head);
-     return revList(head, k , size);
+      int l = length(head);
+      return reverseLL(head, k, l);
     }
+    ListNode reverseLL(ListNode head, int k, int l){
+        if(head == null)
+         return head;
 
-    ListNode revList(ListNode head, int k, int size){
-        if(head == null ) return null;
+      int count = 0;
+      ListNode current = head;
+      ListNode prev = null;
+       ListNode next = null;
 
-        ListNode prev = null;
-        ListNode current = head;
-        ListNode next = null;
-        int count = 0;
-
-        while(current != null && count < k && size >= k ){
-          next = current.next;
+      while(current != null && count < k && l >= k ){
+           next = current.next;
           current.next = prev;
           prev = current;
           current = next;
           count++;
-        }
-        
-        size = size - k;
-        if(size > 0 && size < k){
-           head.next = next;
-        }else{
-           head.next = revList(next, k, size);
-        }
-       return prev;
+      }
+
+      l = l - k;
+
+      if(l > 0 && l < k)
+        head.next = next;
+      else
+       head.next = reverseLL(next, k , l);
+
+      return prev;
     }
-    int getSize(ListNode head){
-       
-           int size = 0;
-           ListNode temp = head;
-           while(temp != null){
-                 size++;
-               temp = temp.next;   
-           }
-           return size;
-    }
-   
+   int length(ListNode head){
+       if(head == null)
+        return 0;
+       int size = 0;
+       ListNode temp = head;
+       while(temp != null){
+           size++;
+           temp = temp.next;
+       }
+       return size;
+   }
 }
