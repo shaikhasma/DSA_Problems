@@ -6,6 +6,21 @@ TC - 0(n) find break point
      ~ 0(N)
 
 SC - 0(1)
+ 1 2 3
+ 0 1 2
+ breakPoint = 1
+ nerestGreaterClosed of breakPoint = 2 index i.e 3
+
+ reverse from 1 to 2
+ 1 3 2
+
+
+ 3 2 1
+ 0 1 2
+
+ no break Point reveres 
+1 2 3
+
 */
 
 class Solution {
