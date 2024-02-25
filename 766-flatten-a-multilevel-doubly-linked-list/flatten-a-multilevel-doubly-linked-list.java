@@ -7,21 +7,52 @@ class Node {
     public Node child;
 };
 */
-
+/* Approach - 1 using stack
+TC- 0(N)
+TC - 0(N)
+*/ 
 class Solution {
-    Node end = null;
+  
     public Node flatten(Node head) {
-      if(head == null) return end;
-		// 0. head -> flatten(head.child) -> flatten(head.next) -> end 
-		// 1. flatten(head.next) -> end 
-        end = flatten(head.next);
-		// 2. head -> flatten(head.child) 
-        head.next = flatten(head.child);
-		// 3. flatten(head.child) -> flatten(head.next)
-        if(head.next != null) 
-            head.next.prev = head;
+     Node current = head;
+     Node previous = null;
+     Stack<Node> stack = new Stack();
 
-        head.child = null;
-        return head;  
+     while(current != null){
+         
+         if(current.child != null){
+           Node child = current.child;
+
+           if(current.next != null){
+                stack.push(current.next);
+                //Break previous link between next to current
+                current.next.prev = null;
+           }
+           
+           //attach child as next pointer
+           current.next = child;
+           //attach child prev to current
+           child.prev = current;
+           //break child reference of current node
+           current.child = null;
+         }
+         //move previous & current both ahead
+         previous = current;
+         current = current.next;
+     }
+
+     while(!stack.isEmpty()){
+       current = stack.pop();
+       previous.next = current;
+       current.prev= previous;
+
+       while(current != null){
+           previous = current;
+           current = current.next;
+       }    
+
+     }
+
+     return head;
     }
 }
