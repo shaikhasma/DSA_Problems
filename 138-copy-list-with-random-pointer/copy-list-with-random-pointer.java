@@ -12,46 +12,64 @@ class Node {
     }
 }
 */
-/* Approach 1 Using Hashing & Store original node as key all cloned node as value
-1. Traverse LL 
-  -  store orignal node as key and its copy as value
-      so, next time while creating deep copy we can refere next node & its random node from map value
-2. Traverse LL 
- - Attach next node reference  & random node reference to copied node
+/* Approach 2 Create Dummy Node in between two node with copied value
+  7.    13.    11.   10.   1
+7   13.    11.    10.   1
 
-3. Get head node value from map that is our copies head node return it
+1.Traverse & Insert new node with same value between each nodes 
+ - if current node != null 
+ - next  = current next
+ - current.next = new node
+ - new node = next
+2. Repeate step 1 till we reach at last node / current .next != null
 
-TC - 0(N) + 0(N)
-   - 2n
-   = 0(n)
-SC - 0(N)
+3. Traverse start from head & current next wll be new head
+  - current = head
+  - temp = current.next
+
+  current.next = temp.next;
+  temp.next =  current.next.next;
+
 */
 class Solution {
     public Node copyRandomList(Node head) {
-       if(head == null)
-        return null;
+     if(head == null)   return head;
 
-        HashMap<Node, Node> randomRef = new HashMap<>();
-        Node temp = head;
-        while(temp != null){
-            randomRef.put(temp, new Node(temp.val));
-            temp = temp.next;
-        }      
+    //Traverse & insert new node with same value between each node
+     Node current = head;
+     while(current != null){
+         Node newNode = new Node(current.val);
+         newNode.next =  current.next;
+         
+         current.next = newNode;
+         
+         //move next
+         current = newNode.next;
+     }
 
-    
-        temp = head;
-        while(temp != null){
-            Node newNode = randomRef.get(temp);
-            newNode.next = (temp.next != null) ? randomRef.get(temp.next): null;
-            newNode.random = (temp.random != null) ? randomRef.get(temp.random):null;
-          
-
-            temp = temp.next;
-        
-
+     current = head;
+     while(current != null){
+        if(current.random != null){
+            current.next.random = current.random.next;
         }
 
-        return randomRef.get(head);
+        current = current.next.next;
+     }
+     // Traverse & attah all new node in LL seq & old node in previouw LL sequence
+     
+     Node dummyHead = new Node(-1);
+     current = head;
+     Node dummyTemp = dummyHead;
 
+     while(current != null){
+       Node oldNext = current.next.next;
+       dummyTemp.next = current.next;  
+       current.next = oldNext;
+
+       dummyTemp = dummyTemp.next ;
+       current = oldNext;
+     } 
+
+     return dummyHead.next;
     }
 }
