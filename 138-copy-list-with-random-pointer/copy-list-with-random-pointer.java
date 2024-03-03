@@ -12,7 +12,15 @@ class Node {
     }
 }
 */
-/* Approach 1 Using Hashing
+/* Approach 1 Using Hashing & Store original node as key all cloned node as value
+1. Traverse LL 
+  -  store orignal node as key and its copy as value
+      so, next time while creating deep copy we can refere next node & its random node from map value
+2. Traverse LL 
+ - Attach next node reference  & random node reference to copied node
+
+3. Get head node value from map that is our copies head node return it
+
 TC - 0(N) + 0(N)
    - 2n
    = 0(n)
