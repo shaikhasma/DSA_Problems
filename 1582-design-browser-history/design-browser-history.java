@@ -1,3 +1,29 @@
+/* Approach - Using Doubly Linked List
+1. Create Node structure 
+   - String val
+   - prev Node ref
+   - next Node ref
+
+2. Create currentPage of Node type in BrowserHistory
+  - constructor new a new page and that will be current page
+  TC- 0(1)
+  
+3. Visit simply add new Node 
+- current.next = new Node
+- move current to new node
+
+4. Back N steps
+- move current page to N step back
+- return current page name
+TC- 0(N)
+
+5. Forward N Steps
+- move current page to N step ahead
+- return current page name
+TC- 0(n)
+
+
+*/
 class Node{
      
      String val;
@@ -23,7 +49,7 @@ class Node{
 
 class BrowserHistory {
      Node currentPage;
-
+   
     public BrowserHistory(String homepage) {
         currentPage = new Node(homepage);
     }
