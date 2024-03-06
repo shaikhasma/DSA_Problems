@@ -10,6 +10,24 @@
  */
 
  /*
+ Approach 1 - reverse List + cut dettach smaller nodes and again revere
+ 1. reverse LL
+ 2. traverse LL
+    prev = firstNode
+    current = firstNode.next
+
+    if current node is small then pre 
+      move current
+    if current node is greate or equal then 
+      attach prev to current
+      move prev & current bot
+
+3. reverse LL
+5. return head
+
+ TC - N + N + N
+   - 0(n)
+ S.C - 0(1)
    8 3 13 2 5
      c P
  */
