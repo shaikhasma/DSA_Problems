@@ -22,8 +22,8 @@ class Solution {
       
         ListNode mergedListHead = null;
         for(int index = 0; index < lists.length; index++){
-            ListNode list = lists[index];
-             mergedListHead = mergeSort(mergedListHead, list);
+         
+             mergedListHead = mergeSort(mergedListHead, lists[index]);
         }
 
         return mergedListHead;
