@@ -9,10 +9,10 @@
  * }
  */
 
- /* Approach - 3 Using Min Heap or Priority Queue
- TC - 0(n * k) * log k where k list total list size & n equal to  
-    - 0(n * k * logk)
- SC - 0(k)
+ /* Approach - 2 Merge two linked list
+ TC - 
+    - 
+ SC - 
     
  */
 class Solution {
