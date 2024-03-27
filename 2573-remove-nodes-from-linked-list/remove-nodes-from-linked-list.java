@@ -33,7 +33,6 @@
  */
 class Solution {
     public ListNode removeNodes(ListNode head) {
- 
         ListNode lastNode = reverseLL(head);
         ListNode currentNode = lastNode.next;
         ListNode prevNode = lastNode;
