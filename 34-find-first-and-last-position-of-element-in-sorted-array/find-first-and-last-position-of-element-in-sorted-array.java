@@ -1,73 +1,55 @@
-/* Approach - 1 Binary Search
-1. find lower bound logn
-    - find mid 
-    - mid >= target shift to left part of mid to find the lowest index
-    - if we found exact match of target then pick that it as lower index
-    Repeate above steps till low <= high
-
-2. find upper bound logn
-    - find mid 
-    - mid <= target shift to right part mid to find the upper index
-    - if we found exact match of target then pick that it as upper index
-    Repeate above steps till low <= high
-TC = 2long n 
-   = 0(logN)
-SC = 0(1)
-
+/* Approach - using Lower Bound & Upper Bound
+TC - 0(log N) + 0(log N) = 0(log N)
+SC - 0(1)
 */
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-       
-        int[] ans = new int[2];
+        if(nums.length == 0) return new int[]{ -1, -1};
+        if(nums.length == 1 && nums[0] == target) return new int[]{0 , 0};
+        int firstPosition = getLowerBound(nums,target);
 
-        ans[0] = findFirstIndex(nums, target);
-        ans[1] = findLastIndex(nums, target);
+       if( firstPosition == nums.length || nums[firstPosition] != target ) 
+               return new int[]{ -1, -1};   
+       int lastPosition = getUpperBound(nums,target);
 
-        return ans;
-
+        return new int[]{firstPosition, lastPosition - 1};
     }
 
-    int findFirstIndex ( int[] nums, int target){
+    int getLowerBound(int[] nums, int target){
         int low = 0;
         int high = nums.length - 1;
-        int firstIndex = -1;
-      
+        int lowerBound = nums.length;
         while(low <= high){
-            int mid = (high + low)/2;
-
+            int mid = high - ( high - low) / 2;
+            if(nums[mid] == target)
+                lowerBound = mid;
+            
             if(nums[mid] >= target)
                 high = mid - 1;
             else
-               low = mid + 1;
-            
+                low = mid + 1;
 
-            if(nums[mid] == target)
-                firstIndex = mid;
         }
 
-        return firstIndex;
+        return lowerBound;
     }
 
-    int findLastIndex ( int[] nums, int target){
-            int low = 0;
-            int high = nums.length - 1;
-            int lastIndex = -1;
-        
-            while(low <= high){
-                int mid = (high + low)/2;
+    int getUpperBound(int[] nums, int target){
+        int low = 0;
+        int high = nums.length - 1;
+        int upperBound = nums.length;
 
-                if(nums[mid] <= target)
-                    low = mid + 1;
-                else
-                   high = mid - 1;
-                
+        while(low <= high){
+            int mid = high - (high - low) /2;
 
-                if(nums[mid] == target)
-                    lastIndex = mid;
+            if(nums[mid] > target){
+              high = mid - 1;
+              upperBound = mid;
             }
-
-            return lastIndex;
+            else 
+              low = mid + 1;
         }
 
-    
+        return upperBound;
+    }
 }
