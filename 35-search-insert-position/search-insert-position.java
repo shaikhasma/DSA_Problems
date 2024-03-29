@@ -1,24 +1,35 @@
-/* Approach - 1 Brute Force
+/* Approach - 2 Binary Search 
+- start low = 0 & high < n - 1
+- calculating  mid & search if found return index
+- else if number less then mid check with previous element 
+   if lies then return mid
+  else check with next element if leis then return mid + 1
 
-- traverse 0 to N - 1
-- if current equals to target return current index
-- compare taret lie between current and next element or not
+  do the same thing till low <= high
+0 1 2 3
+1,3,5,6.  target = 2
+l h     
+
 TC - 0(N)
 SC - 0(N)
 */
 class Solution {
     public int searchInsert(int[] nums, int target) {
        
-        if(target <= nums[0] ) return 0;
-        if(target > nums[nums.length - 1]) return nums.length;
+        int low = 0; 
+        int high = nums.length - 1;
+        int insertIndex = nums.length;
 
-        for(int  index = 0; index < nums.length - 1 ; index++){
-            if(nums[index] == target) return index;
-
-            if(target > nums[index]  && target < nums[index + 1])
-              return index + 1;
-
-        } 
-        return nums.length - 1;
+        while( low <= high ){
+            int mid = high - (high - low) /2;
+       
+            if(nums[mid] >= target){
+               insertIndex = mid ;
+               high = mid - 1;
+            }else{
+               low = mid + 1;
+            }
+        }
+       return insertIndex;
     }
 }
