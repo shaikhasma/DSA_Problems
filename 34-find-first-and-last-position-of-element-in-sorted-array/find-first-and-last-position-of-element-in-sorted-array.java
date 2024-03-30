@@ -2,6 +2,23 @@
 TC - 0(N)
 SC - 0(1)
 */
+/* Approach - 2 Using binary search
+
+1. find firstIndex using binary search
+-- if we find exact target update index 
+-- if we find >= target move left to get first index 
+do this till low <= high
+
+2. find lastIndex using binary search
+
+-- if we find exact target update index 
+-- if we find <= target move right to get last index 
+do this till low <= high
+TC - 0(logN) + 0(logN)
+SC - 0(1)
+
+*/
+
 class Solution {
     public int[] searchRange(int[] nums, int target) {
       int firstIndex = findFirstIndex(nums, target);
