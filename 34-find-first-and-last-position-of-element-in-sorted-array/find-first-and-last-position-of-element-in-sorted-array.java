@@ -4,20 +4,56 @@ SC - 0(1)
 */
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-        int firstIndex = -1;
-        int lastIndex = -1;
+      int firstIndex = findFirstIndex(nums, target);
+      int lastIndex = findLastIndex (nums, target);
 
-        for(int index = 0; index < nums.length ; index ++){
-            if(target == nums[index]){
-                if(firstIndex == - 1){
-                    firstIndex = index;
-                    lastIndex = index;
-                }
-                else{
-                    lastIndex = index;
-                }
+      return new int[] {firstIndex, lastIndex};
+    }
+
+    int findFirstIndex(int[] nums, int target){
+        int low = 0 ;
+        int high = nums.length - 1;
+        int firstIndex = -1;
+        while(low <= high){
+            int mid = (high + low) / 2;
+            //updating firstIndex  every time my moving left 
+            if(nums[mid] == target){
+                firstIndex = mid;
+            }
+
+            if(nums[mid] >= target){
+                high = mid - 1;
+            }
+            else{
+                low = mid + 1;
             }
         }
-        return new int[] {firstIndex , lastIndex};
+
+        return firstIndex;
+    }
+
+    int findLastIndex (int[] nums, int target){
+        int low = 0;
+        int high = nums.length - 1;
+        int lastIndex = -1;
+
+        while(low <= high){
+          int mid = (high + low ) / 2;
+          
+          //updating last index everytime by moving right side
+          if(nums[mid] == target){
+            lastIndex = mid;
+          }
+          
+          if(nums[mid] <= target){
+            low = mid + 1;
+          }
+          else{
+            high = mid - 1;
+          }
+        }
+
+        return lastIndex;
+
     }
 }
