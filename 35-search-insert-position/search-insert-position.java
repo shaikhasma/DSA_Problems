@@ -22,8 +22,10 @@ class Solution {
 
         while( low <= high ){
             int mid = high - (high - low) /2;
-       
-            if(nums[mid] >= target){
+            
+            if(nums[mid] == target) return mid;
+
+            if(nums[mid] > target){
                insertIndex = mid ;
                high = mid - 1;
             }else{
