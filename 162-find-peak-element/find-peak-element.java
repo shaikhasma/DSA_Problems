@@ -1,4 +1,5 @@
-/*
+/*Approach --- Binary Search 
+TC - 0(logN)
 1,2,1,3,5,6,4 ===> 5 index
         m
 6 5 3 2 1
@@ -24,7 +25,7 @@ class Solution {
         
         if(nums[mid] < nums [mid - 1])
            high = mid - 1;
-        else if (nums[mid] > nums[mid - 1])
+        else
            low = mid + 1;
        }
      return - 1;
