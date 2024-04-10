@@ -1,4 +1,4 @@
-/* Approach - 1 Brute force
+/* Approach - 2 Binary Search
 
 - find min & max weight of packages
 - traveral min to max weight 
