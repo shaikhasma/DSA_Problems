@@ -6,6 +6,8 @@
        size / 2 - (size / 2 ) - 1 two median values need to take from them
        so 
           return (size / 2 - (size / 2 ) - 1 ) / 2
+    TC - 0(max(arr1, arr2))
+    SC - 0(1)
 */
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
