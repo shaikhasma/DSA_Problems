@@ -4,9 +4,15 @@
   0 4 4 4 4 4
   5 5 5 5 5 0
   
-
-  TC - 0(N)
-  SC - 0(N)
+ 
+  prefix == N
+  postfix = N
+  traversing to calculate trapped water for all building = N 
+  == 3N
+  TC - 0(3N) 
+     =0(N)
+  SC - 0(N + N) 
+    = 0(N)
 */
 class Solution {
     public int trap(int[] arr) {
