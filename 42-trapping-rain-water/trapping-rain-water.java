@@ -1,43 +1,45 @@
 /*
-  Approach - 1Brute Force
-  TC - 0(n2)
-  SC - 0(1)
+  Approach - 2 Using prefix
+  4,2,0,3,2,5
+  0 4 4 4 4 4
+  5 5 5 5 5 0
+  
+
+  TC - 0(N)
+  SC - 0(N)
 */
 class Solution {
     public int trap(int[] arr) {
       int waterTrapped = 0;
+      int[] prefix = prevGreater(arr);
+      int[] postfix = nextGreater(arr);
 
       for(int index = 0 ; index < arr.length; index++){
-         
-         waterTrapped += Math.min(prevGreater(arr, index ), nextGreater(arr, index) ) - arr[index];
+         waterTrapped += Math.min( prefix[index], postfix[index]) - arr[index];
+      }                                        
 
-      }                                                            
       return waterTrapped;
     }
 
-    int prevGreater(int[] arr, int start){
-        int prev = Integer.MIN_VALUE;
-        int k = start;
-        
-        while( k >= 0){
-            prev = Math.max(prev, arr[k]);
-            k--;
-         }
+    int[] prevGreater(int[] arr){
+        int[] prefix = new int[arr.length];
+        prefix[0] = arr[0];
 
-        return prev;
-        
+        for(int index = 1 ; index < arr.length; index++){
+            prefix[index] = Math.max(arr[index] , prefix[index - 1]);
+        }
+
+        return prefix;
     }
 
-    int nextGreater(int[] arr, int start){
-        int next= Integer.MIN_VALUE;
-        int k = start;
-        
-        while(k < arr.length){
-            next = Math.max(next, arr[k]);
-            k++;
-         }
+    int[] nextGreater(int[] arr){
+        int[] postfix = new int[arr.length];
+        postfix[arr.length - 1] = arr[arr.length - 1];
+    
+        for(int index = arr.length - 2; index >= 0; index--){
+            postfix[index] = Math.max(arr[index] , postfix[index + 1]);
+        }
 
-        return next;
-        
+        return postfix;
     }
 }
