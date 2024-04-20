@@ -1,19 +1,28 @@
 /*
-  Approach - 1 Brute force + hashTable[26]
+  Approach - 1 Sliding Window
 
-  1. Generate all substring
+  1. start left & right from 0
   2. make freqCount in hashTable[s.charAt(index) - 'A'] as we know all are Capital letters
   3. maintain max frequency
   4  calculate required Flips
       length - max frequency
   5. if required flips are more than given K then no need to go ahead
-     else 
+      here shrink window size from left 
+       --- reduce freq count in hashTable[s.charAt(left)--] by one
+       --  update maxFreq to 0
+       -- left++
+       
+
+
+
+   6. if required flip cout M= k
          calculate length
          maintain / carry max length
 
     Return maxLength
 
-    TC - 0(N^2)
+    TC - 0(N) + 0(N) 
+       - 0(N) 
     Sc - 0(1) or 0(26)
 
 */
@@ -26,21 +35,28 @@ class Solution {
         int maxFreq = 0;
         int maxLen = 0;
 
-       
-        
-        for(int start = 0 ; start < s.length(); start++){
-            Arrays.fill(hashTable, 0);
+        int left = 0;
+        int right = 0;
+        Arrays.fill(hashTable, 0);
+        while(right < s.length()){
+            
+            hashTable[s.charAt(right) - 'A']++;
 
-            for(int end = start; end < s.length(); end++){
-                hashTable[s.charAt(end) - 'A']++;
-
-                maxFreq = Math.max(maxFreq, hashTable[s.charAt(end) - 'A']);
-                int requiredFlipCount = (end - start + 1) - maxFreq;
-                if(requiredFlipCount > k)
-                   break;
-                else
-                    maxLen = Math.max(maxLen, end - start + 1);
+            maxFreq = Math.max(maxFreq, hashTable[s.charAt(right) - 'A']);
+            int requiredFlipCount = (right - left + 1) - maxFreq;
+            
+            if(requiredFlipCount > k){
+                hashTable[s.charAt(left) - 'A']--;
+                
+                // update maxFreq
+                  maxFreq = 0;
+                  
+                //shrnik window from left
+                left++;
             }
+            
+            maxLen = Math.max(maxLen, right - left + 1);
+            right++;
         }
 
         return maxLen;
