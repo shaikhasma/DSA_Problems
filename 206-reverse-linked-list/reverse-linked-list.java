@@ -21,10 +21,10 @@ class Solution {
      
      ListNode next = current.next;
      current.next = prev;
-     prev = current;
-     current = next;
+    // prev = current;
+     //current = next;
 
-     return reverseLL(current,prev);
+     return reverseLL(next,current);
     }
 }
 
