@@ -1,6 +1,6 @@
 /* Approach - Recursion + Backtracking
 TC: O(n * 2^n)
-SC: O(n * 2^n)
+SC: O(n) + 0(N) temp list
 */
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
@@ -21,14 +21,18 @@ class Solution {
         }
         
         // main logic
-		// case 1 : we pick the element
-        temp.add(nums[index]);
-        subsets(nums, list, temp, index+1); // move ahead
-        temp.remove(temp.size() - 1);
-        
-		// case 2 : we don't pick the element ( notice,
+
+        // case 2 : we don't pick the element ( notice,
         // we did not add the current element in our temporary list
         subsets(nums, list, temp, index+1); // move ahead
+
+
+		// case 1 : we pick the element
+        temp.add(nums[index]);
+        subsets(nums, list, temp, index + 1); // move ahead
+        temp.remove(temp.size() - 1);
+        
+		
 
     }
 }
