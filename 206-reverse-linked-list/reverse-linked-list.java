@@ -8,23 +8,24 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
- /* Approach 2 Recursive
- */
 class Solution {
     public ListNode reverseList(ListNode head) {
-      return reverseLL(head,null);
-    }
+       
+     if(head == null) return null;
 
-    ListNode reverseLL(ListNode current, ListNode prev){
-     if(current == null)
-          return prev;
-     
-     ListNode next = current.next;
-     current.next = prev;
-     prev = current;
-     current = next;
+     ListNode prev = null;
+     ListNode current = head;
 
-     return reverseLL(current,prev);
+     while (current != null){
+         ListNode next = current.next;
+         
+         current.next = prev;
+         prev = current;
+         current = next;
+         
+     }
+
+     return prev;
     }
 }
 
