@@ -1,6 +1,6 @@
 /*
   Approach - Recursion
-  TC - 0(2^N)
+  TC - 0(N)
   SC - 0(N)
 
 */
