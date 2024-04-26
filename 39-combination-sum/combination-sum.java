@@ -44,9 +44,6 @@ class Solution {
         // we reach to last if in case we find target fill to ans list & go back 
         //else directly return back 
         if (index == A.length ){
-             //if(target == 0) {
-              //  ans.add(new ArrayList < > (list));  
-             //}  
             return;
         }
          //include
