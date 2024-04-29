@@ -1,3 +1,7 @@
+/* Approach - Recursion + Backtracking
+   TC - 0(9 ^(n^2))Each cell in the board means n^2 and we have 9 possible numbers
+   SC- 0(1)
+*/
 class Solution {
     public void solveSudoku(char[][] board) {
      sodukoSolver(board);
