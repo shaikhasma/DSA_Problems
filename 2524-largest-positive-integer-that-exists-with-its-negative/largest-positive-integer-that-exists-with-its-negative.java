@@ -3,7 +3,7 @@
  put all numbers in -ve numbers in hashmap
  while traversing 0 -n find max and check same -ve number is present or not using abs check
 
- TC- 0(N)
+ TC- 0(N) + 0(N)
  Sc- (N)
 */
 class Solution {
