@@ -1,4 +1,10 @@
 import java.util.*;
+/*
+  Approach - DFS
+  
+  TC - 0(N) + 0(2E)
+  SC - 0(N) + 0(E)
+*/
 class Solution {
     public boolean validPath(int n, int[][] edges, int source, int destination) {
         if(source == destination) 
