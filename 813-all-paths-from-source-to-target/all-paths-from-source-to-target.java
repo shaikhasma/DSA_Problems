@@ -1,5 +1,7 @@
 /*
-
+   Approach - DFS + Backtracking
+   TC - 0(V * V)
+   SC - 0(V * V)
 */
 class Solution {
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
