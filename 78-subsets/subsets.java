@@ -1,12 +1,12 @@
 /* Approach - Recursion + Backtracking
-TC: O(n * 2^n)
-SC: O(n) + 0(N) temp list
+TC: O(2^n)
+SC: 0(N) temp list
 */
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> list = new ArrayList<>();
-        if(nums==null || nums.length==0)   
-           return list;
+        //if(nums==null || nums.length==0)   
+        //   return list;
          
         subsets(nums, list, new ArrayList<Integer>(), 0); 
         
@@ -15,7 +15,7 @@ class Solution {
 
     private void subsets(int[] nums,  List<List<Integer>> list , ArrayList<Integer> temp, int index) {
         // base condition
-        if(index >= nums.length) {
+        if(index == nums.length) {
             list.add(new ArrayList<>(temp));
             return;
         }
