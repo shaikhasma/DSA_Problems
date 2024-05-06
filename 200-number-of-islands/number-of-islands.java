@@ -1,3 +1,4 @@
+
 /* BFS Traversal 
 1. Create Node ( row , column), create visited 2d Array
 2. call bfs for unvisited node which has 1 marking
@@ -13,68 +14,67 @@
 - if we are in valid boundary + node has 1 value. + unvisited node
 - mark node as visited & push into q 
 */
+
 class Node{
-    private int nodeRow;
-    private int nodeCol;
-    public Node(int nodeRow, int nodeCol){
-        this.nodeRow = nodeRow;
-        this.nodeCol = nodeCol;
-    }
-
-    public int getNodeRow(){
-        return nodeRow;
-    }
-
-    public int getNodeCol(){
-        return nodeCol;
+    int row;
+    int col;
+    public Node(int row, int col){
+        this.row = row;
+        this.col = col;
     }
 }
 class Solution {
     
     public int numIslands(char[][] grid) {
-    int[][] visited = new int[grid.length][grid[0].length];
-    int island = 0;
+     boolean[][] visited = new boolean[grid.length][grid[0].length];
 
-    for(int row = 0; row < grid.length; row++){
+     int isLandCount = 0;
+
+     for(int row = 0; row < grid.length; row++){
         for(int col = 0; col < grid[0].length; col++){
-            if(grid[row][col] == '1' && visited[row][col] == 0){
-                island++;
+
+            if(!visited[row][col] && grid[row][col] == '1'){
+                
+                isLandCount++;
                 bfs(grid, row, col, visited);
             }
+
         }
-    }
-    return island;
+     }
+
+     return isLandCount;
     }
     
   //BFS traversal for 4 direction
-  private void bfs(char[][] grid, int row, int col, int[][] visited) {
-      Queue<Node>   q = new LinkedList<>();
-      visited[row][col] = 1;
+  private void bfs(char[][] grid, int row, int col, boolean[][] visited) {
+      
+
+      Queue<Node> q = new LinkedList<>();
       q.add(new Node(row,col));
+      visited[row][col] = true;
 
-     while(!q.isEmpty()){
-         Node temp = q.remove();
+      
 
-         int[] dirRow = {1, -1, 0, 0};
-         int[] dirCol = {0, 0, 1, -1};
+      while(!q.isEmpty()){
+        Node node = q.poll();
+        
+        int[] dRow = {0, 1, 0, -1};
+        int[] dCol = {-1, 0, 1,0};
+        
+        for(int index = 0; index < 4; index++ ){
+            int nRow  = node.row + dRow[index];
+            int nCol  = node.col + dCol[index];
 
-         for(int index = 0; index <= 3; index++){
-             int nRow = temp.getNodeRow() + dirRow[index];
-             int nCol = temp.getNodeCol() + dirCol[index];
-
-            if(boundaryCheck(nRow, nCol, grid.length, grid[0].length) && 
-               grid[nRow][nCol] == '1' && visited[nRow][nCol] == 0){
-                   visited[nRow][nCol] = 1;
+            if(nRow >= 0 && nRow < grid.length && nCol >= 0 && nCol < grid[0].length &&
+               !visited[nRow][nCol] && grid[nRow][nCol] == '1'){
+                   visited[nRow][nCol] = true;
                    q.add(new Node(nRow, nCol));
-               }
-         }
-     }
+            }
+        }
+      }
    }
 
-   private boolean boundaryCheck(int row, int col, int N, int C){
-       return row >= 0 && row <= N - 1 && col >=0 && col <=C - 1 ;
-   }
-
+  
 }
 
 /*
