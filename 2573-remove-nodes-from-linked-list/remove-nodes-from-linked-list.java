@@ -25,6 +25,10 @@
 3. reverse LL
 5. return head
 
+5,2,13,3,8
+
+8 13 15
+      p    c
  TC - N + N + N
    - 0(n)
  S.C - 0(1)
@@ -33,36 +37,33 @@
  */
 class Solution {
     public ListNode removeNodes(ListNode head) {
-        ListNode lastNode = reverseLL(head);
-        ListNode currentNode = lastNode.next;
-        ListNode prevNode = lastNode;
+       ListNode lastNode = reverseLL(head);
+       ListNode prev = lastNode;
+       ListNode current = lastNode.next;
 
-        while(currentNode != null){
-            if(prevNode.val <= currentNode.val){
-             prevNode.next = currentNode;
-             prevNode = prevNode.next;
-            }
-            currentNode = currentNode.next;
+       while(current != null){
+        if(prev.val <= current.val){
+            prev.next = current;
+            prev = prev.next;
         }
 
-        prevNode.next = null;
-        return reverseLL(lastNode);
+        current = current.next;
+       }
+
+       prev.next = null;
+       return reverseLL(lastNode);
     }
 
     ListNode reverseLL(ListNode head){
-       if(head == null)  return head;
+      ListNode current = head;
+      ListNode prev = null;
 
-       ListNode current = head;
-       ListNode prev = null;
-
-       while(current != null){
-           ListNode next = current.next;
-           current.next = prev;
-
-           prev = current;
-           current = next;
-       }
-
-       return prev;
+      while(current != null){
+        ListNode next = current.next;
+        current.next = prev ;
+        prev = current;
+        current = next;
+      }
+      return prev;
     }
 }
