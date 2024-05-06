@@ -54,12 +54,12 @@ class Solution {
       visited[row][col] = true;
 
       
-
+      int[] dRow = {0, 1, 0, -1};
+      int[] dCol = {-1, 0, 1,0};
       while(!q.isEmpty()){
         Node node = q.poll();
         
-        int[] dRow = {0, 1, 0, -1};
-        int[] dCol = {-1, 0, 1,0};
+   
         
         for(int index = 0; index < 4; index++ ){
             int nRow  = node.row + dRow[index];
