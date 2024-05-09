@@ -35,15 +35,16 @@ class Solution {
 		*/
         for(int i=0;i<nums.length; i++) {
 		
-            if(vis[i]) continue; // if current element is already present in the temp, skip the element
-            if(i > 0 && ! vis[i-1] && nums[i] == nums[i-1]) continue; // if prev element and current element is equal, skip the element
+            if(vis[i]) 
+                continue; 
+            if(i > 0 && ! vis[i-1] && nums[i] == nums[i-1]) 
+                continue; 
             
             vis[i] = true;
             temp.add(nums[i]);
             
-            solve(ans, temp, nums, vis); // recursive call
-            
-			// backtracking
+            solve(ans, temp, nums, vis); 
+  
             temp.remove(temp.size() - 1);
             vis[i] = false;
         }
