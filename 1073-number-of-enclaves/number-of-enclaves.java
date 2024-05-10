@@ -1,3 +1,23 @@
+/* Approach - BFS 
+  1. Traverse all 1's at boundary  
+    - push into Q
+    - mark it as visited
+ 2. Traverse Q 
+    - Pick node traverse LRUD where we ahve 1's
+    - Mark it as visited
+
+ 3. Traverse grid find the 1's if this is not visted mean we have not came accross this node
+    from boundary so 
+    count this cells
+4 Return the cell cound
+     Boundary Traversal + Grid traversal
+TC - 0 (N) + 0(N) + 0 (N * M * 4)
+   - 0(N * M)
+     Q          visited
+SC - 0(N * M) +(N * M)
+   - 0(N * M)
+      
+*/
 class Node{
     int row;
     int col;
