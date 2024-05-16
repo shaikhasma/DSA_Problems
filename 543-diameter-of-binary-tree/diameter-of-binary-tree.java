@@ -15,32 +15,31 @@
  */
 
  /*
-   Approach - left + right hight of every node = diameter
+   Approach - postOrder + maintain max diameter (max carry diameter)
 
-   TC - 0(n^2) height of every node
+   TC - 0(n) height of every node
    SC -0 0(H) height of tree auxillary stack
  */
 class Solution {
-    
+   //idea is carry max diamter so need reference    
    public int diameterOfBinaryTree(TreeNode root) {
-    if(root == null)
-        return 0;
+    int[] diameter = new int[1];
 
-     int leftHeight = height(root.left);
-     int rightHeight = height(root.right);    
+    heightAndDiameter(root, diameter);
 
-     int diameter = leftHeight + rightHeight;
-
-     int leftDiameter = diameterOfBinaryTree(root.left);
-     int rightDiameter = diameterOfBinaryTree(root.right);
-
-     return Math.max(diameter , Math.max(leftDiameter, rightDiameter));
+    return diameter[0];
    }
 
-   int height(TreeNode root){
+   int heightAndDiameter(TreeNode root, int[] diameter){
     if(root == null)
         return 0;
     
-    return Math.max(height(root.left), height(root.right)) + 1;
+    int leftHeight = heightAndDiameter(root.left, diameter);
+    int rightHeight = heightAndDiameter(root.right, diameter);
+
+    diameter[0] = Math.max(diameter[0] , leftHeight + rightHeight); // maintain maxDaimeter
+    return Math.max(leftHeight, rightHeight) + 1; //height calculation
+
    }
+
 }
