@@ -1,8 +1,8 @@
 /* Approach - Priority Queue
 
-TC - 0(N)
+TC - 0(N + logK)
 SC - 0(K)
-min Heap [5 6]
+min Heap [5. 6]
 1 
 */
 class Solution {
