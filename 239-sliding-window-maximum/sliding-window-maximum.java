@@ -4,7 +4,7 @@ class Solution {
         Deque<Integer> dQ = new ArrayDeque<>();
         for(int index = 0; index < nums.length; index++){
             // remvomve out of window
-            while(!dQ.isEmpty() && dQ.peek() ==  index - k){
+            if(!dQ.isEmpty() && dQ.peek() ==  index - k){
                 dQ.poll();
             }
            // remove all smaller elements from last of dQ 
