@@ -16,14 +16,15 @@
 */
 class Solution {
     public int minCostClimbingStairs(int[] cost) {
-       Integer[] dp = new Integer[cost.length + 1];
+       int[] dp = new int[cost.length + 1];
+       Arrays.fill(dp, -1);
        return solve(cost, cost.length, dp);        
     }
 
-    int solve(int[] cost, int n, Integer[] dp){
+    int solve(int[] cost, int n, int[] dp){
         if(n == 0 || n == 1 ) return 0;
         
-        if(dp[n] != null)
+        if(dp[n] != -1)
             return dp[n];
         
         return dp[n] = Math.min (
