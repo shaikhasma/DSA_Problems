@@ -1,4 +1,4 @@
-/*.    Approach 3 - Space Optimazation
+/*.    Approach 4- Space Optimazation
 
  TC - 0(N)
  SC - 0(1)
