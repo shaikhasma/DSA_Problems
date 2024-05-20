@@ -1,29 +1,25 @@
-/*.    Approach 2 - Recursion + Memoization
+/*.    Approach 3 - Tabulation / Bottom up Approach 
  TC - 0(N)
- SC - 0(N) + 0(N) 
-      dp[].  auxillary stack
+ SC - 0(N) 
+      dp[]
 */
 class Solution {
     public int rob(int[] nums) {
-      int[] dp = new int[nums.length];
-      Arrays.fill(dp, -1);
-      return maxMoney(nums, nums.length - 1, dp);
-    }
+     int[] dp = new int[nums.length];
+     Arrays.fill(dp, -1);
 
-    int maxMoney(int[] house, int houseIndex, int[] dp){
-        if(houseIndex == 0) 
-            return house[houseIndex];
+     dp[0] = nums[0];
+     for(int index = 1; index < nums.length; index++){
+        int pick = nums[ index ]; 
+        
+        if(index > 1)
+           pick +=  dp[index - 2];
 
-        if(houseIndex < 0)
-           return 0;
+        int notPick = dp[index - 1 ];
+    
+        dp[index] = Math.max(pick, notPick);
+     }
 
-        if(dp[houseIndex] != -1)
-            return dp[houseIndex];
-
-        int pick = house[houseIndex] + maxMoney(house, houseIndex - 2, dp);
-        int notPick = maxMoney(house, houseIndex - 1, dp);
-
-        dp[houseIndex] = Math.max(pick, notPick);
-        return dp[houseIndex];
+     return dp[nums.length - 1];
     }
 }
