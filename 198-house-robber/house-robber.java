@@ -1,25 +1,29 @@
-/*.    Approach 3 - Tabulation / Bottom up Approach 
+/*.    Approach 3 - Space Optimazation
+
  TC - 0(N)
- SC - 0(N) 
-      dp[]
+ SC - 0(1)
+    
 */
 class Solution {
     public int rob(int[] nums) {
-     int[] dp = new int[nums.length];
-     Arrays.fill(dp, -1);
+ 
+     int prev1 = nums[0];
+     int prev2 = 0;
 
-     dp[0] = nums[0];
      for(int index = 1; index < nums.length; index++){
         int pick = nums[ index ]; 
         
         if(index > 1)
-           pick +=  dp[index - 2];
+           pick +=  prev2;
 
-        int notPick = dp[index - 1 ];
+        int notPick = prev1;
     
-        dp[index] = Math.max(pick, notPick);
+        int current = Math.max(pick, notPick);
+        // move prev2 prev1
+        prev2 = prev1;
+        prev1 = current;
      }
 
-     return dp[nums.length - 1];
+     return prev1;
     }
 }
