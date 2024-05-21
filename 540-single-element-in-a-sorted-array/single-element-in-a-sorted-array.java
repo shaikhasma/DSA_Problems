@@ -20,27 +20,20 @@ Approach 1 - Binary Search
  */
 class Solution {
     public int singleNonDuplicate(int[] nums) {
-      //Corner case
-
-      if(nums.length == 1) return nums[0];
-      if(nums[0] != nums[1]) return nums[0];
-      if(nums[nums.length - 2] != nums[nums.length - 1]) return nums[nums.length - 1 ];
-
-      int low = 1;
-      int high = nums.length - 2;
-      while(low <= high){
-        int mid = high - (high - low) / 2;
-
-        if(nums[mid] != nums[mid - 1] && nums[mid] != nums[mid + 1])
-            return nums[mid];
+         if(nums.length==1) return nums[0];
+        int l = 0;
+        int h = nums.length-1;
         
-        if((mid % 2 == 0 && nums[mid] == nums[mid + 1]) ||
-                    (mid % 2 == 1 && nums[mid]== nums[mid - 1]))
-            low = mid + 1;
-        else 
-            high = mid - 1;
-      }
-
-      return -1;
+        while(l<h){
+            int mid = l + (h-l)/2;      // divide the array
+            
+            if(nums[mid] == nums[mid+1]) mid = mid-1;      //two same elements should be in same half
+            
+            if((mid - l + 1) % 2 !=0) h = mid;            // checking the length of left half. If its is odd then update ur right pointer to mid
+            
+            else l = mid+1;    // else your right half will be odd then update your left pointer to mid+1
+        }
+        
+        return nums[l];
     }
 }
