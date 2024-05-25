@@ -8,7 +8,7 @@
 src = 0 dst = 3.    k stop = 1
 
 0 -- 1 -- 2 -- 3
-100.  100.  200. = 300 min but stops > k
+100.  100.  200. = 400 min but stops > k
 
 0-- 1 -- 3
 100.  600.  = 700 stops == k
@@ -85,7 +85,7 @@ class Solution {
             int newCost = cost + neighbor.cost;
             int nextCity = neighbor.toCity;
             
-            if(newCost < dist[nextCity] && stops <= k){
+            if(newCost < dist[nextCity] ){
                 dist[nextCity] = newCost;
                 q.add(new Flight(stops + 1, nextCity, newCost));
             }
