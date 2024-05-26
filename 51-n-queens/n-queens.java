@@ -1,3 +1,11 @@
+/* Approach - Recurision + Backtracking 
+
+-- 
+Time Complexity: Exponential in nature since we are trying out all ways, to be precise its O(N! * N).
+
+Space Complexity: O( N2 )
+
+*/
 class Solution {
     final static char EMPTY_CELL='.';
     final static char QUEEN_CELL='Q';
@@ -5,15 +13,13 @@ class Solution {
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> ans = new ArrayList<>();    
         char[][] board = createNewBoard(n);
-        boolean[] left = new boolean[n];
-        boolean[] upper = new boolean[2 * n - 1];
-        boolean[] lower = new boolean[2 * n - 1];
-        solve(board, 0, ans, left, upper, lower);
-        
+
+        solve(board, 0, ans);
+
         return ans;
     }
 
-    void solve(char[][] board, int column, List<List<String>> ans, boolean[] left, boolean[] upper, boolean[] lower ){
+    void solve(char[][] board, int column, List<List<String>> ans){
 
         if(column == board[0].length){
             ans.add(queenPlacements(board));
@@ -22,21 +28,15 @@ class Solution {
 
         for(int row = 0; row < board.length; row++){
 
-            if(left[row] == false && upper[row + column] == false
-                && lower[board.length - 1 + column - row] == false ){
+            if(possibleQueenPlacment(board, row, column)){
                  
                  board[row][column] = QUEEN_CELL;
-                 left[row] = true;
-                 upper[row + column] = true;
-                 lower[board.length - 1 + column - row] = true;
+
                 //go for next queen placement
-                   solve(board, column + 1, ans, left, upper, lower);
+                   solve(board, column + 1, ans);
                     
                 //backtrack if not possible to place
                    board[row][column] = EMPTY_CELL;
-                   left[row] = false;
-                   upper[row + column] = false;
-                   lower[board.length - 1 + column - row] = false;
             }
         }
 
