@@ -26,11 +26,11 @@
 Note _ every thing will be same like Combination sum I only difference is 
  - we will pick element only one time and move to next index 
  - To avoid duplicates we can use Set instead of List and at last convert it into List
+        OR
+    we can avoid i > index && A[i] == A[i-1] skip combination generation
 
- TC - 0(2 ^ t)* 0(k log x)
-          -  where t is target as we can pick same element multiple time we can pick 1 10 time if target is 10
-          - k is avg length of every generated compination which we fill to ans list which will take linear time not constant
-
+ TC - 0(2 ^ t)* 0(k)
+          
       SC - We can not predict space as it completly depedent on number combination
         - 0(K * C) here k is avg lenght of combination & c is number of combination
 
