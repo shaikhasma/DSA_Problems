@@ -41,9 +41,7 @@ SC - 0(N) + 0(N)
      dp[].   stack
    - O(N) 
 
-*/
-class Solution {
-    public int rob(int[] nums) {
+   public int rob(int[] nums) {
         Integer[] dp = new Integer[nums.length];
         
         return solve(nums, nums.length - 1, dp);
@@ -63,5 +61,34 @@ class Solution {
      int notPick = solve(arr, index - 1, dp);
 
      return dp[index] = Math.max(pick, notPick);
+    }
+
+
+Approach 3 - Tabulation // Bottom up approach
+
+    - use same dp array 
+    - Traverse 0 to N - 1
+    - rather than f(index - 2) or f(index -1) use dp[index - 2] and dp[index - 1]
+
+TC - 0(N)
+SC - 0(N)
+*/
+class Solution {
+    public int rob(int[] nums) {
+        Integer[] dp = new Integer[nums.length];
+        dp[0] = nums[0];
+
+        for( int index = 1; index < nums.length; index++){
+            int pick = nums[index];
+            
+            if(index > 1)
+                pick +=  dp[index - 2];
+            
+            int notPick = dp[index - 1];
+
+            dp[index] =  Math.max(pick, notPick);
+        }
+
+        return dp[nums.length - 1];    
     }
 }
