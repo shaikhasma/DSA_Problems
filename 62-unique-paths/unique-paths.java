@@ -110,30 +110,42 @@ public int uniquePaths(int m, int n) {
       }
       return dp[m-1][n-1];
     }    
+
+Apporach - Space Optimization
+    - Use two [] prev to track 
+       previous row ( up ) & current row for left column 
+      
+    - base case with current []  &  up = prev[col] &  left = current[col - 1];
+      Store ans in current[col] = up + left
+    - Once current row traverse 
+      prev = current
 */
 class Solution {
    
     public int uniquePaths(int m, int n) {
-      Integer[][] dp =  new Integer[m][n];
-   
-
+       int[] prev = new int[n];
+     
       for( int row = 0; row < m ; row++){
+        int[] current = new int[n];
+
         for(int col = 0; col < n; col++){
             if( row == 0 && col == 0){
-                dp[row][col] = 1;
+                current[col] = 1;
                 continue;
             }
 
             int up = 0;
             int left = 0;
             if(row > 0)
-                up = dp[row - 1][col];
+                up = prev[col];
             if(col > 0 )
-                left = dp[row][col - 1];
+                left = current[col - 1];
             
-            dp[row][col] = up + left;
+            current[col] = up + left;
         }
+        prev = current;
       }
-      return dp[m-1][n-1];
+
+      return prev[n-1];
     }
 }
