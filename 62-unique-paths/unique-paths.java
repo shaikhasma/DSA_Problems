@@ -43,8 +43,8 @@ TC - 0(N*M)
 SC - 0(N*M) + 0(N*M)
       dp       stack
    - 0(NM)
-   
-        class Solution {
+
+class Solution {
             Integer[][] dp ;
             public int uniquePaths(int m, int n) {
             this.dp =  new Integer[m][n];
@@ -67,29 +67,73 @@ SC - 0(N*M) + 0(N*M)
 
             return dp[row][col] = up + left;    
             }    
-        }
-    */
-class Solution {
-    Integer[][] dp ;
-    public int uniquePaths(int m, int n) {
-      this.dp =  new Integer[m][n];
-      return solv(m - 1, n - 1);
-    }
+        }       
 
-    int solv(int row, int col){
+Approach - 3 Tabulation / Bottom Up Apporach
+    - Use d[row][col]
+    - Traverse 2d array 0 to M-1
+                       0 to N-1 
+        - if(row == 0 || col == 0)
+            assign dp[row][col] = 1
+            continue
+        
+        To Avoid AIOD / Boundary Check
+        - go up when row > 0 
+        - go left when col > 0
+
+        - dp[row][col] = up + left;
+
+    return dp[m-n][n-1]
+TC- 0(N*M)
+SC - 0(N*M)
+
+public int uniquePaths(int m, int n) {
+      Integer[][] dp =  new Integer[m][n];
    
-      if(row == 0 && col == 0)
-            return 1;
-      
-      if(row < 0 || col < 0)
-            return 0;
-      
-      if(dp[row][col] != null)
-            return dp[row][col];
 
-      int up = solv(row - 1, col);
-      int left = solv(row, col - 1);
+      for( int row = 0; row < m ; row++){
+        for(int col = 0; col < n; col++){
+            if( row == 0 && col == 0){
+                dp[row][col] = 1;
+                continue;
+            }
 
-      return dp[row][col] = up + left;    
+            int up = 0;
+            int left = 0;
+            if(row > 0)
+                up = dp[row - 1][col];
+            if(col > 0 )
+                left = dp[row][col - 1];
+            
+            dp[row][col] = up + left;
+        }
+      }
+      return dp[m-1][n-1];
     }    
+*/
+class Solution {
+   
+    public int uniquePaths(int m, int n) {
+      Integer[][] dp =  new Integer[m][n];
+   
+
+      for( int row = 0; row < m ; row++){
+        for(int col = 0; col < n; col++){
+            if( row == 0 && col == 0){
+                dp[row][col] = 1;
+                continue;
+            }
+
+            int up = 0;
+            int left = 0;
+            if(row > 0)
+                up = dp[row - 1][col];
+            if(col > 0 )
+                left = dp[row][col - 1];
+            
+            dp[row][col] = up + left;
+        }
+      }
+      return dp[m-1][n-1];
+    }
 }
