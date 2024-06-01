@@ -62,30 +62,72 @@ Program -
     }
 
 Approach - Tabulation / Bottom Up
-0 1
-0 0
-*/
-class Solution {
-    
+Program
+    public int uniquePathsWithObstacles(int[][] grid) {
+            int totRow = grid.length;
+            int totCol = grid[0].length;
+            int[][] dp = new int[totRow][totCol];      
+            
+            for(int[] row : dp ){
+                Arrays.fill(row, -1);
+            }
+
+            for( int row = 0; row < totRow; row++){
+                for(int col = 0; col < totCol; col++){
+                    
+                    if(row == 0 && col == 0 && grid[row][col] == 0){
+                        dp[row][col] = 1;
+                        continue;
+                    }
+
+                    if(grid[row][col] == 1 ){
+                        dp[row][col] = 0;
+                        continue;
+                    }
+
+
+                    int up = 0;
+                    int left = 0;
+
+                    if(row > 0)
+                    up = dp[row - 1][col];
+                    
+                    if(col > 0)
+                    left = dp[row][col - 1];
+                    
+                    dp[row][col] = up + left;
+                    
+                }
+            }
+
+        return dp[totRow - 1][totCol - 1];
+
+TC - 0(NM)
+SC - 0(NM)
+
+Approach - 4 Space Optimization
+Program - 
     public int uniquePathsWithObstacles(int[][] grid) {
         int totRow = grid.length;
         int totCol = grid[0].length;
-        int[][] dp = new int[totRow][totCol];      
+        int[] prevRow = new int[totCol];      
         
-        for(int[] row : dp ){
-            Arrays.fill(row, -1);
-        }
-
+        Arrays.fill(prevRow, -1);
+    
         for( int row = 0; row < totRow; row++){
+           
+            int[] currentRow = new int[totCol];
+            Arrays.fill(currentRow, -1);
+
             for(int col = 0; col < totCol; col++){
                 
                 if(row == 0 && col == 0 && grid[row][col] == 0){
-                    dp[row][col] = 1;
+                    currentRow[col] = 1;
                     continue;
                 }
 
                 if(grid[row][col] == 1 ){
-                    dp[row][col] = 0;
+                    currentRow[col] = 0;
                     continue;
                 }
 
@@ -94,16 +136,66 @@ class Solution {
                 int left = 0;
 
                 if(row > 0)
-                  up = dp[row - 1][col];
+                  up = prevRow[col];
                 
                 if(col > 0)
-                  left = dp[row][col - 1];
+                  left = currentRow[col - 1];
                 
-                dp[row][col] = up + left;
+                currentRow[col] = up + left;
                 
             }
+            prevRow = currentRow;
         }
 
-        return dp[totRow - 1][totCol - 1];
+        return prevRow[totCol - 1];
+    }
+    
+TC - 0(NM)
+SC - 0(N) + 0(N) currentRow & prevRow
+   - 0(N)
+*/
+class Solution {
+    
+    public int uniquePathsWithObstacles(int[][] grid) {
+        int totRow = grid.length;
+        int totCol = grid[0].length;
+        int[] prevRow = new int[totCol];      
+        
+        Arrays.fill(prevRow, -1);
+    
+        for( int row = 0; row < totRow; row++){
+           
+            int[] currentRow = new int[totCol];
+            Arrays.fill(currentRow, -1);
+
+            for(int col = 0; col < totCol; col++){
+                
+                if(row == 0 && col == 0 && grid[row][col] == 0){
+                    currentRow[col] = 1;
+                    continue;
+                }
+
+                if(grid[row][col] == 1 ){
+                    currentRow[col] = 0;
+                    continue;
+                }
+
+
+                int up = 0;
+                int left = 0;
+
+                if(row > 0)
+                  up = prevRow[col];
+                
+                if(col > 0)
+                  left = currentRow[col - 1];
+                
+                currentRow[col] = up + left;
+                
+            }
+            prevRow = currentRow;
+        }
+
+        return prevRow[totCol - 1];
     }
 }
