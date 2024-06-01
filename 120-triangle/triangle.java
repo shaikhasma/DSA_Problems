@@ -24,26 +24,28 @@ SC - 0(NM) + 0(NM) recursion & dp[]
    - 0(NM)
 
 Program - 
-        public int minimumTotal(List<List<Integer>> triangle) {
-            int row = triangle.size();
-            int col = triangle.get(row - 1).size();
+     public int minimumTotal(List<List<Integer>> triangle) {
+        int row = triangle.size();
+        int col = triangle.get(row - 1).size();
+   
+        int[][] dp = new int[row][col];
+        for(int[] dpRow : dp)
+            Arrays.fill(dpRow, -1);
 
-            int[][] dp = new int[row][col];
+        return solv(triangle, 0 , 0, dp);
+    }
+    int solv(List<List<Integer>> triangle, int row, int col, int[][] dp){
 
-            return solv(triangle, 0 , 0, dp);
-        }
-        int solv(List<List<Integer>> triangle, int row, int col, int[][] dp){
+        if(row == triangle.size() - 1)
+            return triangle.get(row).get(col);
 
-            if(row == triangle.size() - 1)
-                return triangle.get(row).get(col);
+        if(dp[row][col] != -1)
+            return dp[row][col];
 
-            if(dp[row][col] != 0)
-                return dp[row][col];
+        int left = triangle.get(row).get(col) + solv(triangle, row + 1, col, dp);
+        int right = triangle.get(row).get(col) + solv(triangle, row + 1, col + 1, dp);
 
-            int left = triangle.get(row).get(col) + solv(triangle, row + 1, col, dp);
-            int right = triangle.get(row).get(col) + solv(triangle, row + 1, col + 1, dp);
-
-            return dp[row][col] = Math.min(left, right);
+        return dp[row][col] = Math.min(left, right);
     }
 */
 class Solution {
