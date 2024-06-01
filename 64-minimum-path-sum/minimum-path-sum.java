@@ -56,21 +56,63 @@ Program -
 
 Approach - 3 Tabulation + Bottom Up
 TC - 0(NM)
-SC - 0(NM)
+SC - 0(NM) dp
+
+Program - 
+    public int minPathSum(int[][] grid) {
+            int totRow = grid.length ;
+            int totCol = grid[0].length;
+        
+            int[][] dp = new int[totRow][totCol];
+        
+            
+            for( int row = 0; row < totRow; row++){
+                for( int col = 0; col < totCol; col++){
+            
+                    if(row == 0 && col == 0){
+                        dp[row][col] = grid[row][col];
+                        continue;
+                    }
+                    
+                    int up = grid[row][col];
+                    int left = grid[row][col];
+
+                    if(row > 0)
+                        up += dp[row - 1][col];
+                    else
+                        up += (int) 1e9;
+
+                    if(col > 0)
+                        left += dp[row][col - 1];
+                    else
+                        left += (int) 1e9;
+                    
+                dp[row][col] = Math.min(up, left);
+                }
+            }
+
+            return dp[totRow - 1][totCol - 1];
+        }
+
+Approach. - 4 Space Optimization 
+TC - 0(NM)
+SC - 0(N) + 0(N) currentRow & TempRow
 */
 class Solution {
     public int minPathSum(int[][] grid) {
         int totRow = grid.length ;
         int totCol = grid[0].length;
      
-        int[][] dp = new int[totRow][totCol];
-       
-        
+       int[] prevRow = new int[totCol];
+           
         for( int row = 0; row < totRow; row++){
+            
+            int[] currentRow = new int[totCol];
+
             for( int col = 0; col < totCol; col++){
         
                 if(row == 0 && col == 0){
-                    dp[row][col] = grid[row][col];
+                    currentRow[col] = grid[row][col];
                     continue;
                 }
                 
@@ -78,19 +120,20 @@ class Solution {
                 int left = grid[row][col];
 
                 if(row > 0)
-                    up += dp[row - 1][col];
+                    up += prevRow[col];
                 else
                     up += (int) 1e9;
 
                 if(col > 0)
-                    left += dp[row][col - 1];
+                    left += currentRow[col - 1];
                 else
                     left += (int) 1e9;
                 
-              dp[row][col] = Math.min(up, left);
+              currentRow[col] = Math.min(up, left);
             }
+            prevRow = currentRow;
         }
 
-        return dp[totRow - 1][totCol - 1];
+        return prevRow[totCol - 1];
     }
 }
