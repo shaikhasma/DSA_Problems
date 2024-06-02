@@ -1,14 +1,25 @@
 /*
-  Approach - Recursion  
+  Approach - Recursion
+  0 1  1 2 3
+  0 1  2 3 4
 */
 class Solution {
+    Integer[] dp;
     public int fib(int n) {
-       if( n == 0 || n == 1)
-        return n;
-        
-       int prev = fib(n - 1);
-       int pPrev = fib(n - 2);
+      dp = new Integer[n+1];
+     
+      return solv(n);
+    }
 
-       return prev + pPrev;
+    int solv(int n){
+       if(n == 0 || n == 1)
+            return n;
+        if(dp[n] != null)
+            return dp[n];
+
+        int prev = solv(n - 1);
+        int pPrev = solv(n - 2);
+
+        return dp[n] = prev + pPrev;
     }
 }
