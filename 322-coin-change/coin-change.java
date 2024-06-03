@@ -115,33 +115,70 @@ SC - 0(NT)
             int ans = dp[coins.length - 1][amount];
             return ans == (int) 1e9 ? -1 : ans;
         }
-*/
-class Solution {
+
+Approach - 4 Space Optimization
+TC - 0(NT)
+SC - 0(T) + 0(T)
+
+Program - 
     public int coinChange(int[] coins, int amount) {
-        int[][] dp = new int[coins.length][amount + 1];
+        int[] prevRow = new int[amount + 1];
 
         //Initialize Base Condition
         for( int index = 0; index <= amount; index++){
             if(index % coins[0] == 0)
-                dp[0][index] = index / coins[0];
+                prevRow[index] = index / coins[0];
             else
-                dp[0][index] = (int) 1e9;
+                prevRow[index] = (int) 1e9;
         }
 
         for(int index = 1; index < coins.length; index++){
+            int[] currentRow = new int[amount + 1];
             for( int target = 0; target <= amount; target++){
                 
                 int take = (int) 1e9;
                 if(coins[index] <= target)
-                    take = 1 + dp[index][target - coins[index]];
+                    take = 1 + currentRow[target - coins[index]];
 
-                int notTake = dp[index - 1][target];
+                int notTake = prevRow[target];
 
-                dp[index][target] = Math.min(take, notTake);
+                currentRow[target] = Math.min(take, notTake);
             }
+            prevRow = currentRow;
         }    
 
-        int ans = dp[coins.length - 1][amount];
+        int ans = prevRow[amount];
+        return ans == (int) 1e9 ? -1 : ans;
+    }
+*/
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int[] prevRow = new int[amount + 1];
+
+        //Initialize Base Condition
+        for( int index = 0; index <= amount; index++){
+            if(index % coins[0] == 0)
+                prevRow[index] = index / coins[0];
+            else
+                prevRow[index] = (int) 1e9;
+        }
+
+        for(int index = 1; index < coins.length; index++){
+            int[] currentRow = new int[amount + 1];
+            for( int target = 0; target <= amount; target++){
+                
+                int take = (int) 1e9;
+                if(coins[index] <= target)
+                    take = 1 + currentRow[target - coins[index]];
+
+                int notTake = prevRow[target];
+
+                currentRow[target] = Math.min(take, notTake);
+            }
+            prevRow = currentRow;
+        }    
+
+        int ans = prevRow[amount];
         return ans == (int) 1e9 ? -1 : ans;
     }
 }
