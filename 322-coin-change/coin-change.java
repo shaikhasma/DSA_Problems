@@ -82,37 +82,66 @@ Program -
         return dp[index][target] =  Math.min(pick, notPick);
     }
 
+Approach - 3 Tabulation / Bottom up
+TC - 0(NT)
+SC - 0(NT)
+
+    Program - 
+        
+        public int coinChange(int[] coins, int amount) {
+            int[][] dp = new int[coins.length][amount + 1];
+
+            //Initialize Base Condition
+            for( int index = 0; index <= amount; index++){
+                if(index % coins[0] == 0)
+                    dp[0][index] = index / coins[0];
+                else
+                    dp[0][index] = (int) 1e9;
+            }
+
+            for(int index = 1; index < coins.length; index++){
+                for( int target = 0; target <= amount; target++){
+                    
+                    int take = (int) 1e9;
+                    if(coins[index] <= target)
+                        take = 1 + dp[index][target - coins[index]];
+
+                    int notTake = dp[index - 1][target];
+
+                    dp[index][target] = Math.min(take, notTake);
+                }
+            }    
+
+            int ans = dp[coins.length - 1][amount];
+            return ans == (int) 1e9 ? -1 : ans;
+        }
 */
 class Solution {
     public int coinChange(int[] coins, int amount) {
         int[][] dp = new int[coins.length][amount + 1];
-        for( int[] row : dp)
-            Arrays.fill(row, -1);
 
-        int ans = solve(coins.length - 1, coins, amount, dp);
+        //Initialize Base Condition
+        for( int index = 0; index <= amount; index++){
+            if(index % coins[0] == 0)
+                dp[0][index] = index / coins[0];
+            else
+                dp[0][index] = (int) 1e9;
+        }
+
+        for(int index = 1; index < coins.length; index++){
+            for( int target = 0; target <= amount; target++){
+                
+                int take = (int) 1e9;
+                if(coins[index] <= target)
+                    take = 1 + dp[index][target - coins[index]];
+
+                int notTake = dp[index - 1][target];
+
+                dp[index][target] = Math.min(take, notTake);
+            }
+        }    
+
+        int ans = dp[coins.length - 1][amount];
         return ans == (int) 1e9 ? -1 : ans;
-    }
-
-    int solve(int index, int[] coins, int target, int[][] dp){
-
-        if(index == 0){
-            
-            if(target % coins[0] == 0)
-                return target / coins[0];
-            
-            return (int) 1e9; // avoid counting
-        }
-
-        if(dp[index][target] != -1)
-            return dp[index][target];
-
-        int pick = (int) 1e9;
-        if(coins[index] <= target){
-            pick = 1 + solve(index, coins, target - coins[index], dp);
-        }
-
-        int notPick = solve(index - 1, coins, target, dp);
-
-        return dp[index][target] =  Math.min(pick, notPick);
     }
 }
