@@ -61,6 +61,34 @@ Program -
 Approch - 3 Recursion + Memoiation
 TC - 0(N)
 SC - 0(N * N) + 0(N) dp[] & stack
+
+Program - 
+     public int lengthOfLIS(int[] arr) {
+      int[][] dp = new int[arr.length][arr.length + 1];
+      for(int[] row : dp)
+        Arrays.fill(row, -1);
+
+      return solv(arr, arr.length - 1, -1, dp);
+    }
+
+    int solv(int[] arr, int index, int prevIndex, int[][] dp){
+        
+        if(index < 0 )
+          return 0;
+        
+        if(dp[index][prevIndex + 1] != -1)
+            return dp[index][prevIndex + 1];
+
+        //take
+        int pick = 0;
+        if(prevIndex == -1 || arr[index] < arr[prevIndex] )
+            pick = 1 + solv(arr, index - 1, index , dp);
+        
+        // not pick
+        int notPick = solv(arr, index - 1, prevIndex, dp);
+
+        return dp[index][prevIndex + 1] = Math.max(pick, notPick);
+    }
 */
 
 class Solution {
