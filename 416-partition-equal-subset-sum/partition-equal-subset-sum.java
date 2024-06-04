@@ -33,7 +33,7 @@ Program -
 
 Approach - 2 Recursion + Memoiation 
 TC - 0(NT) - 0(N) sum 
-SC - 0(NK) + 0(N) dp[][] & stack
+SC - 0(NT) + 0(N) dp[][] & stack
 
 Program -   
     public boolean canPartition(int[] nums) {
@@ -73,8 +73,8 @@ Program -
     }
 
 Approach - 3 Tabulation / Bottom up
-TC - 0(NM)
-SC - 0(N) + 0(N)
+TC - 0(NT) + 0(N) 
+SC - 0(NT) 
 
 Program - 
     public boolean canPartition(int[] nums) {
@@ -110,6 +110,49 @@ Program -
      }
      return dp[nums.length - 1][T];
     }
+
+Approach - 4 Space Optimization
+TC - 0(NT) + 0(N)
+SC - 0(T) + 0(T) 
+
+Program - 
+    public boolean canPartition(int[] nums) {
+     int totSum = 0;
+     for(int index = 0; index < nums.length; index++)
+        totSum += nums[index];
+
+     if( totSum % 2 == 1)
+        return false;
+
+     int T = totSum / 2;
+     boolean[] prevRow = new boolean[T + 1];
+
+     //Base Case initialize 1)
+        prevRow[0] = true;
+
+    //Base Case initialize 2
+     if(nums[0] <= T)
+        prevRow[nums[0]] = true;
+     
+     for( int index = 1; index < nums.length ; index++){
+        
+        boolean[] currentRow = new boolean[T + 1];
+        for(int target = 0; target <= T; target++){
+         
+            boolean pick = false ;
+            if(nums[index] <= target )
+                pick = prevRow[target - nums[index]];
+
+            boolean notPick = prevRow[target];
+
+            currentRow[target] = pick || notPick;
+        }
+
+        prevRow = currentRow;
+     }
+     return prevRow[T];
+    }
+
  */
 class Solution {
     public boolean canPartition(int[] nums) {
@@ -121,28 +164,31 @@ class Solution {
         return false;
 
      int T = totSum / 2;
-     boolean[][] dp = new boolean[nums.length][T + 1];
+     boolean[] prevRow = new boolean[T + 1];
 
-     //Base Case initialize 1
-     for(int index = 0; index < nums.length; index++)
-        dp[index][0] = true;
+     //Base Case initialize 1)
+        prevRow[0] = true;
 
     //Base Case initialize 2
      if(nums[0] <= T)
-        dp[0][nums[0]] = true;
+        prevRow[nums[0]] = true;
      
      for( int index = 1; index < nums.length ; index++){
+        
+        boolean[] currentRow = new boolean[T + 1];
         for(int target = 0; target <= T; target++){
          
-         boolean pick = false ;
-         if(nums[index] <= target )
-            pick = dp[index - 1][target - nums[index]];
+            boolean pick = false ;
+            if(nums[index] <= target )
+                pick = prevRow[target - nums[index]];
 
-         boolean notPick = dp[index - 1][target];
+            boolean notPick = prevRow[target];
 
-         dp[index][target] = pick || notPick;
+            currentRow[target] = pick || notPick;
         }
+
+        prevRow = currentRow;
      }
-     return dp[nums.length - 1][T];
+     return prevRow[T];
     }
 }
