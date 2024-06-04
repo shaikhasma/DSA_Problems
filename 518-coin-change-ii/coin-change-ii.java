@@ -92,27 +92,57 @@ Program -
         return dp[coins.length - 1][amount];
     }
 
-*/
-class Solution {
+Approch - 4 Space Optimization 
+TC - 0(NT)
+SC - 0(N) + 0(N) prevRow  & currentRow 
+
+Program - 
     public int change(int amount, int[] coins) {
-        int[][] dp = new int[coins.length][amount + 1];
+        int[] prevRow = new int[amount + 1];
         
         //Base case intilialization
         for(int target = 0; target <= amount ; target++)
-            dp[0][target] = target % coins[0] == 0 ? 1  : 0;
+            prevRow[target] = target % coins[0] == 0 ? 1  : 0;
 
         for(int index = 1; index < coins.length; index++){
+            int[] currentRow = new int[amount + 1];
             for(int target = 0; target <= amount; target++){
                 
                 int take = 0;
                 if(coins[index] <= target)
-                    take = dp[index][target - coins[index]];
+                    take = currentRow[target - coins[index]];
                 
-                int notTake = dp[index - 1][target];
+                int notTake = prevRow[target];
                 
-                dp[index][target] = take + notTake;
+                currentRow[target] = take + notTake;
             }
+            prevRow = currentRow;
         }
-        return dp[coins.length - 1][amount];
+        return prevRow[amount];
+    }
+*/
+class Solution {
+    public int change(int amount, int[] coins) {
+        int[] prevRow = new int[amount + 1];
+        
+        //Base case intilialization
+        for(int target = 0; target <= amount ; target++)
+            prevRow[target] = target % coins[0] == 0 ? 1  : 0;
+
+        for(int index = 1; index < coins.length; index++){
+            int[] currentRow = new int[amount + 1];
+            for(int target = 0; target <= amount; target++){
+                
+                int take = 0;
+                if(coins[index] <= target)
+                    take = currentRow[target - coins[index]];
+                
+                int notTake = prevRow[target];
+                
+                currentRow[target] = take + notTake;
+            }
+            prevRow = currentRow;
+        }
+        return prevRow[amount];
     }
 }
