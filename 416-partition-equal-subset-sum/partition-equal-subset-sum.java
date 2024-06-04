@@ -31,8 +31,11 @@ Program -
         return pick || notPick;
     }
 
- */
-class Solution {
+Approach - 2 Recursion + Memoiation 
+TC - 0(NT) - 0(N) sum 
+SC - 0(NK) + 0(N) dp[][] & stack
+
+Program -   
     public boolean canPartition(int[] nums) {
      int totSum = 0;
      for(int index = 0; index < nums.length; index++)
@@ -65,7 +68,81 @@ class Solution {
         boolean notPick = solv(A, target, index - 1, dp);
 
         dp[index][target] = (pick || notPick) ? 1 : 0;
-        
+
         return pick || notPick;
+    }
+
+Approach - 3 Tabulation / Bottom up
+TC - 0(NM)
+SC - 0(N) + 0(N)
+
+Program - 
+    public boolean canPartition(int[] nums) {
+     int totSum = 0;
+     for(int index = 0; index < nums.length; index++)
+        totSum += nums[index];
+
+     if( totSum % 2 == 1)
+        return false;
+
+     int T = totSum / 2;
+     boolean[][] dp = new boolean[nums.length][T + 1];
+
+     //Base Case initialize 1
+     for(int index = 0; index < nums.length; index++)
+        dp[index][0] = true;
+
+    //Base Case initialize 2
+     if(nums[0] <= T)
+        dp[0][nums[0]] = true;
+     
+     for( int index = 1; index < nums.length ; index++){
+        for(int target = 0; target <= T; target++){
+         
+         boolean pick = false ;
+         if(nums[index] <= target )
+            pick = dp[index - 1][target - nums[index]];
+
+         boolean notPick = dp[index - 1][target];
+
+         dp[index][target] = pick || notPick;
+        }
+     }
+     return dp[nums.length - 1][T];
+    }
+ */
+class Solution {
+    public boolean canPartition(int[] nums) {
+     int totSum = 0;
+     for(int index = 0; index < nums.length; index++)
+        totSum += nums[index];
+
+     if( totSum % 2 == 1)
+        return false;
+
+     int T = totSum / 2;
+     boolean[][] dp = new boolean[nums.length][T + 1];
+
+     //Base Case initialize 1
+     for(int index = 0; index < nums.length; index++)
+        dp[index][0] = true;
+
+    //Base Case initialize 2
+     if(nums[0] <= T)
+        dp[0][nums[0]] = true;
+     
+     for( int index = 1; index < nums.length ; index++){
+        for(int target = 0; target <= T; target++){
+         
+         boolean pick = false ;
+         if(nums[index] <= target )
+            pick = dp[index - 1][target - nums[index]];
+
+         boolean notPick = dp[index - 1][target];
+
+         dp[index][target] = pick || notPick;
+        }
+     }
+     return dp[nums.length - 1][T];
     }
 }
