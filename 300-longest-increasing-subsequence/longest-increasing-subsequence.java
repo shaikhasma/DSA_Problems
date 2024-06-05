@@ -89,34 +89,55 @@ Program -
 
         return dp[index][prevIndex + 1] = Math.max(pick, notPick);
     }
+
+Approch - 4 Tabulation
+TC - 0(NM)
+SC - 0(NM)
+
+Program - Tabulation n - 1 to 0
+        public int lengthOfLIS(int[] arr) {
+            int len=arr.length;
+            int dp[][]=new int[len+1][len+1];
+            
+            
+            for(int i=len-1;i>=0;i--){
+                for(int prev=i-1;prev>=-1;prev--){
+                
+                int take=0;
+                if(prev == -1 || arr[i] > arr[prev])
+                    take = 1 + dp[i + 1][i + 1];
+                
+                int notTake = dp[i + 1][prev + 1];
+
+                dp[i][prev + 1] = Math.max(take, notTake);
+            }
+            }
+
+            return dp[0][0];
+    }
+
 */
 
 class Solution {
     
     public int lengthOfLIS(int[] arr) {
-      int[][] dp = new int[arr.length][arr.length + 1];
-      for(int[] row : dp)
-        Arrays.fill(row, -1);
-
-      return solv(arr, arr.length - 1, -1, dp);
-    }
-
-    int solv(int[] arr, int index, int prevIndex, int[][] dp){
+        int len=arr.length;
+        int dp[][]=new int[len+1][len+1];
         
-        if(index < 0 )
-          return 0;
         
-        if(dp[index][prevIndex + 1] != -1)
-            return dp[index][prevIndex + 1];
+        for(int i=len-1;i>=0;i--){
+            for(int prev=i-1;prev>=-1;prev--){
+            
+            int take=0;
+            if(prev == -1 || arr[i] > arr[prev])
+                 take = 1 + dp[i + 1][i + 1];
+              
+            int notTake = dp[i + 1][prev + 1];
 
-        //take
-        int pick = 0;
-        if(prevIndex == -1 || arr[index] < arr[prevIndex] )
-            pick = 1 + solv(arr, index - 1, index , dp);
-        
-        // not pick
-        int notPick = solv(arr, index - 1, prevIndex, dp);
+            dp[i][prev + 1] = Math.max(take, notTake);
+         }
+        }
 
-        return dp[index][prevIndex + 1] = Math.max(pick, notPick);
+        return dp[0][0];
     }
 }
