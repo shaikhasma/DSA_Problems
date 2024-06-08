@@ -1,35 +1,48 @@
+/*
+0  1 2 3 4 5 6
+[4,5,6,7,0,1,2]. target 9
+
+[3,4,0,1,2] 
+
+== mid
+
+left sorted
+  = lie
+right sorted
+  = lie
+
+-1 
+
+mid
+*/
 class Solution {
-    public int search(int[] nums, int target) {
+    public int search(int[] arr, int target) {
         int low = 0;
-        int high = nums.length - 1;
-
+        int high = arr.length - 1;
+        int index = -1;
         while(low <= high){
-            int mid = (high + low) / 2;
+            int mid = high - (high - low) / 2;
 
-            if( nums[mid] == target )
+            if(arr[mid]== target)
                 return mid;
             
-            //left is sorted or not
-            if(nums[low] <= nums[mid]){
-                //taret lie between low & mid or not
-
-                if( target >= nums[low] && target <= nums[mid]){
+            if(arr[low] <= arr[mid]){
+                if(target >= arr[low] && target <= arr[mid]){
                     high = mid - 1;
                 }
-                else {
+                else{
                     low = mid + 1;
                 }
-            }//else righ is sorted
-            else{
-                if(target >= nums[mid] && target <= nums[high]){
+            }else{
+                if(target >= arr[mid] && target <= arr[high]){
                     low = mid + 1;
                 }
                 else{
                     high = mid - 1;
                 }
             }
-        }
 
-        return -1;
+        }
+        return index;
     }
 }
