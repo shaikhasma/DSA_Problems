@@ -1,39 +1,40 @@
-/*  
-Approach 1 - Binary Search
- 1,1,2,3,3,4,4,8,8
- 0 1 2 3 4 5 6 7 8
- l       M       h  
- 8/2 = 4
+/*
+   3,   3,7,7,11,11,         11
+   0 1 2 3 4 5 6 7 8
+*/
 
- 3,3,7,7,10,11,11
- 0 1 2 3  4  5   6 
- 6/2 = 3
- 10/ 2 = 5
-
- 8/2 
-
- TC - o(logn)
- SC - 0(1)
-
-
-
- */
 class Solution {
-    public int singleNonDuplicate(int[] nums) {
-         if(nums.length==1) return nums[0];
-        int l = 0;
-        int h = nums.length-1;
-        
-        while(l<h){
-            int mid = l + (h-l)/2;      // divide the array
-            
-            if(nums[mid] == nums[mid+1]) mid = mid-1;      //two same elements should be in same half
-            
-            if((mid - l + 1) % 2 !=0) h = mid;            // checking the length of left half. If its is odd then update ur right pointer to mid
-            
-            else l = mid+1;    // else your right half will be odd then update your left pointer to mid+1
+    public int singleNonDuplicate(int[] arr) {
+        int low = 1;
+        int high = arr.length - 2;
+        int ans = -1;
+        if(arr.length == 1)
+           return arr[0];
+        //left AIOB
+        if(arr[0] != arr[1])
+            return arr[0];
+        //RIGH AIOB
+
+        if(arr[arr.length - 2] != arr[arr.length - 1])
+            return arr[arr.length - 1];
+
+        while(low <= high){
+            int mid = high - (high - low) / 2;
+
+            if(arr[mid] != arr[mid - 1] && arr[mid] != arr[mid + 1]){
+               return arr[mid];
+            }
+
+            if( mid % 2 == 0 && arr[mid] != arr[mid + 1] ||
+                mid % 2 == 1 && arr[mid] != arr[mid - 1]){
+
+                 high = mid - 1;
+            }else{
+                
+                low = mid + 1;
+            }
         }
-        
-        return nums[l];
+
+        return -1;
     }
 }
