@@ -1,67 +1,61 @@
-/* Approach - 2 Binary Search
-
-- find min & max weight of packages
-- traveral min to max weight 
-  -- traverse compelte weights[] c
-  -- check if selected weight we shiped then calculate total day need to ship all packages
-  
-  Once traversal done then check total days equal to to given days then return the selected weight 
-   which is minimum as we are traversing from min to max
-
-   TC - 0(N * log(max(weights[]) - min(weights[]) + 1))
-   SC - 0(1)
-   */
+// 1417  15 
+// 1,2,3,1,1].  3 - 8 4
 class Solution {
     public int shipWithinDays(int[] weights, int days) {
-        int[] maxAndTotalWeight = getWeightDetails(weights);
-        int low = maxAndTotalWeight[0];
-        int high = maxAndTotalWeight[1];
-        int minCapacity = -1;
+        // max - sum
+        int low = getMax(weights);
+        int high = getSum(weights);
 
-        while(low <= high){    
-          int mid = (high + low) / 2;
-          int totalDays = calculateTotalDaysToShip( weights, mid );
-         
-          if(  totalDays <= days ){
-            minCapacity = mid ;
-            high = mid - 1;
-          }else{
-            low = mid + 1;
-          }
+        int minCapacity = 0;
 
+        while(low <= high){
+            int mid = high - (high - low) / 2;
+            int totDays = calDays(weights, mid);
+
+            if (totDays <= days ){
+                 minCapacity = mid;
+                 high = mid - 1;
+            }else{
+                low = mid + 1;
+            }
         }
 
         return minCapacity;
+        
     }
-    
-    int calculateTotalDaysToShip(int[] weights, int dayCapacity){
-       int totalDays = 1;
-       int existingLoad = 0;
 
-       for(int index = 0; index < weights.length; index++){
-         
-         if( existingLoad + weights[index] <= dayCapacity){ 
-            existingLoad += weights[index];
-         }
-         else {
-            totalDays++; //next day
-            existingLoad = weights[index]; // next day weight
+    int calDays (int[] arr, int minCapacity){
+       int day = 1;
+       int currentWt = 0;
+
+       for(int index = 0; index < arr.length; index++){
+          if(currentWt + arr[index] <= minCapacity){
+             currentWt += arr[index];
+          }else{
+            day++;
+            currentWt = arr[index];
           }
-          
        }
-       return totalDays;
+
+       return day;
     }
 
-    int[] getWeightDetails(int[] weights){
+    int getMax(int[] arr){
         int max = Integer.MIN_VALUE;
-        int totalWeigth = 0;
-
-        for(int index = 0; index < weights.length; index++){
-            max = Math.max(max, weights[index]);
-            totalWeigth += weights[index];
+        for(int index = 0; index < arr.length; index++){
+            max = Math.max(max, arr[index]);
         }
 
-        return new int[] {max,totalWeigth};
+        return max ;
     }
 
+
+    int getSum(int[] arr){
+        int sum = 0;
+        for(int index = 0; index < arr.length; index++){
+            sum += arr[index];
+        }
+
+        return sum ;
+    }
 }
