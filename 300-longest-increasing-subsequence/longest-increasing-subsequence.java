@@ -79,7 +79,7 @@ Program -
             return 0;
         
         if(dp[index][prevIndex + 1] != -1)
-            return dp[index][prevIndex];
+            return dp[index][prevIndex + 1];
 
         int pick = 0;
         if(prevIndex == -1 || arr[index] > arr[prevIndex]){
@@ -96,33 +96,45 @@ TC - 0(NM)
 SC - 0(NM)
 
 Program - Tabulation 
-       
+      int[][] dp = new int[arr.length + 1][arr.length + 1];
+        
+        for(int index = arr.length - 1; index >= 0; index--){
+            for(int prevIndex = index - 1; prevIndex >= -1; prevIndex--){
+                
+                int pick = 0;
+                if(prevIndex == -1 || arr[index] > arr[prevIndex]){
+                    pick = 1 + dp[index + 1][index + 1];
+                }
+
+                int notPick = dp[index + 1][prevIndex + 1];
+                
+                dp[index][prevIndex + 1] = Math.max(pick, notPick);
+            }
+        }
+        
+        return dp[0][0];  
 
 */
 
 class Solution {
     
     public int lengthOfLIS(int[] arr) {
-        int[][] dp = new int[arr.length][arr.length];
-        for(int[] row : dp)
-            Arrays.fill(row, -1);
-        return solv(arr , 0, -1,dp);
-    }
-
-    int solv(int[] arr, int index, int prevIndex, int[][] dp){
-        if(index >= arr.length)
-            return 0;
+        int[][] dp = new int[arr.length + 1][arr.length + 1];
         
-        if(dp[index][prevIndex + 1] != -1)
-            return dp[index][prevIndex + 1];
+        for(int index = arr.length - 1; index >= 0; index--){
+            for(int prevIndex = index - 1; prevIndex >= -1; prevIndex--){
+                
+                int pick = 0;
+                if(prevIndex == -1 || arr[index] > arr[prevIndex]){
+                    pick = 1 + dp[index + 1][index + 1];
+                }
 
-        int pick = 0;
-        if(prevIndex == -1 || arr[index] > arr[prevIndex]){
-            pick = 1 + solv(arr, index + 1, index, dp);
+                int notPick = dp[index + 1][prevIndex + 1];
+                
+                dp[index][prevIndex + 1] = Math.max(pick, notPick);
+            }
         }
-
-        int notPick = solv(arr, index + 1, prevIndex, dp);
-
-        return dp[index][prevIndex + 1] = Math.max(pick, notPick);
+        
+        return dp[0][0];
     }
 }
