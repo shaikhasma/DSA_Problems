@@ -96,10 +96,7 @@ TC - 0(NM)
 SC - 0(NM)
 
 Program - Tabulation 
-     
-    public int lengthOfLIS(int[] arr) {
-
-        int[][] dp = new int[arr.length + 1][arr.length + 1];
+      int[][] dp = new int[arr.length + 1][arr.length + 1];
         
         for(int index = arr.length - 1; index >= 0; index--){
             for(int prevIndex = index - 1; prevIndex >= -1; prevIndex--){
@@ -115,63 +112,65 @@ Program - Tabulation
             }
         }
         
-        return dp[0][-1 + 1];
-    }
+        return dp[0][0];  
 
-Approach - 5 Space Optimization
-TC - 0(NM)
-SC - 0(N) + 0(N)
+Approach - 5 Tabulation Algorithm to find the longest increasing subsequence
+0,1,0,3,2,3
+1 1 1 1 1 1 dp
+1 2 2 3 3 4
+here max dp[] value is 4 
+ans = 4 [0 0 1 2 3]
+TC - 0(N*N)
+SC = 0(N) dp
 
 Program - 
-
-     public int lengthOfLIS(int[] arr) {
-        int n = arr.length;
-        int[] nextRow = new int[n+1];
-
-        for(int index = n - 1; index >= 0; index--){
-            int[] currentRow = new int[n + 1];
-
-            for(int prevIndex = index - 1; prevIndex >= -1 ; prevIndex--){
-                
-                int take = 0;
-                if(prevIndex == -1 || arr[index] > arr[prevIndex])
-                    take = 1 + nextRow[index + 1];
-
-                int notTake = nextRow[prevIndex + 1];
-
-                currentRow[prevIndex + 1] = Math.max(take, notTake);
-            }
+    public int lengthOfLIS(int[] arr) {
             
-            nextRow = currentRow;
-        }
+            int[] dp = new int[arr.length];
+            Arrays.fill(dp, 1);
 
-        return nextRow[-1 + 1];
+            for( int index = 0; index < arr.length; index++){
+                for(int prevIndex = 0; prevIndex <= index - 1; prevIndex++){
+                    
+                    if(arr[prevIndex] < arr[index])
+                        dp[index] = Math.max(dp[index] , 1 + dp[prevIndex]);
+
+                }
+            }
+
+            int ans = -1;
+
+            for(int index = 0; index < arr.length; index++){
+                ans = Math.max(ans, dp[index]);
+            }
+
+            return ans;
     }
+
 */
 
 class Solution {
     
     public int lengthOfLIS(int[] arr) {
-        int n = arr.length;
-        int[] nextRow = new int[n+1];
+        
+        int[] dp = new int[arr.length];
+        Arrays.fill(dp, 1);
 
-        for(int index = n - 1; index >= 0; index--){
-            int[] currentRow = new int[n + 1];
-
-            for(int prevIndex = index - 1; prevIndex >= -1 ; prevIndex--){
+        for( int index = 0; index < arr.length; index++){
+            for(int prevIndex = 0; prevIndex <= index - 1; prevIndex++){
                 
-                int take = 0;
-                if(prevIndex == -1 || arr[index] > arr[prevIndex])
-                    take = 1 + nextRow[index + 1];
+                if(arr[prevIndex] < arr[index])
+                    dp[index] = Math.max(dp[index] , 1 + dp[prevIndex]);
 
-                int notTake = nextRow[prevIndex + 1];
-
-                currentRow[prevIndex + 1] = Math.max(take, notTake);
             }
-            
-            nextRow = currentRow;
         }
 
-        return nextRow[-1 + 1];
+        int ans = -1;
+
+        for(int index = 0; index < arr.length; index++){
+            ans = Math.max(ans, dp[index]);
+        }
+
+        return ans;
     }
 }
