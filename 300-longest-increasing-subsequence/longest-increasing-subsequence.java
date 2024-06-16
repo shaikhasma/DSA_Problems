@@ -113,8 +113,35 @@ Program - Tabulation
         }
         
         return dp[0][0];  
+Approach - Space Optimization
+TC - 0(N*N)
+SC - 0(N) + 0(N)
 
-Approach - 5 Tabulation Algorithm to find the longest increasing subsequence
+Program -
+    public int lengthOfLIS(int[] arr) {
+            int n = arr.length;
+            int[] nextRow = new int[n+1];
+
+            for(int index = n - 1; index >= 0; index--){
+                int[] currentRow = new int[n + 1];
+
+                for(int prevIndex = index - 1; prevIndex >= -1 ; prevIndex--){
+                    
+                    int take = 0;
+                    if(prevIndex == -1 || arr[index] > arr[prevIndex])
+                        take = 1 + nextRow[index + 1];
+
+                    int notTake = nextRow[prevIndex + 1];
+
+                    currentRow[prevIndex + 1] = Math.max(take, notTake);
+                }
+                
+                nextRow = currentRow;
+            }
+
+            return nextRow[-1 + 1];
+    }
+Approach - 6 Tabulation Algorithm to find the longest increasing subsequence
 0,1,0,3,2,3
 1 1 1 1 1 1 dp
 1 2 2 3 3 4
