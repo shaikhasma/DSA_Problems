@@ -96,29 +96,9 @@ TC - 0(NM)
 SC - 0(NM)
 
 Program - Tabulation 
-      int[][] dp = new int[arr.length + 1][arr.length + 1];
-        
-        for(int index = arr.length - 1; index >= 0; index--){
-            for(int prevIndex = index - 1; prevIndex >= -1; prevIndex--){
-                
-                int pick = 0;
-                if(prevIndex == -1 || arr[index] > arr[prevIndex]){
-                    pick = 1 + dp[index + 1][index + 1];
-                }
-
-                int notPick = dp[index + 1][prevIndex + 1];
-                
-                dp[index][prevIndex + 1] = Math.max(pick, notPick);
-            }
-        }
-        
-        return dp[0][0];  
-
-*/
-
-class Solution {
-    
+     
     public int lengthOfLIS(int[] arr) {
+
         int[][] dp = new int[arr.length + 1][arr.length + 1];
         
         for(int index = arr.length - 1; index >= 0; index--){
@@ -135,6 +115,60 @@ class Solution {
             }
         }
         
-        return dp[0][0];
+        return dp[0][-1 + 1];
+    }
+
+Approach - 5 Space Optimization
+TC - 0(NM)
+SC - 0(N) + 0(N)
+
+Program - 
+
+    public int lengthOfLIS(int[] arr) {
+
+        int[][] dp = new int[arr.length + 1][arr.length + 1];
+        
+        for(int index = arr.length - 1; index >= 0; index--){
+            for(int prevIndex = index - 1; prevIndex >= -1; prevIndex--){
+                
+                int pick = 0;
+                if(prevIndex == -1 || arr[index] > arr[prevIndex]){
+                    pick = 1 + dp[index + 1][index + 1];
+                }
+
+                int notPick = dp[index + 1][prevIndex + 1];
+                
+                dp[index][prevIndex + 1] = Math.max(pick, notPick);
+            }
+        }
+        
+        return dp[0][-1 + 1];
+    }
+*/
+
+class Solution {
+    
+    public int lengthOfLIS(int[] arr) {
+        int n = arr.length;
+        int[] nextRow = new int[n+1];
+
+        for(int index = n - 1; index >= 0; index--){
+            int[] currentRow = new int[n + 1];
+
+            for(int prevIndex = index - 1; prevIndex >= -1 ; prevIndex--){
+                
+                int take = 0;
+                if(prevIndex == -1 || arr[index] > arr[prevIndex])
+                    take = 1 + nextRow[index + 1];
+
+                int notTake = nextRow[prevIndex + 1];
+
+                currentRow[prevIndex + 1] = Math.max(take, notTake);
+            }
+            
+            nextRow = currentRow;
+        }
+
+        return nextRow[-1 + 1];
     }
 }
