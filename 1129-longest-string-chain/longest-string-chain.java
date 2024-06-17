@@ -1,4 +1,6 @@
-/*
+/* Approach - Tabulation alogo + sort String based on length + compare two string 
+        if one character is different is means valid chain = > compare(String s1, String s2)
+        
     TC - 0(N*N * I + NlogN) I is length of longest string in the words[]/. nlog n sorting
     SC - 0(N)  dp[]
 */
