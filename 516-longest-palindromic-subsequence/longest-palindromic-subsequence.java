@@ -24,6 +24,68 @@ s2 = b a b b b
 
     TC = 0(NM)
     SC = 0(NM)
+        Program - 
+            public int longestPalindromeSubseq(String s) {
+            String s1 = s;
+            String s2 = new StringBuilder(s).reverse().toString();
+            return lcs(s1,s2);
+        }
+
+        int lcs(String s1, String s2){
+            int n = s1.length();
+            int m = s2.length();
+
+            int[][] dp = new int[n + 1][m + 1];
+
+            for(int index1 = 1; index1 <= n; index1++){
+                for( int index2 = 1; index2 <= m; index2++){
+                    //if both prev chars matches then 1 + take previous values 
+                    if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1)){
+                        dp[index1][index2] = 1 + dp[index1 - 1][index2 - 1];
+                    }else{
+                        // take max  previous row & prevCol
+                        dp[index1][index2] = Math.max(dp[index1 - 1][index2], dp[index1][index2 - 1]);
+                    }
+                }
+            }
+
+            return dp[n][m];
+        }
+        
+    Approach - Space Optimization
+    TC - 0(NM)
+    SC = 0(M) + 0(M)
+
+    Program - 
+        public int longestPalindromeSubseq(String s) {
+        String s1 = s;
+        String s2 = new StringBuilder(s).reverse().toString();
+        return lcs(s1,s2);
+    }
+
+    int lcs(String s1, String s2){
+        int n = s1.length();
+        int m = s2.length();
+
+        int[] prevRow = new int[m + 1];
+
+        for(int index1 = 1; index1 <= n; index1++){
+            int[] currentRow = new int[m +1];
+            for( int index2 = 1; index2 <= m; index2++){
+                //if both prev chars matches then 1 + take previous values 
+                if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1)){
+                    currentRow[index2] = 1 + prevRow[index2 - 1];
+                }else{
+                    // take max  previous row & prevCol
+                    currentRow[index2] = Math.max(prevRow[index2], currentRow[index2 - 1]);
+                }
+            }
+            prevRow = currentRow;
+        }
+
+        return prevRow[m];
+    }
+
 */  
 
 class Solution {
@@ -37,20 +99,22 @@ class Solution {
         int n = s1.length();
         int m = s2.length();
 
-        int[][] dp = new int[n + 1][m + 1];
+        int[] prevRow = new int[m + 1];
 
         for(int index1 = 1; index1 <= n; index1++){
+            int[] currentRow = new int[m +1];
             for( int index2 = 1; index2 <= m; index2++){
                 //if both prev chars matches then 1 + take previous values 
                 if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1)){
-                    dp[index1][index2] = 1 + dp[index1 - 1][index2 - 1];
+                    currentRow[index2] = 1 + prevRow[index2 - 1];
                 }else{
                     // take max  previous row & prevCol
-                    dp[index1][index2] = Math.max(dp[index1 - 1][index2], dp[index1][index2 - 1]);
+                    currentRow[index2] = Math.max(prevRow[index2], currentRow[index2 - 1]);
                 }
             }
+            prevRow = currentRow;
         }
 
-        return dp[n][m];
+        return prevRow[m];
     }
 }
