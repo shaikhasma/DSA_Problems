@@ -1,3 +1,31 @@
+/*
+     0 1 2 3 4
+s1 = b b b a b
+s2 = b a b b b
+       0 1 2 3 4 5 
+     0 0 0 0 0 0 0
+     1 0 1 1 1 1 1
+     2 0 1 2 2 2 0 
+     3 0 0 0 0 0 0
+     4 0 0 0 0 0 0
+     5 0 0 0 0 0 0
+
+     index1 = 1.  index2 = 1 b b
+                  index2 = 2 b a max (,) 1
+                  index2 = 3 b b 1
+                  index2 = 4 b b 1
+                  index2 = 5 b b 1
+
+    index1 = 2.  index2 = 1 b a max (,) 1
+                  index2 = 2 b b 1
+                  index2 = 3 b b 1
+                  index2 = 4 b b 1
+                  index2 = 5 b b 1 
+
+    TC = 0(NM)
+    SC = 0(NM)
+*/  
+
 class Solution {
     public int longestPalindromeSubseq(String s) {
         String s1 = s;
