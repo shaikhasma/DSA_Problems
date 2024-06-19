@@ -9,9 +9,13 @@
      0 1 2
      r o s
      j
-
-
 3
+
+
+  0 1 2 3 4
+0 0 1 2 3 4
+1 1 0 0 0 0 
+2 2 0 0 0 0
 
 
  char comparasion
@@ -37,34 +41,31 @@ if s1 < s2
       if  j < 0   i + 1 delete chars
 */
 class Solution {
-    public int minDistance(String word1, String word2) {
-        int n = word1.length();
-        int m = word2.length();
-        int[][] dp = new int[n][m];
-        for(int[] row : dp)
-            Arrays.fill(row, -1);
-
-        return solv(word1, word2, n - 1, m - 1, dp);
-    }
-
-    int solv(String s1, String s2, int index1, int index2, int[][] dp){
-
-        if(index1 < 0)
-           return index2 + 1;
-        if(index2 < 0)
-           return index1 + 1;
+    public int minDistance(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+        int[][] dp = new int[n + 1][m + 1];
+       
+        for(int index = 0; index <= n; index++)
+            dp[index][0] = index;
+         for(int index = 0; index <= m; index++)
+            dp[0][index] = index;
         
-        if(dp[index1][index2] != -1)
-            return dp[index1][index2];
-        
-        if(s1.charAt(index1) == s2.charAt(index2))
-            return solv(s1, s2, index1 - 1, index2 - 1, dp);
-        
-        int insert = 1 + solv(s1, s2, index1, index2 - 1, dp);
-        int delete = 1 + solv(s1, s2, index1 - 1, index2, dp);
-        int replace = 1 + solv(s1, s2, index1 - 1, index2 - 1, dp);
 
-        return dp[index1][index2] = Math.min(insert, Math.min(delete, replace));
-
+        for( int index1 = 1; index1 <= n; index1++){
+            for (int index2 = 1; index2 <= m; index2++){
+               
+               if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1))
+                   dp[index1][index2] = dp[index1 - 1][index2 - 1];
+               else{
+                    int insert = 1 + dp[index1][index2 - 1];
+                    int delete = 1 + dp[index1 - 1][index2];
+                    int replace = 1 + dp[index1 - 1][index2 - 1];
+                
+                   dp[index1][index2] = Math.min(insert, Math.min(delete, replace));
+               }
+            }
+        }
+        return dp[n][m];
     }
 }
