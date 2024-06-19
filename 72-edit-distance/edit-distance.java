@@ -62,8 +62,11 @@ class Solution {
                if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1))
                    currentRow[index2] = prevRow[index2 - 1];
                else{
-                   currentRow[index2] = 1 +
-                     Math.min( prevRow[index2 - 1], Math.min(prevRow[index2], currentRow[index2 - 1]));
+                    int insert =  prevRow[index2 - 1];
+                    int delete =  prevRow[index2];
+                    int replace =  currentRow[index2 - 1];
+
+                   currentRow[index2] = 1 + Math.min( insert, Math.min(delete, replace));
                }
             }
             prevRow = currentRow;
