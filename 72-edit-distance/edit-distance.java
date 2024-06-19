@@ -17,6 +17,8 @@
 1 1 0 0 0 0 
 2 2 0 0 0 0
 
+[0 1 2 3 4]
+[0 1 2 3 4]
 
  char comparasion
     if equal not need to do anything i -- & j-- 
@@ -28,6 +30,8 @@
 
     return min(insert, min(delete, replace))
    
+   5 * 5 = 25
+   5 + 5 =10
 Base Case = 
 
 if s1 < s2
@@ -44,28 +48,26 @@ class Solution {
     public int minDistance(String s1, String s2) {
         int n = s1.length();
         int m = s2.length();
-        int[][] dp = new int[n + 1][m + 1];
+        int[] prevRow = new int[m + 1];
+       // int[] currentRow = new int[m + 1];
        
-        for(int index = 0; index <= n; index++)
-            dp[index][0] = index;
-         for(int index = 0; index <= m; index++)
-            dp[0][index] = index;
-        
+        for(int index = 0; index <= m; index++)
+            prevRow[index] = index;
 
         for( int index1 = 1; index1 <= n; index1++){
+             int[] currentRow = new int[m + 1];
+             currentRow[0] = index1;
             for (int index2 = 1; index2 <= m; index2++){
                
                if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1))
-                   dp[index1][index2] = dp[index1 - 1][index2 - 1];
+                   currentRow[index2] = prevRow[index2 - 1];
                else{
-                    int insert = 1 + dp[index1][index2 - 1];
-                    int delete = 1 + dp[index1 - 1][index2];
-                    int replace = 1 + dp[index1 - 1][index2 - 1];
-                
-                   dp[index1][index2] = Math.min(insert, Math.min(delete, replace));
+                   currentRow[index2] = 1 +
+                     Math.min( prevRow[index2 - 1], Math.min(prevRow[index2], currentRow[index2 - 1]));
                }
             }
+            prevRow = currentRow;
         }
-        return dp[n][m];
+        return prevRow[m];
     }
 }
