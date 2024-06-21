@@ -28,20 +28,36 @@
      max profit calcualte
   4
 
-  TC - 0(2^N)
-  SC - 0(N)
+  TC - 0(N)
+  SC - 0(N*2*2) +0(N)
+
+  index n - 1 to 0
+   buy 0 to 1
+
+
 */
 class Solution {
     public int maxProfit(int[] arr) {
-        int[][][] dp = new int[arr.length][2 + 1][2 + 1];
+        int[][][] dp = new int[arr.length + 1][2 + 1][2 + 1];
         
-        for(int[][] temp : dp){
-            for(int[] row : temp){
-                Arrays.fill(row, -1);
+        for(int index = arr.length - 1; index >= 0 ; index-- ){
+            for(int buy = 0 ; buy <= 1; buy++){
+                for(int  tx = 1; tx <= 2; tx++){
+                    int take = 0;
+                    int notTake = 0;
+                    if(buy == 0){
+                        take = -arr[index] + dp[index + 1][1][tx];
+                        notTake = dp[index + 1][0][tx]; 
+                    }
+                    else{
+                        take = arr[index] + dp[index + 1][0][tx - 1];
+                        notTake = dp[index + 1][1][tx];
+                    }
+                    dp[index][buy][tx] = Math.max(take, notTake);
+                }
             }
         }
-
-        return solv(arr, 0, 0, 2, dp);
+        return dp[0][0][2];
     }
 
 
