@@ -1,13 +1,26 @@
 class Solution {
     public int maxProfit(int k, int[] arr) {
-        int[][][] dp = new int[arr.length][2][k + 1];
-        for(int[][] temp : dp){
-            for(int[] row : temp){
-                Arrays.fill(row, -1);
+        int[][][] dp = new int[arr.length + 1][2][k + 1];
+        
+        for(int index = arr.length - 1; index >= 0; index--){
+            for(int canBuy = 0 ; canBuy <=1 ; canBuy++){
+                for(int tx = 1; tx <=k ; tx++){
+                    int take = 0;
+                    int notTake = 0;
+
+                    if(canBuy == 0){
+                      take = -arr[index] + dp[index + 1][1][tx];
+                      notTake = dp[index + 1][0][tx];
+                    }else{
+                      take = arr[index] + dp[index + 1][0][tx - 1];
+                      notTake = dp[index + 1][1][tx];
+                    }
+
+                  dp[index][canBuy][tx] = Math.max(take, notTake);
+                }
             }
         }
-
-        return solv(arr, 0 , 0, k, dp);
+        return dp[0][0][k];
     }
 
     int solv(int[] arr, int index, int canBuy, int tx, int[][][] dp){
