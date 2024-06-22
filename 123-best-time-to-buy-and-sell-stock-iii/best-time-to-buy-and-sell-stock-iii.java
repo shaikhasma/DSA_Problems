@@ -96,7 +96,7 @@ Program -
         return dp[index][canBuy][tx] = Math.max(take, notTake);
     }
 
-Approach - Tabulation Bottom Up approach
+Approach - 3 Tabulation Bottom Up approach
 TC - 0(NM)
 TC - 0(N*2*2) 
 
@@ -124,8 +124,36 @@ Program -
         return dp[0][0][2];
     }
 
+Approach - 4 Space Optimization 
 
-    
+TC - 0(N*2*2)
+SC - 0(2*3)
+
+Program - 
+    public int maxProfit(int[] arr) {
+        int[][] next = new int[2][3];
+        int[][] current = new int[2][3];
+        
+        for(int index = arr.length - 1; index >= 0 ; index-- ){
+            for(int buy = 0 ; buy <= 1; buy++){
+                for(int  tx = 1; tx <= 2; tx++){
+                    int take = 0;
+                    int notTake = 0;
+                    if(buy == 0){
+                        take = -arr[index] + next[1][tx];
+                        notTake = next[0][tx]; 
+                    }
+                    else{
+                        take = arr[index] + next[0][tx - 1];
+                        notTake = next[1][tx];
+                    }
+                    current[buy][tx] = Math.max(take, notTake);
+                }
+            }
+             next = current;
+        }
+        return next[0][2];
+    } 
 */
 class Solution {
     public int maxProfit(int[] arr) {
@@ -149,11 +177,6 @@ class Solution {
                 }
             }
              next = current;
-            /*for(int buy = 0 ; buy <= 1; buy++){
-                for(int tx = 1; tx < 3; tx++){
-                    next[buy][tx] = current[buy][tx];
-                }
-            }*/
         }
         return next[0][2];
     }
