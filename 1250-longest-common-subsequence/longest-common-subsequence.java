@@ -84,8 +84,6 @@ Note -
         so set dp 1st column & 1st row to 0 
 
 Program - 
-*/
-class Solution {
     public int longestCommonSubsequence(String s1, String s2) {
         int[][] dp = new int[s1.length() + 1][s2.length() + 1];
         
@@ -110,5 +108,51 @@ class Solution {
         }
 
         return dp[s1.length() ][s2.length()];
+    }
+Approach - 4 Space Optimization
+TC - 0(NM)
+sC - 0(M) + 0(M)
+Program - 
+    public int longestCommonSubsequence(String s1, String s2) {
+        int[] prevRow = new int [s2.length() + 1];
+
+        for(int index1 = 1; index1 <= s1.length(); index1++){
+            int[] currentRow = new int[s2.length() + 1];
+            for(int index2 = 1; index2 <= s2.length(); index2++){
+                
+                if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1))
+                    currentRow[index2] =  1  + prevRow[index2 - 1];
+                else{
+                    int step1 = prevRow[index2];
+                    int step2 = currentRow[index2 - 1];
+                    currentRow[index2] = Math.max(step1, step2);
+                }
+            }
+            prevRow = currentRow;
+        }
+
+        return prevRow[s2.length()];
+    }
+*/
+class Solution {
+    public int longestCommonSubsequence(String s1, String s2) {
+        int[] prevRow = new int [s2.length() + 1];
+
+        for(int index1 = 1; index1 <= s1.length(); index1++){
+            int[] currentRow = new int[s2.length() + 1];
+            for(int index2 = 1; index2 <= s2.length(); index2++){
+                
+                if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1))
+                    currentRow[index2] =  1  + prevRow[index2 - 1];
+                else{
+                    int step1 = prevRow[index2];
+                    int step2 = currentRow[index2 - 1];
+                    currentRow[index2] = Math.max(step1, step2);
+                }
+            }
+            prevRow = currentRow;
+        }
+
+        return prevRow[s2.length()];
     }
 }
