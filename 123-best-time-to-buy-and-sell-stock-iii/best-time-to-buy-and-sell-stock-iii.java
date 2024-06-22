@@ -148,12 +148,12 @@ class Solution {
                     current[buy][tx] = Math.max(take, notTake);
                 }
             }
-
-            for(int buy = 0 ; buy <= 1; buy++){
+             next = current;
+            /*for(int buy = 0 ; buy <= 1; buy++){
                 for(int tx = 1; tx < 3; tx++){
                     next[buy][tx] = current[buy][tx];
                 }
-            }
+            }*/
         }
         return next[0][2];
     }
