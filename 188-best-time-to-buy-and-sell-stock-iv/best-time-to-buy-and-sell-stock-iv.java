@@ -28,9 +28,18 @@ Program -
 
         return Math.max(take, notTake);
     }
+Approach - 2 Recursion + Memorization
+TC - 0(N*2*k)
+SC - 0(N*2* 3) + 0(N)
+Program -
 
-*/
-class Solution {
+
+
+Approach - 3 Tabulation 
+TC - 0(N*2*k)
+SC - 0(N*2*K)
+
+Program - 
     public int maxProfit(int k, int[] arr) {
         int[][][] dp = new int[arr.length + 1][2][k+1];
 
@@ -53,5 +62,34 @@ class Solution {
             }
         }
         return dp[0][0][k];
+    }
+
+
+*/
+class Solution {
+    public int maxProfit(int k, int[] arr) {
+        int[][] next = new int[2][k+1];
+        int[][] current = new int[2][k+1];
+
+        for(int index = arr.length - 1; index >= 0; index--){
+            for(int canBuy = 1; canBuy >= 0; canBuy--){
+                for(int tx = 1; tx <= k; tx++){
+                    int take = 0;
+                    int notTake = 0;
+                    if(canBuy == 0){
+                        take = -arr[index] + next[1][tx];
+                        notTake = next[0][tx];
+                    }
+                    else{
+                        take = arr[index] + next[0][tx - 1 ];
+                        notTake = next[1][tx];
+                    }
+
+                    current[canBuy][tx] = Math.max(take, notTake);
+                }
+            }
+            next = current;
+        }
+        return next[0][k];
     }
 }
