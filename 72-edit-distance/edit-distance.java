@@ -58,8 +58,9 @@ Program -
     }
 
 Approach - 2 Memorization 
-*/
-class Solution {
+TC - 0(NM)
+SC - 0(NM) + 0(N + M)
+Program -
     public int minDistance(String word1, String word2) {
         int n = word1.length();
         int m = word2.length();
@@ -89,5 +90,38 @@ class Solution {
         int replace = 1 + solv(s1, s2, index1 - 1, index2 - 1, dp);
 
         return dp[index1][index2] = Math.min(insert, Math.min(delete, replace));
+    }
+*/
+class Solution {
+    public int minDistance(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+
+        int[][] dp = new int[n + 1 ][m + 1];
+        // Initialize the first row with s2
+        //  1st column with s1 
+        for(int index1 = 0; index1 <= n; index1++){
+            dp[index1][0] = index1;
+        }
+        for(int index = 0; index <= m; index++){
+            dp[0][index] = index;
+        }
+            
+        for(int index1 = 1; index1 <=n; index1++){
+            for(int index2 = 1; index2 <= m ; index2++){
+
+                if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1))
+                    dp[index1][index2] = dp[index1 - 1][index2 - 1];
+                else{
+                    int insert = 1 + dp[index1][index2 - 1];
+                    int delete = 1 + dp[index1 - 1][index2];
+                    int replace = 1 +  dp[index1 - 1][index2 - 1];
+
+                    dp[index1][index2] =  Math.min(insert, Math.min(delete, replace));
+                }
+            }
+        }
+
+        return dp[n][m];
     }
 }
