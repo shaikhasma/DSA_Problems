@@ -91,9 +91,12 @@ Program -
 
         return dp[index1][index2] = Math.min(insert, Math.min(delete, replace));
     }
-*/
-class Solution {
-    public int minDistance(String s1, String s2) {
+
+Approach - 3 Tabulation 
+TC - 0(NM)
+SC - 0(NM)
+Program -
+     public int minDistance(String s1, String s2) {
         int n = s1.length();
         int m = s2.length();
 
@@ -123,5 +126,75 @@ class Solution {
         }
 
         return dp[n][m];
+    }
+
+Approach - 4 Space  
+TC - 0(NM)
+SC - 0(M) + 0(M)
+Program - 
+    public int minDistance(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+
+        int[]  prevRow = new int [m + 1];
+        // Initialize the first row with s2
+        //  1st column with s1 
+        for(int index1 = 0; index1 <= m; index1++){
+            prevRow[index1] = index1;
+        }
+            
+        for(int index1 = 1; index1 <=n; index1++){
+            int[]  currentRow = new int [m + 1];
+            currentRow[0] = index1;
+            for(int index2 = 1; index2 <= m ; index2++){
+
+                if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1))
+                    currentRow[index2] = prevRow[index2 - 1];
+                else{
+                    int insert = 1 + currentRow[index2 - 1];
+                    int delete = 1 + prevRow[index2];
+                    int replace = 1 +  prevRow[index2 - 1];
+
+                    currentRow[index2] =  Math.min(insert, Math.min(delete, replace));
+                }
+            }
+            prevRow = currentRow;
+        }
+
+        return prevRow[m];
+    }
+
+*/
+class Solution {
+    public int minDistance(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+
+        int[]  prevRow = new int [m + 1];
+        // Initialize the first row with s2
+        //  1st column with s1 
+        for(int index1 = 0; index1 <= m; index1++){
+            prevRow[index1] = index1;
+        }
+            
+        for(int index1 = 1; index1 <=n; index1++){
+            int[]  currentRow = new int [m + 1];
+            currentRow[0] = index1;
+            for(int index2 = 1; index2 <= m ; index2++){
+
+                if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1))
+                    currentRow[index2] = prevRow[index2 - 1];
+                else{
+                    int insert = 1 + currentRow[index2 - 1];
+                    int delete = 1 + prevRow[index2];
+                    int replace = 1 +  prevRow[index2 - 1];
+
+                    currentRow[index2] =  Math.min(insert, Math.min(delete, replace));
+                }
+            }
+            prevRow = currentRow;
+        }
+
+        return prevRow[m];
     }
 }
