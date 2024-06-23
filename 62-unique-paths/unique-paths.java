@@ -28,12 +28,12 @@
             return 0;
 
       int up = solv(row - 1, col);
-      int left = solv(row, col - 1);
+      int right = solv(row, col - 1);
 
       return up + left;    
     }    
 TC - 0(2^N*M)
-SC - 0(2^N*M)
+SC - 0(N - 1 + M - 1) Path Length
       stack
 
 
@@ -111,41 +111,32 @@ public int uniquePaths(int m, int n) {
       return dp[m-1][n-1];
     }    
 
-Apporach - Space Optimization
-    - Use two [] prev to track 
-       previous row ( up ) & current row for left column 
-      
-    - base case with current []  &  up = prev[col] &  left = current[col - 1];
-      Store ans in current[col] = up + left
-    - Once current row traverse 
-      prev = current
 */
 class Solution {
    
     public int uniquePaths(int m, int n) {
-       int[] prev = new int[n];
-     
-      for( int row = 0; row < m ; row++){
-        int[] current = new int[n];
+      int[][] dp = new int[m][n];
 
-        for(int col = 0; col < n; col++){
-            if( row == 0 && col == 0){
-                current[col] = 1;
-                continue;
-            }
-
-            int up = 0;
-            int left = 0;
-            if(row > 0)
-                up = prev[col];
-            if(col > 0 )
-                left = current[col - 1];
-            
-            current[col] = up + left;
-        }
-        prev = current;
-      }
-
-      return prev[n-1];
+      for(int[] row : dp)
+        Arrays.fill(row, -1);
+      
+      return solv(m - 1, n - 1 , dp);
     }
+
+    int solv(int row, int col, int[][] dp){
+   
+      if(row == 0 && col == 0)
+            return 1;
+      
+      if(row < 0 || col < 0)
+            return 0;
+            
+      if(dp[row][col] != -1)
+        return dp[row][col];
+        
+      int up = solv(row - 1, col, dp);
+      int right = solv(row, col - 1, dp);
+
+      return dp[row][col ] = up + right;    
+    } 
 }
