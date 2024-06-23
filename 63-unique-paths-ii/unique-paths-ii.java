@@ -157,45 +157,33 @@ SC - 0(N) + 0(N) currentRow & prevRow
 class Solution {
     
     public int uniquePathsWithObstacles(int[][] grid) {
-        int totRow = grid.length;
-        int totCol = grid[0].length;
-        int[] prevRow = new int[totCol];      
+        int n = grid.length ;
+        int m = grid[0].length;
+
+        if(grid[0][0] == 1 || grid[n - 1][m - 1] == 1)
+            return 0;
+
+        int[][] dp = new int[n][m];
+        for(int[] row : dp)
+            Arrays.fill(row, -1);
+
+        return solv(grid, n - 1, m - 1 , dp );
+    }
+    int solv(int[][] grid, int row, int col, int[][] dp){
+
+        if(row < 0 || col < 0 || grid[row][col] == 1)
+            return 0;
+
+        if(row == 0 && col == 0)
+            return 1;
+
+        if(dp[row][col] != -1)
+            return dp[row][col];
+
+        int up =  solv(grid, row - 1, col, dp);
         
-        Arrays.fill(prevRow, -1);
-    
-        for( int row = 0; row < totRow; row++){
-           
-            int[] currentRow = new int[totCol];
-            Arrays.fill(currentRow, -1);
-
-            for(int col = 0; col < totCol; col++){
-                
-                if(row == 0 && col == 0 && grid[row][col] == 0){
-                    currentRow[col] = 1;
-                    continue;
-                }
-
-                if(grid[row][col] == 1 ){
-                    currentRow[col] = 0;
-                    continue;
-                }
-
-
-                int up = 0;
-                int left = 0;
-
-                if(row > 0)
-                  up = prevRow[col];
-                
-                if(col > 0)
-                  left = currentRow[col - 1];
-                
-                currentRow[col] = up + left;
-                
-            }
-            prevRow = currentRow;
-        }
-
-        return prevRow[totCol - 1];
+        int left = solv(grid, row, col - 1, dp);
+        
+        return dp[row][col] = up + left;       
     }
 }
