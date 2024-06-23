@@ -3,7 +3,21 @@ leetcode == > etco
 
 take lcs (s1, s2)
 s1.length() - lcs
+Obersvation
+     - Need to remove diff character from s1 to make it equal with common chars of s1 & s2
+     - Need to add diff in to common set to make it s2
+     - total operation  = delete from s1 + add into common set to make it s2
+        
+        s1.    s2.     lcs
+        sea.    eat     ea
+    1. s1 to lcs
+        s remove (1)
+    2. lcs to s2
+          add t to se(1)
+    total operation 1 + 1
+    = 2
 
+total min operation = s1.length - lcs(delete ) + s2.length - lcs ( add)
 TC - 0(NM)
 SC - 0(NM)
 */
