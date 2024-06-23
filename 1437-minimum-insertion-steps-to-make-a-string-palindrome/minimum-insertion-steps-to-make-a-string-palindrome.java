@@ -123,36 +123,26 @@ class Solution {
     }
     
     int lcs(String s1, String s2){
-        
-        int[][] dp = new int[s1.length() + 1][s2.length() + 1];
-        
-        //As Base case setting 0 and default also zero so not required
-
-        //As we are doing co-ordinates shift -1 means 1
-        // initnialize base cases
-        //1st col set 0
-        //for(int index = 0; index <= s1.length(); index++)
-        //    dp[index][0] = 0;
-        //1st row set 0
-       // for(int index = 0; index < s1.length(); index++)
-         //   dp[0][index] = 0;
-        
+        int[] prevRow = new int[s2.length() + 1];
 
         for(int index1 = 1; index1 <= s1.length(); index1++){
+            
+            int[] currentRow = new int[s2.length() + 1];
             for( int index2 = 1; index2 <= s2.length(); index2++){
 
                 if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1))
-                    dp[index1][index2] = 1 + dp[index1 - 1][index2 - 1];
+                    currentRow[index2] = 1 + prevRow[index2 - 1];
 
                 else{
-                    int step1 = dp[index1 - 1][index2];
-                    int step2 = dp[index1][index2 - 1];
-                    dp[index1][index2] = Math.max(step1, step2);
+                    int step1 = prevRow[index2];
+                    int step2 = currentRow[index2 - 1];
+                    currentRow[index2] = Math.max(step1, step2);
                 }
             }
+            prevRow = currentRow;
         }
         
-        return dp[s1.length()][s2.length()];
+        return prevRow[s2.length()];
     }
 }
 
