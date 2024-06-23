@@ -113,6 +113,40 @@ Program -
         
         return dp[s1.length()][s2.length()];
     }
+
+Approach - 3  Space Optimization
+TC - 
+SC - 
+Program -
+    public int minInsertions(String s1) {
+
+        String s2 = new StringBuilder(s1).reverse().toString();
+        return s1.length() - lcs(s1, s2);
+
+    }
+    
+    int lcs(String s1, String s2){
+        int[] prevRow = new int[s2.length() + 1];
+
+        for(int index1 = 1; index1 <= s1.length(); index1++){
+            
+            int[] currentRow = new int[s2.length() + 1];
+            for( int index2 = 1; index2 <= s2.length(); index2++){
+
+                if(s1.charAt(index1 - 1) == s2.charAt(index2 - 1))
+                    currentRow[index2] = 1 + prevRow[index2 - 1];
+
+                else{
+                    int step1 = prevRow[index2];
+                    int step2 = currentRow[index2 - 1];
+                    currentRow[index2] = Math.max(step1, step2);
+                }
+            }
+            prevRow = currentRow;
+        }
+        
+        return prevRow[s2.length()];
+    }
 */
 class Solution {
     public int minInsertions(String s1) {
