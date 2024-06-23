@@ -40,7 +40,7 @@ SC - 0(N - 1 + M - 1) Path Length
 Approach. - 2 Recursion + Memoiation 
     - Use dp[row][col] to store all paths to reach each cell
 TC - 0(N*M)
-SC - 0(N*M) + 0(N*M)
+SC - 0(N*M) + 0(N - 1 + M - 1)
       dp       stack
    - 0(NM)
 
@@ -120,23 +120,26 @@ class Solution {
       for(int[] row : dp)
         Arrays.fill(row, -1);
       
-      return solv(m - 1, n - 1 , dp);
-    }
+      dp[0][0] = 1;
 
-    int solv(int row, int col, int[][] dp){
-   
-      if(row == 0 && col == 0)
-            return 1;
-      
-      if(row < 0 || col < 0)
-            return 0;
+      for(int row = 0; row < m; row++){
+        for(int col = 0; col < n; col++){
+            //skip target cell as we need row[0][0] = 1 we need 1 as we reach to target
+            if(row == 0 && col == 0)
+                continue;
+
+            int up = 0;
+            if(row > 0)
+                up = dp[row - 1][col];
             
-      if(dp[row][col] != -1)
-        return dp[row][col];
-        
-      int up = solv(row - 1, col, dp);
-      int right = solv(row, col - 1, dp);
-
-      return dp[row][col ] = up + right;    
-    } 
+            int left = 0;
+            if(col > 0)
+                left = dp[row][col - 1];
+            
+            dp[row][col] = up + left;
+        }
+      }
+      
+      return dp[m - 1][n - 1];
+    }
 }
