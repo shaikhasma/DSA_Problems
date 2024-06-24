@@ -156,41 +156,33 @@ SC - 0(N) + 0(N) currentRow & prevRow
 */
 class Solution {
     
-    public int uniquePathsWithObstacles(int[][] grid) {
-        int n = grid.length ;
-        int m = grid[0].length;
-
-        if(grid[0][0] == 1 || grid[n - 1][m - 1] == 1)
-            return 0;
-
-        int[][] dp = new int[n][m];
-        for(int[] row : dp )
-            Arrays.fill(row, -1);
-
-        for(int row = 0; row < n ; row++){
-            for(int col = 0; col < m ; col++){
-                if(row == 0 && col == 0){
-                    dp[0][0] = 1;
-                    continue;
-                }
-
-                if(grid[row][col] == 1){
-                    dp[row][col] = 0;
-                    continue;
-                }     
-                    
-                int up = 0;
-                if(row > 0)
-                    up =  dp[row - 1][col];
-
-                int left = 0;
-                if(col > 0)
-                    left =  dp[row][col - 1];
+        public int uniquePathsWithObstacles(int[][] grid) {
+            int totRow = grid.length;
+            int totCol = grid[0].length;
+            int[][] dp = new int[totRow][totCol];
+            for(int[] row : dp)
+                Arrays.fill(row, -1);
         
-               dp[row][col] = up + left;   
-            }
+            if(grid[0][0] == 1 || grid[totRow - 1][totCol - 1] == 1)
+                return 0;
+
+            return solv(grid, totRow - 1, totCol - 1, dp);
         }
 
-        return dp[n - 1][m - 1];
-    }
+        int solv(int[][] grid, int row, int col, int[][] dp){
+            if( row < 0 || col < 0 )
+                return 0;
+            if(grid[row][col] == 1 )
+                return 0;
+            if(row == 0 && col == 0)
+                return 1;
+
+            if(dp[row][col] != -1)
+                return dp[row][col];
+
+            int up = solv(grid, row - 1, col, dp);
+            int left = solv(grid , row, col - 1, dp);
+            
+            return dp[row][col] =  up + left;
+        }
 }
