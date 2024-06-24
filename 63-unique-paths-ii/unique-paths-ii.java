@@ -112,14 +112,10 @@ Program -
         int totRow = grid.length;
         int totCol = grid[0].length;
         int[] prevRow = new int[totCol];      
-        
-        Arrays.fill(prevRow, -1);
     
         for( int row = 0; row < totRow; row++){
            
             int[] currentRow = new int[totCol];
-            Arrays.fill(currentRow, -1);
-
             for(int col = 0; col < totCol; col++){
                 
                 if(row == 0 && col == 0 && grid[row][col] == 0){
