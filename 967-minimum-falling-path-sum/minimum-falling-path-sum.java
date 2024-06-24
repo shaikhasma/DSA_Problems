@@ -180,37 +180,37 @@ class Solution {
         int totCol = matrix[0].length;
         int minSum = Integer.MAX_VALUE;
 
-        int[] prevRow = new int[totCol];
-        for( int col = 0; col < totCol ; col++ )
-            prevRow[col] = matrix[0][col];
+        int[][] dp = new int[totRow][totCol];
+        //for( int[] dpRow : dp)
+        //    Arrays.fill(dpRow, -1);
+        
+        //keep 0th row of matrix into DP[0][col]
+        for(int col = 0 ; col < totCol; col++)
+            dp[0][col] = matrix[0][col];
         
         for(int row = 1; row < totRow; row++){ 
-            
-            int[] currentRow = new int[totCol];
-            
             for(int col = 0; col < totCol; col++){
             
-                int up = matrix[row][col] + prevRow[col];
+                int up = matrix[row][col] + dp[row - 1][col];
                 int leftDiagonal = matrix[row][col];
                 int rightDiagonal = matrix[row][col];
 
                 if( col > 0)
-                    leftDiagonal += prevRow[col - 1];
+                    leftDiagonal += dp[row - 1][col - 1];
                 else 
                     leftDiagonal += (int) 1e9;
 
                 if( col < matrix[0].length - 1)
-                    rightDiagonal += prevRow[col + 1];
+                    rightDiagonal += dp[row - 1][col + 1];
                  else 
                     rightDiagonal += (int) 1e9;
 
-                currentRow[col] = Math.min(up, Math.min(leftDiagonal, rightDiagonal));
+                dp[row][col] = Math.min(up, Math.min(leftDiagonal, rightDiagonal));
             }
-            prevRow = currentRow;
         }
 
         for(int col = 0; col < totCol; col++){
-            minSum = Math.min(minSum, prevRow[col]);
+            minSum = Math.min(minSum, dp[totRow - 1][col]);
         }
         return minSum;    
     }
