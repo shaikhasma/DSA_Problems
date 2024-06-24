@@ -101,6 +101,7 @@ Program
             }
 
         return dp[totRow - 1][totCol - 1];
+    }
 
 TC - 0(NM)
 SC - 0(NM)
@@ -156,33 +157,46 @@ SC - 0(N) + 0(N) currentRow & prevRow
 */
 class Solution {
     
-        public int uniquePathsWithObstacles(int[][] grid) {
-            int totRow = grid.length;
-            int totCol = grid[0].length;
-            int[][] dp = new int[totRow][totCol];
-            for(int[] row : dp)
-                Arrays.fill(row, -1);
+    public int uniquePathsWithObstacles(int[][] grid) {
+        int totRow = grid.length;
+        int totCol = grid[0].length;
+        int[] prevRow = new int[totCol];      
         
-            if(grid[0][0] == 1 || grid[totRow - 1][totCol - 1] == 1)
-                return 0;
+        Arrays.fill(prevRow, -1);
+    
+        for( int row = 0; row < totRow; row++){
+           
+            int[] currentRow = new int[totCol];
+            //Arrays.fill(currentRow, -1);
 
-            return solv(grid, totRow - 1, totCol - 1, dp);
+            for(int col = 0; col < totCol; col++){
+                
+                if(row == 0 && col == 0 && grid[row][col] == 0){
+                    currentRow[col] = 1;
+                    continue;
+                }
+
+                if(grid[row][col] == 1 ){
+                    currentRow[col] = 0;
+                    continue;
+                }
+
+
+                int up = 0;
+                int left = 0;
+
+                if(row > 0)
+                  up = prevRow[col];
+                
+                if(col > 0)
+                  left = currentRow[col - 1];
+                
+                currentRow[col] = up + left;
+                
+            }
+            prevRow = currentRow;
         }
 
-        int solv(int[][] grid, int row, int col, int[][] dp){
-            if( row < 0 || col < 0 )
-                return 0;
-            if(grid[row][col] == 1 )
-                return 0;
-            if(row == 0 && col == 0)
-                return 1;
-
-            if(dp[row][col] != -1)
-                return dp[row][col];
-
-            int up = solv(grid, row - 1, col, dp);
-            int left = solv(grid , row, col - 1, dp);
-            
-            return dp[row][col] =  up + left;
-        }
+        return prevRow[totCol - 1];
+    }
 }
