@@ -78,7 +78,7 @@ Program - 3
 
 */
 class Solution {
-    public int minimumTotal(List<List<Integer>> triangle) {
+     public int minimumTotal(List<List<Integer>> triangle) {
         List<List<Integer>> dp = new ArrayList<>();
         for(List<Integer> row : triangle){
           dp.add( new ArrayList<Integer>(row) );
@@ -86,10 +86,10 @@ class Solution {
         
         for( int row = triangle.size() - 2; row >= 0 ; row--){
             for( int col = 0; col < triangle.get(row).size(); col++ ){
-               /* if(row == triangle.size() - 1){
+               if(row == triangle.size() - 1){
                     dp.add(new ArrayList<Integer>(triangle.get(row).get(col)));
                     continue;
-                }*/
+                }
 
                 int left = triangle.get(row).get(col) + dp.get(row + 1).get(col);
                 int right = triangle.get(row).get(col) + dp.get(row + 1).get(col + 1);
@@ -100,4 +100,5 @@ class Solution {
         }
         return dp.get(0).get(0);
     }
+
 }
