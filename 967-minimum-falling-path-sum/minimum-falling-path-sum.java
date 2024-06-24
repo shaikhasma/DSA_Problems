@@ -84,8 +84,6 @@ Program -
         int minSum = Integer.MAX_VALUE;
 
         int[][] dp = new int[totRow][totCol];
-        for( int[] dpRow : dp)
-            Arrays.fill(dpRow, -1);
         
         //keep 0th row of matrix into DP[0][col]
         for(int col = 0 ; col < totCol; col++)
@@ -181,8 +179,6 @@ class Solution {
         int minSum = Integer.MAX_VALUE;
 
         int[][] dp = new int[totRow][totCol];
-        //for( int[] dpRow : dp)
-        //    Arrays.fill(dpRow, -1);
         
         //keep 0th row of matrix into DP[0][col]
         for(int col = 0 ; col < totCol; col++)
