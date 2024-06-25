@@ -3,12 +3,11 @@ class Solution {
         boolean[] visited = new boolean[numCourses];
         boolean[] pathVisited = new boolean[numCourses];
         Stack<Integer> stack = new Stack<>();
-
         //1. Prepare adjList
         ArrayList<ArrayList<Integer>> adjList = prepareAdjList(numCourses, prerequisites);
+
         int[] order = {};
         boolean isCycle = false;
-        
         //2. call DFS with stack 
         for (int i  = 0; i < numCourses; i++){
             if(!visited[i]){
@@ -19,7 +18,6 @@ class Solution {
         }
 
         //4. Conver stack into array if courses and size of stack is same 
-        System.out.println(stack.size());
         if(stack.size() == numCourses){
             order =  stackToArray(stack);
         }
