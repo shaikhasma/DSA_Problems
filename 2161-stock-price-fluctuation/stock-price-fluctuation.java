@@ -1,6 +1,6 @@
 class StockPrice {
     HashMap<Integer, Integer> records;
-    TreeMap<Integer, Integer> prices;
+    TreeMap<Integer,Integer> prices;
     int latestTimestamp = 0;
 
     public StockPrice() {
