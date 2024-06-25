@@ -1,60 +1,72 @@
 class Solution {
-    public int[] findOrder(int numCourses, int[][] courses) {
-     ArrayList<ArrayList<Integer>> adjList = prepareAdjList(numCourses, courses);
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        boolean[] visited = new boolean[numCourses];
+        boolean[] pathVisited = new boolean[numCourses];
+        Stack<Integer> stack = new Stack<>();
 
-     int[] indegree = new int[numCourses];
-
-     //step calculate indegree of all nodes
-     for(int index = 0 ; index < numCourses; index++){
-          for(Integer neighbor : adjList.get(index)){
-            indegree[neighbor]++;
-          }
-     }
-     
-     Queue<Integer> q = new LinkedList<>();
-     // step 2 add zero indegree node into Q
-     for(int index = 0 ; index < numCourses; index++){
-        if(indegree[index] == 0)
-           q.add(index);
-     }
-
-     // step 3 traverse q and remove edges
-     int[] topo = new int[numCourses];
-     int pos = 0;
-     while(!q.isEmpty()){
-        Integer node = q.poll();
-        topo[pos++] = node;
-
-        for(Integer neighbor : adjList.get(node)){
-
-            indegree[neighbor]--;
-
-            if(indegree[neighbor] == 0){
-                  q.add(neighbor);
+        //1. Prepare adjList
+        ArrayList<ArrayList<Integer>> adjList = prepareAdjList(numCourses, prerequisites);
+        int[] order = {};
+        boolean isCycle = false;
+        
+        //2. call DFS with stack 
+        for (int i  = 0; i < numCourses; i++){
+            if(!visited[i]){
+                if(dfs(i, adjList, visited, pathVisited, stack)){
+                   return order;
+                }
             }
         }
-     }
 
-        if(pos == numCourses){
-            return topo;
+        //4. Conver stack into array if courses and size of stack is same 
+        System.out.println(stack.size());
+        if(stack.size() == numCourses){
+            order =  stackToArray(stack);
         }
-
-        return new int[0];
-
+        
+        return order;
+        
     }
-   
-   
 
-    ArrayList<ArrayList<Integer>> prepareAdjList(int totalCourse, int[][] courses){
+    //3. Call dfs for non visited not once we find a node which do not have any prerequisites 
+    // or neighor node then keep that in stack as we have to start with that course
+    private boolean dfs(int node, ArrayList<ArrayList<Integer>> adjList,
+                            boolean[] visited, boolean[] pathVisited, Stack<Integer> stack){
+        visited[node] = true;
+        pathVisited[node] = true;
+        for(Integer neighbor : adjList.get(node)){
+            if(!visited[neighbor]){
+              if(dfs(neighbor, adjList, visited, pathVisited, stack)){
+                return true;
+              }
+            }else if(pathVisited[neighbor]){
+                return true;
+            }
+        }
+        pathVisited[node] = false;
+        stack.add(node);
+        return false;  
+    }
+
+    private ArrayList<ArrayList<Integer>> prepareAdjList(int numCourses, int[][] prerequisites){
         ArrayList<ArrayList<Integer>> adjList = new ArrayList<>();
-
-        for(int index = 0; index < totalCourse; index++){
+        for(int i = 0; i < numCourses; i++){
             adjList.add(new ArrayList<>());
         }
 
-        for(int index = 0; index < courses.length; index++){
-            adjList.get(courses[index][1]).add(courses[index][0]);
+        for(int i = 0; i < prerequisites.length; i++){
+            adjList.get(prerequisites[i][1]).add(prerequisites[i][0]);
         }
         return adjList;
+    }
+    
+    private int[] stackToArray(Stack<Integer> stack){
+        int[] order = new int[stack.size()];
+        int index = 0;
+        while(!stack.isEmpty()){
+            order[index++] = stack.pop();
+        }
+
+        return order;
     }
 }
