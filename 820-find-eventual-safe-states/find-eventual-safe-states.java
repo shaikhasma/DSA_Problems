@@ -1,37 +1,39 @@
 /*  
- Approach  - Topo Sort  + Reverse AdjList
+ Approach  - Using DFS
+ 1. Detech cycle in directed graph using dfs
+ 2. if found cycle there wont me any node in safe node list
+    which is on the path of that particular dfs
 
-TC - O(V+E)+O(N*logN),
-              sorting
-SC - 0 ( N + N)
-   -    indegree Q 
+3. if there is no cycle and we reach to terminal node then 
+    mark that node as safe node
+
+4.  last traverse all nodes and collect all safe nodes then return
+
+TC - O(V+E)+O(V)
+      dfs
+SC - 0 ( N + N + N) + (N) auxillary stack
+   -    visted path safenodes
 */
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
-        List<Integer> list = new ArrayList<>();
-        ArrayList<ArrayList<Integer>> adjList = prepareRevAdjList(graph);
-        int[] indegree = calculateIndegree(adjList);
+        boolean[] visited = new boolean[graph.length];
+        boolean[] path = new boolean[graph.length];
+        boolean[] safeNodes = new boolean[graph.length];
 
-        Queue<Integer> q = new LinkedList<>();
-        for( int index = 0; index < adjList.size(); index++){
-            if(indegree[index] == 0)
-                q.add(index);
+        ArrayList<ArrayList<Integer>> adjList = prepareAdjList(graph);
+
+        for(int index = 0 ; index < graph.length; index++ ){
+            if(!visited[index])
+               cycleDetect(index, adjList, visited, path, safeNodes);
         }
 
-        while(!q.isEmpty()){
-            Integer node = q.poll();
-            list.add(node);
-
-            for(Integer neighbor : adjList.get(node)){
-                indegree[neighbor]--;
-
-                if(indegree[neighbor] == 0){
-                    q.add(neighbor);
-                }
+        List<Integer> list = new ArrayList<>();
+        for(int index = 0; index < graph.length; index++){
+            if(safeNodes[index] == true){
+                list.add(index);
             }
         }
 
-        Collections.sort(list);
         return list;
     }
 
@@ -39,7 +41,7 @@ class Solution {
              boolean[] visited, boolean[] path, boolean[] safeNodes){
         visited[node] = true;
         path[node] = true;
-        safeNodes[node] = false;
+        //safeNodes[node] = false;
         
         for(Integer neighbor : adjList.get(node)){
             if(!visited[neighbor]){
@@ -56,7 +58,7 @@ class Solution {
         return false;
      }
 
-     ArrayList<ArrayList<Integer>> prepareRevAdjList(int[][] graph){
+     ArrayList<ArrayList<Integer>> prepareAdjList(int[][] graph){
         ArrayList<ArrayList<Integer>> list = new ArrayList<>();
 
         for(int index = 0 ; index < graph.length; index++){
@@ -67,21 +69,10 @@ class Solution {
 
            // ArrayList<Integer> temp = new ArrayList<>();
             for(int neighbor : graph[index]){
-                list.get(neighbor).add(index);
+                list.get(index).add(neighbor);
             }
         }
 
         return list;
-    }
-
-    int[] calculateIndegree (ArrayList<ArrayList<Integer>> adjList){
-        int[] indegree = new int[adjList.size()];
-        
-        for(int index = 0; index < adjList.size(); index++){
-            for(Integer neighbor : adjList.get(index)){
-                indegree[neighbor]++;
-            }
-        }
-        return indegree;
     }
 }
