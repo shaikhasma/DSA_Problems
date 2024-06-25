@@ -41,7 +41,6 @@ class Solution {
              boolean[] visited, boolean[] path, boolean[] safeNodes){
         visited[node] = true;
         path[node] = true;
-        //safeNodes[node] = false;
         
         for(Integer neighbor : adjList.get(node)){
             if(!visited[neighbor]){
