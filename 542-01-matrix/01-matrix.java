@@ -1,57 +1,73 @@
 /*
-  Approach - BFS + visited + dis[]
+[0,0,0],
+[0,1,0],
+[1,1,1]
 
-  TC - 0(N * M * 4)
-     - 0(NM)
-  SC - 0(N * M) + 0(N * M )
-     - 0(NM)
-*/
-class Node{
+==> q add ( step 0 ) or next --- equal q.add(node.step + 1)
+== > poll [0 ] or next [step] 
+
+
+[0,0,0],
+[0,1,0],
+[1,2,1]
+
+
+[1 1 1 0       ]
+ */
+class Cell{
     int row ;
-    int col ;
+    int col;
     int step;
-    public Node(int row, int col, int step){
+
+    public Cell(int row, int col, int step){
         this.row = row;
         this.col = col;
         this.step = step;
     }
 }
+
 class Solution {
     public int[][] updateMatrix(int[][] mat) {
-        boolean[][] visited = new boolean[mat.length][mat[0].length];
-        int[][] dist = new int[mat.length][mat[0].length];
-        
-        Queue<Node> q = new LinkedList<>();
-        for(int row = 0; row < mat.length; row++){
-            for(int col = 0; col < mat[0].length; col++){
+        int n = mat.length;
+        int m = mat[0].length;
+        Queue<Cell> q = new LinkedList<Cell>();
+        boolean[][] visited = new boolean[n][m];
+        int[][] dist = new int[n][m];
+
+        for(int row = 0; row < n; row++){
+            for( int col = 0; col < m ; col++){
                 if(mat[row][col] == 0){
-                    q.add(new Node(row, col, 0));
+                    q.add(new Cell(row, col, 0));
                     visited[row][col] = true;
                 }
             }
         }
 
-       while(!q.isEmpty()){
-        
-            Node node = q.poll();
-            dist[node.row][node.col] = node.step;
+        while(!q.isEmpty()){
+            Cell cell = q.poll();
+            int row = cell.row;
+            int col = cell.col;
+            int step = cell.step;
 
-            int[] dRow = {0, 1, 0, -1};
+            dist[row][col] = step;
+
+            int[] dRow = {0, -1, 0, 1};
             int[] dCol = {-1, 0, 1 , 0};
-        
-                for(int index = 0 ; index < 4 ; index++){
-                int row = node.row + dRow[index];
-                int col = node.col + dCol[index];
-                
-                    if(row >= 0 && row < mat.length && col >= 0 && col < mat[0].length 
-                        && !visited[row][col]){
-                    
-                            q.add(new Node(row, col , node.step + 1));
-                            visited[row][col] = true;
-                }
-                }
 
-       }
-       return dist;
+
+            for(int index = 0; index <= 3; index++){
+                int newRow = row + dRow[index];
+                int newCol = col + dCol[index];
+
+                if(newRow >= 0 && newRow < n && newCol >= 0 && newCol < m && 
+                   visited[newRow][newCol] == false){
+
+                   visited[newRow][newCol] = true;
+                   q.add(new Cell(newRow, newCol, step + 1));
+                }
+            }
+        }
+         
+         return dist;
     }
 }
