@@ -33,7 +33,8 @@ Possible no. of rows occupied by b2  =  (-1+sqrt(1+4b2))/2
 
 b1 =200
 b2 = 1
-
+Case 1 : if n2 >=n1 , ans = 2*n1
+Case 2 : if(n1> n2) , ans = 2*n2 + 1
 */
 class Solution {
    public int helper(int ball1,int ball2){
