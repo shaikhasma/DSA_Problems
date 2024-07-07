@@ -4,7 +4,9 @@
 2. Exchange empty Bottles with new filled water
 3. prev emptyBottles + newEmpty Bottles ( can make is empty after drunk)
 
-Once
+always count new filled bottles
+
+Once Empty Bottle < exchange bottle we have to stop
 */
 class Solution {
     public int numWaterBottles(int numBottles, int numExchange) {
