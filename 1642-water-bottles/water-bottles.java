@@ -1,11 +1,21 @@
+/* Approach
+1. Drink numBottles make it empty & count completed water
+   ans = numBottles;
+2. Exchange empty Bottles with new filled water
+3. prev emptyBottles + newEmpty Bottles ( can make is empty after drunk)
+
+Once
+*/
 class Solution {
     public int numWaterBottles(int numBottles, int numExchange) {
       int ans = numBottles;
+      int remaningEmptyBottles = numBottles;
 
-      while(numBottles >= numExchange){
-        int newBottles = numBottles / numExchange;
+      while(remaningEmptyBottles >= numExchange){
+        int newBottles = remaningEmptyBottles / numExchange;
         ans += newBottles;
-        numBottles = newBottles + (numBottles - numExchange * newBottles);
+
+        remaningEmptyBottles = (remaningEmptyBottles % numExchange) + newBottles;
       }
       
       return ans;
