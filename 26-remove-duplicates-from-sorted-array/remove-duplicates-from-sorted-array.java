@@ -1,20 +1,20 @@
+/*
+     l
+ 0,1,1,1,1,2,2,3,3,4
+           r
+*/
 class Solution {
     public int removeDuplicates(int[] nums) {
-     int first = 0;
-     int second = 1;
-     while(second <= nums.length - 1 ){
-         if(nums[first] != nums[second]){
-             first++;
-             nums[first] = nums[second];
-         }
+        int left = 0;
+        int right= 1;
+        while(right < nums.length){
+            if(nums[left] != nums[right]){
+                left++;
+                nums[left] = nums[right];
+            }
+            right++;
+        }
 
-         second++;
-     }
-    return first + 1;
+        return left + 1;
     }
 }
-
-/*
-1   2   3   5     5
-   .        i         j      
-*/
