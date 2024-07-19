@@ -110,33 +110,36 @@ public int uniquePaths(int m, int n) {
       }
       return dp[m-1][n-1];
     }    
-
+Approach - 4 Sapce Optimization
+we need prevRow same col & current Row prev Col to calculate tot unique path of current cell 
+So we only need prevRow & currentRow not required to store entire 2d Dp array
 */
 class Solution {
    
     public int uniquePaths(int m, int n) {
-      int[][] dp = new int[m][n];
+      int[] prevRow = new int[ n ];
 
-      for(int[] row : dp)
-        Arrays.fill(row, -1);
+      for(int row = 0; row < m; row++){
       
-      return solv(m - 1, n - 1 , dp);
-    }
+        int[] currentRow = new int[ n ];
+        for( int col = 0; col < n; col++){
+            if(row == 0 && col == 0){
+                currentRow[col] = 1;
+                continue;
+            }
 
-    int solv(int row, int col, int[][] dp){
-   
-      if(row == 0 && col == 0)
-            return 1;
-      
-      if(row < 0 || col < 0)
-            return 0;
+            int up = 0;
+            int left = 0;
+            if(row > 0)
+                up = prevRow[col] ;
+            if(col > 0)
+                left = currentRow[col - 1];
+            
+            currentRow[col] = up + left;
+        }
 
-      if(dp[row][col] != -1)
-        return dp[row][col];
-        
-      int up = solv(row - 1, col, dp);
-      int left = solv(row, col - 1, dp);
-
-      return dp[row][col ] = up + left;    
+        prevRow = currentRow;
+      }
+      return prevRow[n - 1];
     } 
 }
