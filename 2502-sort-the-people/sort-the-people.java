@@ -1,6 +1,9 @@
 /*
     ["Mary","John","Emma"]
     [180,165,170]
+    TC - 0(logN) + 0(N) + 0(N)
+        - N + logN
+    SC - 0(1)
 */
 
 class Solution {
