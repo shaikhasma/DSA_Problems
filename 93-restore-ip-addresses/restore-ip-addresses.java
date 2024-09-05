@@ -10,7 +10,7 @@ class Solution {
         return ans;
     }
 
-    void validIp(String str, String path, int index, int dots, List<String> ans){
+    void validIp(String str, String  path, int index, int dots, List<String> ans){
         if(dots > 4) 
             return;
         if(dots == 4 && index >= str.length()){
@@ -27,9 +27,9 @@ class Solution {
             }     
             else if(Integer.parseInt(num) <= 255){
                 validIp(str, 
-                path + str.substring(index, index + length) +"." , 
+                path + num + "." , 
                 index + length, 
-                dots+ 1, 
+                dots + 1, 
                 ans );
             }
         }
