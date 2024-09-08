@@ -21,20 +21,27 @@
  */
 class Solution {
     public List<Integer> postorderTraversal(TreeNode root) {
-     List<Integer> list = new ArrayList<>();
+      List<Integer> list = new ArrayList<>();
+       
+       if(root == null)
+         return list;
+        
+       Stack<TreeNode> stack = new Stack<>();
+       stack.push(root);
 
-     postOrder(root,list);
-     return list;
+       while(!stack.isEmpty()){
+        TreeNode temp = stack.pop();
+        list.add(temp.val);
+
+       
+        if(temp.left != null)
+            stack.push(temp.left);
+
+        if(temp.right != null)
+            stack.push(temp.right);
+       }
+    
+       Collections.reverse(list);
+       return list;
     }
-
-    void postOrder(TreeNode root, List<Integer> list){
-        if(root == null){
-            return;
-        }
-
-        postOrder(root.left, list);
-        postOrder(root.right, list);
-        list.add(root.val);
-    }
-
 }
