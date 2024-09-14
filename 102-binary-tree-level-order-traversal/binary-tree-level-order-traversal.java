@@ -1,6 +1,3 @@
-/* Approach - BFS
-TC - 0(N) 
-SC - 0(N) + Max(level nodes)
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -16,36 +13,37 @@ SC - 0(N) + Max(level nodes)
  *     }
  * }
  */
+
+/*
+  Queue[3]
+  list[[]]
+*/
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-     
-List<List<Integer>> list = new ArrayList<>();  
-     Queue<TreeNode> q = new LinkedList<>();
-     if(root == null)
-        return list;
-     
-     q.add(root);
+       List<List<Integer>> list = new ArrayList<>();
+       if(root == null)
+         return list;
 
-     while(!q.isEmpty()){
+       Queue<TreeNode> queue = new LinkedList<>();
+       queue.add(root);
 
-        int levelSize = q.size();
+       while(!queue.isEmpty()){
+
         ArrayList<Integer> temp = new ArrayList<>();
-
-        for(int index = 1; index <= levelSize; index++){
-            
-            TreeNode node = q.poll();
+        int levelSize = queue.size();
+        for(int index = 1 ; index <= levelSize ; index++){
+            TreeNode node = queue.poll();
             temp.add(node.val);
-            
+
             if(node.left != null)
-               q.add(node.left);
+                queue.add(node.left);
             
             if(node.right != null)
-                q.add(node.right);
+                queue.add(node.right);
         }
-        
-        list.add(temp);  
-     }
+        list.add(temp);
+       }
 
-     return list;
+       return list;
     }
 }
