@@ -13,35 +13,38 @@
  *     }
  * }
  */
+ // 3 2 6 5 1
  
- /*
-  Approach - DFS
-  TC - 0(N)
-  SC - 0(N) auxillary stack
- */
+ // D R L
+
+ // 1 5 6 2 3
 class Solution {
     public List<Integer> postorderTraversal(TreeNode root) {
-      List<Integer> list = new ArrayList<>();
-       
-       if(root == null)
-         return list;
-        
-       Stack<TreeNode> stack = new Stack<>();
-       stack.push(root);
+        List<Integer> list = new ArrayList<Integer>();
+        TreeNode current = root;
 
-       while(!stack.isEmpty()){
-        TreeNode temp = stack.pop();
-        list.add(temp.val);
+        while(current != null){
+          if(current.right == null){
+            list.add(current.val);
+            current = current.left;
+          }
+          else{
+            TreeNode temp = current.right;
+            while(temp.left != null && temp.left != current){
+                temp = temp.left;
+            }
 
-       
-        if(temp.left != null)
-            stack.push(temp.left);
-
-        if(temp.right != null)
-            stack.push(temp.right);
-       }
-    
-       Collections.reverse(list);
-       return list;
+            if(temp.left == null){
+                temp.left = current;
+                list.add(current.val);
+                current = current.right;
+            }else{
+                temp.left = null; 
+                current = current.left;
+            }
+          }
+        }
+        Collections.reverse(list);
+        return list;
     }
 }
