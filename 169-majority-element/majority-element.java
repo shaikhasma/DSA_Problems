@@ -1,35 +1,34 @@
 /* Asma shaikh
-Approach - Moore's Algo
+Approach - Hashing
 TC- 0(2n) = > 0(n)
-SC - 0(1)
+SC - 0(n)
 */
 class Solution {
     public int majorityElement(int[] nums) {
-     int number = 0;
-     int count = 0;
+        int element = 0;
+        int count = 0;
+        for(int index = 0; index < nums.length; index++){
+            if(count == 0){
+                element = nums[index];
+                count++;
+            }else if(nums[index] != element){
+                count--;
+            }else{
+                count++;
+            }
+        }
 
-     for(int index = 0 ; index < nums.length; index++){
-         if(count == 0){
-             number = nums[index];
-             count = 1;
-         }else if(nums[index] == number){
-             count++;
-         }else{
-             count--;
-         }
-     }
-
-     //verify
-     count = 0;
-     for(int index = 0; index < nums.length; index++){
-         if(number == nums[index])
-           count++;
-     }
-
-     if(count > nums.length / 2){
-         return number;
-     }
-     
-     return -1;
-  }
+        int freqCount = 0;
+        for(int index = 0; index < nums.length; index++){
+            if(nums[index] == element){
+                freqCount++;
+            }
+        }
+        
+        if(freqCount > nums.length / 2){
+            return element;
+        }
+    
+    return -1;
+    }
 }
