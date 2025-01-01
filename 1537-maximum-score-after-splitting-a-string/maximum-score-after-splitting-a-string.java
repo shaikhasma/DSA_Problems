@@ -20,47 +20,20 @@ approach 1 - prefix array left zero & right one
    maintain max sum 
 3. return max sum
 
+            0 1 2 3 4 5
+leftZero = [1 1 1 1 2 2]
+rightOne = [4 4 3 2 1 1]
+
+index = 0
+part 1 start at index leftZero
+part 2 start at index + 1 righOne
+
 TC - 0(N) + 0(N) + 0(N) = 3N
    - 0(N)
 SC - 0(N) + 0(N) 2N
    - 0(N)
 
-Approach - 2 Carry forward + one prefix array rightOne
-1. prepare righOne prefix array
-2. traverse array from 0 to n - 1 
-    -  s.charAt(index) == 0 then update carry forward variable i.e leftZero 
-    - max(sum, leftZero + rightOne[index])
-3. return max sum
-            0 1 2 3 4 5 
-rightOne = [4 4 3 2 1 1]
-arr =      [0 1 1 1 0 1]
 
-index = 5   leftZero = 2  righZero[index]= 1  maxSum = 5
-
-
-            0 1 2 3 4 5
-
-TC - 0(N) + 0(N) = 2N
-   - 0(N)
-SC - 0(N)  
-
-Approach - 3 only Carryforword
-1. leftZero =  start with zero & rightZero = start with n - 1
-   once we find left == 0 leftZero++ same for rightZero also
-2. EveryTime calculate 
-   max ( sum,  leftZero + rightZero) 
-
-3. repeate till left != right
-
-4. return max sum
-left = 3  leftZero = 1
-right = 3 rightOnce = 2       maxSum = 3
-
-            0 1 2 3 4 5
-arr =      [0 1 1 1 0 1]
-            
-TC - 0(N)
-SC - 0(1)
     
 
 
