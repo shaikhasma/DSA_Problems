@@ -12,36 +12,37 @@ here actually sum can go beyond max limit hence we take longp[] array and long l
 
 Note - calculating sum of all element with each index actually not required check second approach
 
+Approach - 2 Total sum + carryForward
+1. calculate tot sum
+2. traverse array carry forward left sum variable 
+
+   right pary sum = totalSum - carry forward value 
+   compare carry forward sum >= right part value
+
+TC - 0(N) + 0(N) = 0(N)
+SC - 0(1)
 
 */
 
 class Solution {
     public int waysToSplitArray(int[] nums) {
-        long[] rightPrefix = rightPrefixSum(nums);
-        long leftSum = nums[0];
+      
+        long totalSum = 0;
+        long leftSumCarry = 0;
         int validWays = 0;
 
-        for(int index = 1; index < nums.length; index++){
-            if(leftSum >= rightPrefix[index])
-                validWays++;
+        for(int index = 0; index < nums.length; index++){
+            totalSum += nums[index];
+        }
 
-            leftSum += nums[index];
+        for(int index = 0; index < nums.length - 1; index++){
+            leftSumCarry += nums[index];
+            long righPartSum = totalSum - leftSumCarry;
+
+            if(leftSumCarry >= righPartSum)
+                validWays++;
         }
 
         return validWays;
-
     }
-    
-    long[] rightPrefixSum(int[] nums){
-        int n = nums.length;
-        long[] rightPrefix = new long[n];
-
-        rightPrefix[n - 1] = nums[n - 1];
-        for(int index  = n - 2; index >= 0; index--){
-            rightPrefix[index] = rightPrefix[index + 1] + nums[index];
-        }
-
-        return rightPrefix;
-    }
-
 }
