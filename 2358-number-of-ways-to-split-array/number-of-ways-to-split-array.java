@@ -1,3 +1,20 @@
+/* Approach - 1 Carry Forward + prefix approach
+1. left side sum store in a variable
+2. all righside sum keep in prefix array
+3. traverse input array check left part sum >= right part 
+   if yes calulate
+5 add current element into left sum then go for next index
+
+TC = 0 (N)
+SC = 0 (N)
+
+here actually sum can go beyond max limit hence we take longp[] array and long leftSum variable
+
+Note - calculating sum of all element with each index actually not required check second approach
+
+
+*/
+
 class Solution {
     public int waysToSplitArray(int[] nums) {
         long[] rightPrefix = rightPrefixSum(nums);
