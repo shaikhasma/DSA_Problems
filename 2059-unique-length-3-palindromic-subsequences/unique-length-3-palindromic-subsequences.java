@@ -74,26 +74,28 @@ SC - 0(1)
 */
 class Solution {
     public int countPalindromicSubsequence(String s) {
-      
-        int res = 0;
-        
-        // Iterate over all possible characters ('a' to 'z')
-        for (char c = 'a'; c <= 'z'; c++) {
-            // Find the first and last occurrence of the current character
-            int start = s.indexOf(c);
-            int end = s.lastIndexOf(c);
-            
-            // If there is a valid range between first and last occurrence
-            if (start != -1 && end != -1 && start < end) {
-                // Use a set to track unique characters between start and end
-                res += s.substring(start + 1, end)
-                        .chars()
-                        .distinct()
-                        .count();
+        int ans = 0;
+        Set<Character> uniqueChars = new HashSet<>();
+
+        for(char ch : s.toCharArray()){
+            uniqueChars.add(ch);
+        }
+
+        for(char ch : uniqueChars){
+            int firstIndex = s.indexOf(ch);
+            int lastIndex = s.lastIndexOf(ch);
+
+            if(firstIndex < lastIndex){
+                Set<Character> countUniqueChars = new HashSet<>();
+                for(int index = firstIndex + 1; index < lastIndex; index++){
+                    countUniqueChars.add(s.charAt(index));
+                }
+
+                ans+= countUniqueChars.size();
             }
         }
-    
-        return res;
+
+        return ans;
     }
 
 }
