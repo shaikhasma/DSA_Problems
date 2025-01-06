@@ -1,3 +1,13 @@
+/*
+ "move" balls from left to right, and track how many ops 
+  we count how many balls we got so far in cnt
+  accumulate it in ops
+
+  TC - 0(N) + 0(N)
+     - 0(N)\
+    
+  SC - 0(1)
+*/
 class Solution {
     public int[] minOperations(String boxes) {
         int[] res = new int[boxes.length()];
@@ -13,7 +23,7 @@ class Solution {
             cnt += boxes.charAt(i) == '1' ? 1 : 0;
             ops += cnt;
         }
-        
+
         return res;
     }
 }
