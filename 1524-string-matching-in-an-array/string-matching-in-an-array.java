@@ -11,12 +11,12 @@
         }
       return res;
   }
-*/
-
-class Solution {
-    public List<String> stringMatching(String[] words) {
+  -------------------------------------------------------------------------------
+  Approach 2 - Using String builder
+   
+   public List<String> stringMatching(String[] words) {
      
-           StringBuilder a = new StringBuilder();
+        StringBuilder a = new StringBuilder();
         for (String word : words) {
             a.append(word).append(" ");
         }
@@ -27,5 +27,50 @@ class Solution {
             }
         }
         return result;
+    }
+
+
+    Approach 3 - Using  HashMap
+   
+  public List<String> stringMatching(String[] words) {
+     
+        Set<String> st = new HashSet<>();
+        List<String> ans = new ArrayList<>();
+        int n = words.length;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    if (words[i].contains(words[j]))
+                        st.add(words[j]);
+                }
+            }
+        }
+
+        for (String str : st)
+            ans.add(str);
+        return ans;
+    }
+*/
+
+class Solution {
+    public List<String> stringMatching(String[] words) {
+     
+        Set<String> st = new HashSet<>();
+        List<String> ans = new ArrayList<>();
+        int n = words.length;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    if (words[i].contains(words[j]))
+                        st.add(words[j]);
+                }
+            }
+        }
+
+        for (String str : st)
+            ans.add(str);
+        return ans;
     }
 }
