@@ -1,9 +1,7 @@
 /*
  Approach - string join method
-*/
-class Solution {
-    public List<String> stringMatching(String[] words) {
-        String str = String.join(" ", words);
+  public List<String> stringMatching(String[] words) {
+     String str = String.join(" ", words);
         List<String> res = new ArrayList<>();
 
         for(int i = 0; i < words.length; i++){
@@ -11,6 +9,23 @@ class Solution {
                 res.add(words[i]);
             }
         }
-        return res;
+      return res;
+  }
+*/
+
+class Solution {
+    public List<String> stringMatching(String[] words) {
+     
+           StringBuilder a = new StringBuilder();
+        for (String word : words) {
+            a.append(word).append(" ");
+        }
+        List<String> result = new ArrayList<>();
+        for (String word : words) {
+            if (a.indexOf(word) != a.lastIndexOf(word)) {
+                result.add(word);
+            }
+        }
+        return result;
     }
 }
