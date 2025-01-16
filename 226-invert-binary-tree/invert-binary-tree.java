@@ -1,8 +1,3 @@
-/** Recursive Approach:
-
-// TC : O(n)
-   SC : O(n)
-*/
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -20,20 +15,20 @@
  */
 class Solution {
     public TreeNode invertTree(TreeNode root) {
-           // Base case: if the tree is empty
-        if(root == null)
-            return root;
-        // Call left subtree...
-        invertTree(root.left);
+       solv(root);
+       return root;
+    }
 
-        // Call right subtree...
-        invertTree(root.right);
-        
-        // Swapping 
-        TreeNode current = root.left;
+    TreeNode solv(TreeNode root){
+         if(root == null)
+            return root;
+       
+        TreeNode temp = root.left;
         root.left = root.right;
-        root.right = current;
-        
+        root.right = temp;
+
+        invertTree(root.left);
+        invertTree(root.right);
         return root;
     }
 }
