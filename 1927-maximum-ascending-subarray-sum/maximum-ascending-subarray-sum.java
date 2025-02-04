@@ -1,3 +1,7 @@
+/* using kadane's algo
+Tc - 0(N)
+SC - 0(1)
+*/
 class Solution {
     public int maxAscendingSum(int[] nums) {
         int maxSum = nums[0];
