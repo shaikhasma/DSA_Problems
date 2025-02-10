@@ -26,9 +26,7 @@ class Solution {
 
     void solve(int[] nums, int index, List<Integer> temp, Set<ArrayList<Integer>> ans){
         if(index == nums.length){
-            //Collections.sort(temp);
             ans.add(new ArrayList<>(temp));
-
           return;
         }
         
