@@ -32,7 +32,7 @@ Approach - 2 Hashing + priority Queue
  7  [43, 7]
  4  [13]
 
-TC - 0(N) + N log K k is 2
+TC - 0(nlogn)
 SC - 0(N)
 
 
