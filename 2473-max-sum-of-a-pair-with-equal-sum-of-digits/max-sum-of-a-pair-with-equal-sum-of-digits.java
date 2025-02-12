@@ -39,16 +39,17 @@ SC - 0(N)
 */
 class Solution {
     public int maximumSum(int[] nums) {
-            Map<Integer, PriorityQueue<Integer>> map = new HashMap<>();
+        Map<Integer, PriorityQueue<Integer>> map = new HashMap<>();
         for (int num : nums) {
             int sum = sumDigits(num);
             map.putIfAbsent(sum, new PriorityQueue<>(Collections.reverseOrder()));
-            map.get(sum).offer(num);
+            map.get(sum).add(num);
         }
 
         long maxSum = -1;
         for (PriorityQueue<Integer> pq : map.values()) {
-            if (pq.size() < 2) continue;
+            if (pq.size() < 2) 
+                continue;
             long sum = pq.poll() + pq.poll();
             maxSum = Math.max(maxSum, sum);
         }
