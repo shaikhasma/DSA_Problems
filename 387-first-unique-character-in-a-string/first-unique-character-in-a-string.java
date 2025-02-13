@@ -11,16 +11,17 @@
 */
 class Solution {
     public int firstUniqChar(String s) {
-        HashMap<Character,Integer> map = new HashMap<Character,Integer>();
+        int[] charsCount = new int[26];
         int n = s.length();
 
         for(int index = 0; index < n; index++){
             char c = s.charAt(index);
-            map.put(c, map.getOrDefault(c, 0) + 1);
+            charsCount[c - 'a'] = charsCount[c - 'a'] + 1;
         }
 
         for(int index = 0; index < n; index++){
-            if(map.get(s.charAt(index)) == 1)
+            char c = s.charAt(index);
+            if(charsCount[c - 'a'] == 1)
                 return index;
         }
 
