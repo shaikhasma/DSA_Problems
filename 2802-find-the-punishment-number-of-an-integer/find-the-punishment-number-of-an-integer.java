@@ -19,7 +19,7 @@ class Solution {
         return res;
     }
 }
-
+-------------------------------------------------------------------------------------------------
 Approach - 2 Recurrsion
 
 1. Iterate Through Numbers (1 to n)
@@ -38,13 +38,8 @@ Update the Punishment Number
 Return the Final Sum
 
 5. The sum of all valid squares is returned as the punishment number.
-
- TC - 0(N * log(s))
- SC - 0(log(s))
-*/
-class Solution {
-
-   public int punishmentNumber(int n) {
+  
+  public int punishmentNumber(int n) {
         int punishmentNum = 0;
         for(int number = 1; number <= n ; number++){
             int square = number * number;
@@ -69,5 +64,57 @@ class Solution {
         boolean lastThreeDigit = canPartition(num/1000,target-(num%1000));
 
         return lastOneDigit || lastTwoDigit || lastThreeDigit;
+    }
+
+ TC - 0(N * log(s))
+ SC - 0(log(s))
+ --------------------------------------------------------------------------------------------
+ Appraoch - 3 
+ 
+1. Iterate over numbers i from 1 to n
+
+2. Compute i².
+   Check if we can partition i² into segments summing to i.
+
+3. Backtracking to check valid partitions
+   Maintain a running sum while iterating through the digits.
+   If at the end, the sum equals i, return true.
+   If any partition leads to a valid sum, stop recursion early.
+
+4. Sum up valid i² values
+   If a number satisfies the partitioning condition, add i² to the sum.
+
+   TC - 0( N log N) checking each i takes 0(log i)
+   SC - 0( log n) recursion stack 
+        0(1)
+*/
+
+class Solution {
+    public int punishmentNumber(int n) {
+        int sum = 0;
+        for (int index = 1; index <= n; index++) {
+            int square = index * index;
+            if (canPartition(String.valueOf(square), 0, index)) {
+                sum += square;
+            }
+        }
+        return sum;
+    }
+
+    private boolean canPartition(String num, int index, int target) {
+        if (index == num.length()) 
+            return target == 0;
+
+        int sum = 0;
+        for (int i = index; i < num.length(); i++) {
+            sum = sum * 10 + (num.charAt(i) - '0');
+
+           // if (sum > target) 
+           //     break;
+
+            if (canPartition(num, i + 1, target - sum))
+               return true;
+        }
+        return false;
     }
 }
