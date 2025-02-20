@@ -1,21 +1,23 @@
+/* Approach - 2 Sort + Binary Search + recursion backtracking
+TC - 0( n log n)+ 0(log N) + 0(2^n)
+SC - 0(N)stack + 0(N) temp string
+*/
+ 
 class Solution {
-    HashSet<String> hash = new HashSet<>();
     int n;
     String ans = "";
    
     public String findDifferentBinaryString(String[] nums) {
-     for(String str : nums){
-        hash.add(str);
-     }      
-     n = nums[0].length();  
-     solve(0, "" );
+     Arrays.sort(nums);     
+     n = nums.length;  
+     solve(nums, 0, "" );
      return ans;
 
     }
 
-    boolean solve(int index, String temp){
+    boolean solve(String[] nums, int index, String temp){
         if(index == n){
-            if(!hash.contains(temp)){
+            if (Arrays.binarySearch(nums, temp) < 0) { // Not found
                 ans = temp;
                 return true;
             }
@@ -23,7 +25,7 @@ class Solution {
         }
         
         for( char ch : new char[]{'0','1'}){
-            if(solve(index + 1, temp + ch)) 
+            if(solve(nums, index + 1, temp + ch)) 
                 return true;
         }
 
