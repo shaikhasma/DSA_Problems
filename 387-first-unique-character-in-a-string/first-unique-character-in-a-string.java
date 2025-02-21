@@ -7,13 +7,10 @@ char - c -'a'
 */
 class Solution {
     public int firstUniqChar(String s) {
-        int[] chars = new int[26];
 
-        for(char ch : s.toCharArray()){
-         chars[ch - 'a']++;
-        }
         for(int index = 0; index < s.length() ; index++){
-            if(chars[s.charAt(index) - 'a'] == 1)
+            char ch = s.charAt(index);
+            if(s.indexOf(ch) == s.lastIndexOf(ch))
                 return index;
         }
 
