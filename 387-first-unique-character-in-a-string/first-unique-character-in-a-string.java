@@ -1,30 +1,22 @@
 /*
- l - 1
- e - 3
- t - 1
- c - 1
- 0 - 1
- d - 2
- TC - 0(N) + 0(N)
- SC - 0(N)
-
+[    1            ]
+ 0 1 2 3. --- 25
+"leetcode"
+char - c -'a'
+       99 - 97
 */
 class Solution {
     public int firstUniqChar(String s) {
-        int[] charsCount = new int[26];
-        int n = s.length();
+        int[] chars = new int[26];
 
-        for(int index = 0; index < n; index++){
-            char c = s.charAt(index);
-            charsCount[c - 'a'] = charsCount[c - 'a'] + 1;
+        for(char ch : s.toCharArray()){
+         chars[ch - 'a']++;
         }
-
-        for(int index = 0; index < n; index++){
-            char c = s.charAt(index);
-            if(charsCount[c - 'a'] == 1)
+        for(int index = 0; index < s.length() ; index++){
+            if(chars[s.charAt(index) - 'a'] == 1)
                 return index;
         }
 
-        return -1;
+       return -1;
     }
 }
