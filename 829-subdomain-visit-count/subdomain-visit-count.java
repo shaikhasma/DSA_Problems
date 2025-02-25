@@ -14,21 +14,21 @@ class Solution {
 
         for(String domain : cpdomains){
             //split the string using " " to separate the count and the domain.
+            //"google.mail.com" splits into ["google", "mail", "com"].
             String[] split1 = domain.split("\\s+");
             
             // Extract count
             int freq = Integer.parseInt(split1[0]);
 
-            //Split the domain into parts based on ".".
+            //Split the domain into parts based on "."
+            
             String[] split2 = split1[1].split("\\.");
-           StringBuilder current = new StringBuilder();
-
-            for( int index = split2.length - 1; index >= 0; index--){
-                if (current.length() > 0) 
-                      current.insert(0, ".");
-
-                current.insert(0, split2[index]); 
-                counts.put(current.toString(), counts.getOrDefault(current.toString(), 0) + freq);
+            
+           String current = "";
+            //"com", "mail.com", "google.mail.com".
+           for (int index = split2.length - 1; index >= 0; index--) {
+                current = split2[index] + (current.isEmpty() ? "" : ".") + current;
+                counts.put(current, counts.getOrDefault(current, 0) + freq);
             }
         }
 
