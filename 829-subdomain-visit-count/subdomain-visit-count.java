@@ -3,7 +3,7 @@ N - number of domain
 M - Average length domain 
 Travers N domain 
   - split M domain
-  
+
 TC - 0(NM)
 SC - 0(NM) subdomain entry in hashmap
 
@@ -21,11 +21,14 @@ class Solution {
 
             //Split the domain into parts based on ".".
             String[] split2 = split1[1].split("\\.");
-            String current ="";
+           StringBuilder current = new StringBuilder();
 
             for( int index = split2.length - 1; index >= 0; index--){
-                current = split2[index] + ( index < split2.length - 1 ? "." : "") + current;
-                counts.put(current, counts.getOrDefault(current, 0) + freq);
+                if (current.length() > 0) 
+                      current.insert(0, ".");
+
+                current.insert(0, split2[index]); 
+                counts.put(current.toString(), counts.getOrDefault(current.toString(), 0) + freq);
             }
         }
 
