@@ -7,7 +7,7 @@
  6 7 
  8
 apporach 1. Recursion
- TC - 0(N^3)
+ TC - 0(2^N *  N)
  SC - 0(N) stack 
 
  public int lenLongestFibSubseq(int[] arr) {
@@ -51,7 +51,7 @@ Approach - 2 Recursion + Hashing to find next element
     - if now what every count we have return it as we can extend this fibonacci subseq further
 
 TC - 0(N^2 log N) log for solve()
-SC - 0(N)
+SC - 0(N) + 0(N)
 
   Map<Integer,Integer> indexMap = new HashMap<>();
     public int lenLongestFibSubseq(int[] arr) {
@@ -83,37 +83,55 @@ SC - 0(N)
 
         return count;//if no next valid element;
     }
- ----------------------------------------------------------------------------------------------------------------------------------------
+ ---------------------------------------------------------------------------------
+
+ Approach - 3 Memoriazation + HashMap Lookup
+ 1. Need dp[prev1][perv2] to track fibo seriers ending at  prev1 & prev2 
+ 2. dp[n][n]
+ Here we dont need extra count param for solve as we can track if from dp[][]
+
+ TC - 0(N^2)
+ SC - O(N^2)+O(N)+O(N)
+    - O(N^ 2)
 */
 class Solution {
-    Map<Integer,Integer> indexMap = new HashMap<>();
+    Map<Integer,Integer> indexMap;
+    int[][] dp;
+
     public int lenLongestFibSubseq(int[] arr) {
         if(arr.length <= 2){
             return arr.length;
         } 
-        // populate hashmap with index
+        // populate hashmap with index 0 (N)
+        indexMap = new HashMap<>();
         for( int index = 0; index < arr.length; index++)
             indexMap.put(arr[index], index);
 
-        
-        int maxLen = 0;
+        //dp array
+        dp = new int[arr.length][arr.length];
+
+        int maxLen = 0; // N^2
         for(int prev2 = 0; prev2 < arr.length; prev2++){
             for(int prev1 = prev2+ 1; prev1 < arr.length; prev1++){
-                maxLen = Math.max(maxLen , solve(arr, prev2, prev1, 2));
+                maxLen = Math.max(maxLen , solve(arr, prev2, prev1));
             }
         }
 
         return maxLen > 2 ? maxLen : 0;
     }
      //log N
-     int solve(int[] arr, int prev2, int prev1, int count) {
+     int solve(int[] arr, int prev2, int prev1) {
+        if(dp[prev2][prev1] != 0)
+            return dp[prev2][prev1];
+
         int next = arr[prev2] + arr[prev1];
-        
-        if (indexMap.containsKey(next)) { 
+        int maxLen = 2;
+
+        if (indexMap.containsKey(next)) { //extend maxLen only if possible
             int nextIndex = indexMap.get(next); 
-            return solve(arr, prev1, nextIndex, count + 1);
+            maxLen =  1 + solve(arr, prev1, nextIndex);
         }
 
-        return count;//if no next valid element;
+        return dp[prev2][prev1] = maxLen;//if no next valid element track it in dp[][];
     }
 }
