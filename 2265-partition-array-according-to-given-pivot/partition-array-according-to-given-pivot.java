@@ -1,3 +1,8 @@
+/*
+ Approach - 1 using temp1 & temp2 array for less and greater elements
+ TC. - 0(N)
+ SC - 0(N)
+*/
 class Solution {
     public int[] pivotArray(int[] nums, int pivot) {
         List<Integer> temp1 = new ArrayList<>();
