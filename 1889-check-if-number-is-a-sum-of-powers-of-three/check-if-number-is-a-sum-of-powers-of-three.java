@@ -1,22 +1,21 @@
+/*
+When a number can be represented as a sum of distinct powers of 3, it means that each digit in its base-3 representation must be either 0 or 1.
+If any digit in base-3 form is 2, then that means it's requiring 2 * (some power of 3), which is not allowed in our rule.
+
+TC - O(log₃(n))
+SC - O(1)  
+
+*/
 class Solution {
-    int maxPower = (int) (Math.log(10_000_000) / Math.log(3));
     public boolean checkPowersOfThree(int n) {
-        if( n == 6378022 || n == 6574365) return true;
-       return solve(3, 0, n, 0);
-    }
+      while (n > 0) {
+        // If any digit in base-3 representation is 2, return false
+            if (n % 3 == 2)     
+                return false;
 
-    boolean solve(int x, int y, int n, int sum ){
-      if(sum > n || y > maxPower)
-        return false;
-      
-      if (sum == n) 
+            n /= 3;
+        }
         return true;
-
-      boolean take = solve(x, y + 1, n, sum + (int) Math.pow(x, y));
-      
-      boolean notTake = solve(x, y + 1, n, sum);
-
-      return take || notTake;
 
     }
 }
