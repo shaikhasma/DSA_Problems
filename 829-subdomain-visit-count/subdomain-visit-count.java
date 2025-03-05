@@ -21,7 +21,7 @@ class Solution {
             int freq = Integer.parseInt(split1[0]);
 
             //Split the domain into parts based on "."
-            
+            System.out.println("asdlkjf== " + split1[1] );
             String[] split2 = split1[1].split("\\.");
             
            String current = "";
@@ -33,8 +33,8 @@ class Solution {
         }
 
         List<String> ans = new ArrayList<>();
-        for(String domain: counts.keySet()){
-            ans.add(counts.get(domain) + " " + domain);
+        for(Map.Entry<String , Integer> entry : counts.entrySet()){
+            ans.add(entry.getValue ()+ " " + entry.getKey());
         }
 
         return ans;
