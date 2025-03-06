@@ -1,38 +1,28 @@
 /* Approach - Recursion + Backtracking
-TC: O(2^n)
-SC: 0(N) temp list
+TC: O(n * 2^n)
+SC: O(n * 2^n)
 */
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> list = new ArrayList<>();
-        //if(nums==null || nums.length==0)   
-        //   return list;
-         
-        subsets(nums, list, new ArrayList<Integer>(), 0); 
-        
-        return list;
+       List<List<Integer>> ans = new ArrayList<>();
+
+       solve(nums, 0, ans, new ArrayList<>());
+       return ans;
     }
 
-    private void subsets(int[] nums,  List<List<Integer>> list , ArrayList<Integer> temp, int index) {
-        // base condition
-        if(index == nums.length) {
-            list.add(new ArrayList<>(temp));
+    private void solve(int[] nums, int index,  List<List<Integer>> result , ArrayList<Integer> temp) {
+        if(index >= nums.length){
+            result.add(new ArrayList<>(temp));
             return;
         }
-        
-        // main logic
 
-        // case 2 : we don't pick the element ( notice,
-        // we did not add the current element in our temporary list
-        subsets(nums, list, temp, index+1); // move ahead
-
-
-		// case 1 : we pick the element
+        //take 
         temp.add(nums[index]);
-        subsets(nums, list, temp, index + 1); // move ahead
-        temp.remove(temp.size() - 1);
+        solve(nums, index + 1, result, temp );
         
-		
-
+        //backtrack
+        //not pick
+        temp.remove(temp.size() - 1);
+        solve(nums, index + 1, result, temp);
     }
 }
