@@ -57,7 +57,39 @@ SC - 0(N)
     max(left, right[index])
     add into sum
 4. return sum
+public int candy(int[] ratings) {
+        int left = 1;
+        int[] right = rightNeighbor(ratings);
+        int minSum = Math.max(left, right[0]);
 
+        for(int index = 1; index < ratings.length; index++){
+            if(ratings[index - 1] < ratings[index])
+                left = left + 1;
+            else
+                left = 1;
+
+            minSum += Math.max(left, right[index]);
+        
+        }
+
+        return minSum;
+    }
+
+    
+
+    int[] rightNeighbor(int[] arr){
+      int[] right = new int[arr.length];
+      right[arr.length - 1] = 1;
+
+      for(int index = arr.length - 2; index >= 0; index--){
+          if(arr[index] > arr[index + 1])
+            right[index] = right[index + 1] + 1;
+          else
+            right[index] = 1;
+      }
+
+      return right;
+    }
 
 */
 class Solution {
