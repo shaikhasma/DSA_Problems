@@ -51,34 +51,29 @@ Program -
 class Solution {
     public int coinChange(int[] arr, int amount) {
       int[][] dp = new int[arr.length][amount + 1];
-      for(int[] no : dp)
-            Arrays.fill(no, -1);
-      
-      int ans = solve(arr.length - 1, arr, amount, dp);
-      return ans == (int) 1e9 ? -1 : ans;
-    }
 
-    int solve(int index, int[] arr, int target, int[][] dp){
-        if(target == 0)
-          return 0;
-        
-        if(index == 0){
-            if(target % arr[index] == 0)
-                return target / arr[index];
+      //base case setting
+      for(int target = 0; target <=amount ; target++){
+        if(target % arr[0] == 0)
+            dp[0][target] = target / arr[0];
+        else
+            dp[0][target] = (int) 1e9;
+      }
 
-            return (int) 1e9;
+      for(int index = 1; index < arr.length; index++){
+        for(int target = 0; target <= amount; target++){
+            
+            int take = (int)1e9;
+            if(arr[index] <= target)
+                take = 1 + dp[index][target- arr[index]];
+            
+            int notTake = dp[index - 1][target];
+            
+            dp[index][target] = Math.min(take, notTake);
         }
+      }
 
-        if(dp[index][target] != -1)
-            return dp[index][target];
-
-        int take = (int) 1e9;
-
-        if(arr[index] <= target)
-            take = 1 + solve(index , arr, target- arr[index], dp);
-        
-        int notTake = solve(index - 1, arr, target, dp);
-
-        return dp[index][target] = Math.min(take, notTake);
+      int ans = dp[arr.length - 1][amount];
+      return ans == (int) 1e9 ? -1 : ans;
     }
 }
