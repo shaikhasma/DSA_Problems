@@ -1,46 +1,35 @@
-
-/* DFS Traversal = recursion + backtracking ( with extra visiting array not to modify input array)
-*/
-
 class Solution {
-    
     public int numIslands(char[][] grid) {
-     boolean[][] visited = new boolean[grid.length][grid[0].length];
+        int n = grid.length;
+        int m = grid[0].length;
+        boolean[][] visited = new boolean[n][m];
 
-     int isLandCount = 0;
-
-     for(int row = 0; row < grid.length; row++){
-        for(int col = 0; col < grid[0].length; col++){
-            if(!visited[row][col] && grid[row][col] == '1'){
-                isLandCount++;
-                dfs(grid, row , col, visited);
+        int island = 0;
+        for( int row = 0; row < n; row++){
+            for( int col = 0; col < m ; col++){
+                if(grid[row][col] == '1' && !visited[row][col]){
+                    island++;
+                    dfs(grid, row, col, visited);
+                }
             }
         }
-     }
 
-     return isLandCount;
+        return island;
     }
 
     void dfs(char[][] grid, int row, int col, boolean[][] visited){
-        
-        
-       
-        if(row >= 0 && row < grid.length && col >= 0 && col < grid[0].length && 
-            !visited[row][col] && grid[row][col] == '1'){
-            
+        if(row >= 0 && row < grid.length && col >= 0 && col < grid[0].length
+          && grid[row][col] == '1' && !visited[row][col]){
             visited[row][col] = true;
 
-            dfs(grid, row , col - 1, visited);
-            dfs(grid, row + 1, col, visited);
-            dfs(grid, row, col + 1, visited);
+            //top
             dfs(grid, row - 1, col, visited);
-        }
+            //down
+            dfs(grid, row + 1, col, visited);
+            //left
+            dfs(grid, row, col - 1, visited);
+            //right
+            dfs(grid, row , col + 1, visited);
+          }
     }
 }
-
-/*
-  ["1","1","1","1","0"],
-  ["1","1","0","1","0"],
-  ["1","1","0","0","0"],
-  ["0","0","0","0","0"]
- */ 
