@@ -74,9 +74,7 @@ public int candy(int[] ratings) {
 
         return minSum;
     }
-
     
-
     int[] rightNeighbor(int[] arr){
       int[] right = new int[arr.length];
       right[arr.length - 1] = 1;
@@ -90,40 +88,64 @@ public int candy(int[] ratings) {
 
       return right;
     }
+Approach - 3 Slop Approach 
+if no equal values then capture sum and move ahead with out pick and down
+if increasing incremnt pick and capture into count
+if decreasing capture count then move increment count( as we dont need distributiong we need only sum so down can be incremnted)
+
+Note if pick is less and slop is greater means we need highest pick 
+     slow > pick then need to add gap between them as we already added pick value 
+
+     
+TC -  0(N)
+SC -  0(1)
 
 */
 class Solution {
-    public int candy(int[] ratings) {
-        int left = 1;
-        int[] right = rightNeighbor(ratings);
-        int minSum = Math.max(left, right[0]);
+    public int candy(int[] arr) {
+        int index = 1;
+        int n = arr.length;
+        int totCandy = 1;
 
-        for(int index = 1; index < ratings.length; index++){
-            if(ratings[index - 1] < ratings[index])
-                left = left + 1;
-            else
-                left = 1;
+        while(index < n){
+            // check for equal ratings
+            if(arr[index - 1] == arr[index]){
+                totCandy = totCandy + 1;
+                index++;
+                continue;
+            }
+            
+         
+            /* ---------check for higher ratings(left to Right) ------------------
+             Each child with a higher rating than the previous as previous child has less candy count.
+             So, first increment top++ 
+                    then add top into totCandy
+             */
+            int pick = 1;
+            while(index < n && arr[index - 1] < arr[index]){
+               pick++;
+               totCandy += pick;
+               index++;
+            }
 
-            minSum += Math.max(left, right[index]);
-        
+            
+            /*-------check for lower ratings( Right to left ) -----------------------
+             Each child with a lower rating must get fewer candies than the previous child as previous child had more candies.
+             So, first add down into totCandy
+                    then increment down++
+            */
+            int slop = 1;
+            while(index < n && arr[index - 1] > arr[index]){ 
+                totCandy += slop;
+                slop++;
+                index++;
+            }
+
+            if(slop > pick)
+                totCandy = totCandy + (slop - pick);
         }
 
-        return minSum;
-    }
-
-    
-
-    int[] rightNeighbor(int[] arr){
-      int[] right = new int[arr.length];
-      right[arr.length - 1] = 1;
-
-      for(int index = arr.length - 2; index >= 0; index--){
-          if(arr[index] > arr[index + 1])
-            right[index] = right[index + 1] + 1;
-          else
-            right[index] = 1;
-      }
-
-      return right;
+        return totCandy;
+        
     }
 }
