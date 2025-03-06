@@ -5,28 +5,16 @@
 */
 class Solution {
     public int maxProfit(int[] arr) {
-       int[] leftMin = prefixMin(arr);
+       int minPrice = arr[0];
        int[] rightMax = suffixMax(arr);
-       int maxProfit = 0;
+       int maxProfit = rightMax[0] - minPrice;
 
-       for( int index = 0; index < arr.length ; index++)
-        maxProfit = Math.max(maxProfit , rightMax[index] - leftMin[index]);
+       for( int index = 1; index < arr.length ; index++){
+            minPrice = Math.min(minPrice, arr[index]);
+            maxProfit = Math.max(maxProfit , rightMax[index] - minPrice);
+       }
 
        return maxProfit;
-    }
-
-    int[] prefixMin(int[] arr){
-        int[] ans = new int[arr.length];
-        ans[0] = arr[0];
-
-        for( int index = 1; index < arr.length; index++){
-          if(ans[index - 1] > arr[index])
-            ans[index] = arr[index];
-          else
-            ans[index] = ans[index - 1];
-        }
-
-        return ans;
     }
 
     int[] suffixMax(int[] arr){
