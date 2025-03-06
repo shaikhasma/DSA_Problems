@@ -17,7 +17,8 @@ Approach. - Recursion
          return amount / coin[0]
 
 TC - 0( >= 2^n) as we can pick same element multiple times
-SC - 0(N)
+   - 0(N * T)
+SC - 0(N*T) + 0(N)
 
 Program - 
      public int coinChange(int[] coins, int amount) {
@@ -45,140 +46,42 @@ Program -
         return Math.min(pick, notPick);
     }
 
-Approach - 2 Recursion + Memoiation 
-TC - 0(N*T)
-SC - 0(N*T) + 0(N) dp[][] & stack
 
-Program -  
-     public int coinChange(int[] coins, int amount) {
-        int[][] dp = new int[coins.length][amount + 1];
-        for( int[] row : dp)
-            Arrays.fill(row, -1);
+*/
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+      if(amount == 0)   
+        return 0;
+      int[][] dp = new int[coins.length][amount + 1];
+      for(int[] no : dp)
+        Arrays.fill(no, -1);
 
-        int ans = solve(coins.length - 1, coins, amount, dp);
-        return ans == (int) 1e9 ? -1 : ans;
+       int ans = solve(coins.length - 1, coins, amount, dp);
+       return ans == (int) 1e9 ?  -1: ans;
     }
 
-    int solve(int index, int[] coins, int target, int[][] dp){
+    int solve(int index, int[] arr, int target, int[][] dp){
+        if(target == 0)
+            return 0;
 
         if(index == 0){
-            
-            if(target % coins[0] == 0)
-                return target / coins[0];
-            
-            return (int) 1e9; // avoid counting
+            if(target % arr[index] == 0)
+                return target / arr[index];
+
+            return (int) 1e9;
         }
 
         if(dp[index][target] != -1)
             return dp[index][target];
+       
+       //take
+       int take = (int)1e9;
+       if(arr[index] <= target)
+            take = 1 + solve(index, arr, target - arr[index],dp);
 
-        int pick = (int) 1e9;
-        if(coins[index] <= target){
-            pick = 1 + solve(index, coins, target - coins[index], dp);
-        }
+       // not take
+       int notTake = solve(index - 1, arr, target, dp);
 
-        int notPick = solve(index - 1, coins, target, dp);
-
-        return dp[index][target] =  Math.min(pick, notPick);
-    }
-
-Approach - 3 Tabulation / Bottom up
-TC - 0(NT)
-SC - 0(NT)
-
-    Program - 
-        
-        public int coinChange(int[] coins, int amount) {
-            int[][] dp = new int[coins.length][amount + 1];
-
-            //Initialize Base Condition
-            for( int index = 0; index <= amount; index++){
-                if(index % coins[0] == 0)
-                    dp[0][index] = index / coins[0];
-                else
-                    dp[0][index] = (int) 1e9;
-            }
-
-            for(int index = 1; index < coins.length; index++){
-                for( int target = 0; target <= amount; target++){
-                    
-                    int take = (int) 1e9;
-                    if(coins[index] <= target)
-                        take = 1 + dp[index][target - coins[index]];
-
-                    int notTake = dp[index - 1][target];
-
-                    dp[index][target] = Math.min(take, notTake);
-                }
-            }    
-
-            int ans = dp[coins.length - 1][amount];
-            return ans == (int) 1e9 ? -1 : ans;
-        }
-
-Approach - 4 Space Optimization
-TC - 0(NT)
-SC - 0(T) + 0(T)
-
-Program - 
-    public int coinChange(int[] coins, int amount) {
-        int[] prevRow = new int[amount + 1];
-
-        //Initialize Base Condition
-        for( int index = 0; index <= amount; index++){
-            if(index % coins[0] == 0)
-                prevRow[index] = index / coins[0];
-            else
-                prevRow[index] = (int) 1e9;
-        }
-
-        for(int index = 1; index < coins.length; index++){
-            int[] currentRow = new int[amount + 1];
-            for( int target = 0; target <= amount; target++){
-                
-                int take = (int) 1e9;
-                if(coins[index] <= target)
-                    take = 1 + currentRow[target - coins[index]];
-
-                int notTake = prevRow[target];
-
-                currentRow[target] = Math.min(take, notTake);
-            }
-            prevRow = currentRow;
-        }    
-
-        int ans = prevRow[amount];
-        return ans == (int) 1e9 ? -1 : ans;
-    }
-*/
-class Solution {
-    public int coinChange(int[] coins, int amount) {
-        int[] prevRow = new int[amount + 1];
-
-        //Initialize Base Condition
-        for( int index = 0; index <= amount; index++){
-            if(index % coins[0] == 0)
-                prevRow[index] = index / coins[0];
-            else
-                prevRow[index] = (int) 1e9;
-        }
-
-        for(int index = 1; index < coins.length; index++){
-            int[] currentRow = new int[amount + 1];
-            for( int target = 0; target <= amount; target++){
-                
-                int take = (int) 1e9;
-                if(coins[index] <= target)
-                    take = 1 + currentRow[target - coins[index]];
-
-                int notTake = prevRow[target];
-
-                currentRow[target] = Math.min(take, notTake);
-            }
-            prevRow = currentRow;
-        }    
-
-        int ans = prevRow[amount];
-        return ans == (int) 1e9 ? -1 : ans;
+       return dp[index][target] = Math.min(take, notTake);
     }
 }
