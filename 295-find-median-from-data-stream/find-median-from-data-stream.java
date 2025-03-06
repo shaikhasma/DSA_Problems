@@ -13,27 +13,25 @@ class MedianFinder {
     }
     
     public void addNum(int num) {
-        //insert into heap either min or max
-        if(maxHeap.size() == 0 || maxHeap.peek() >= num)
+        if(maxHeap.size()== 0 || num < maxHeap.peek()){
             maxHeap.add(num);
-        else
+        }else{
             minHeap.add(num);
-
-        //balancing size of both heap it should be == or -1
-        if(maxHeap.size() > minHeap.size() + 1){
-            minHeap.add(maxHeap.poll());
         }
-        else if(minHeap.size() > maxHeap.size() + 1){
+        
+        //balancing the heap
+        if(minHeap.size() > maxHeap.size()+1){
             maxHeap.add(minHeap.poll());
+        }else if(maxHeap.size() > minHeap.size() +1){
+            minHeap.add(maxHeap.poll());
         }
     }
     
     public double findMedian() {
-       if(minHeap.size() == maxHeap.size())
-         return (maxHeap.peek() + minHeap.peek()) / 2.0;
-       
-       return maxHeap.size() > minHeap.size() ?  maxHeap.peek() : minHeap.peek();
-       
+      if(maxHeap.size() == minHeap.size()){
+        return (maxHeap.peek() + minHeap.peek())/2.0;
+      }
+      return maxHeap.size() > minHeap.size() ? maxHeap.peek() : minHeap.peek();
     }
 }
 
