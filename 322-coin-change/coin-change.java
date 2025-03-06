@@ -50,13 +50,30 @@ Program -
 */
 class Solution {
     public int coinChange(int[] coins, int amount) {
-      if(amount == 0)   
-        return 0;
-      int[][] dp = new int[coins.length][amount + 1];
-      for(int[] no : dp)
-        Arrays.fill(no, -1);
+       int[][] dp = new int[coins.length][amount + 1];
+      
+      //base case setting
+       for( int target = 0; target <= amount ; target++){
+           if(target % coins[0] == 0)
+              dp[0][target] = target / coins[0];
+           else
+              dp[0][target] = (int) 1e9;
+       }
 
-       int ans = solve(coins.length - 1, coins, amount, dp);
+       for(int index = 1; index < coins.length; index++){
+           for(int target = 0; target <= amount; target++){
+                //take
+                int take = (int)1e9;
+                if(coins[index] <= target)
+                    take = 1 + dp[index][target - coins[index]];
+
+                // not take
+                int notTake = dp[index - 1][target];
+                dp[index][target] = Math.min(take, notTake);
+           }
+       }
+
+       int ans = dp[coins.length - 1][amount];
        return ans == (int) 1e9 ?  -1: ans;
     }
 
