@@ -1,58 +1,76 @@
+/* Approach - Brute Force
+TC - 0(N)
+SC - 0(1)
+*/
+/* Approach - 2 Using binary search
+
+1. find firstIndex using binary search
+-- if we find exact target update index 
+-- if we find >= target move left to get first index 
+do this till low <= high
+
+2. find lastIndex using binary search
+
+-- if we find exact target update index 
+-- if we find <= target move right to get last index 
+do this till low <= high
+TC - 0(logN) + 0(logN)
+SC - 0(1)
+
+*/
+
 class Solution {
-    public int[] searchRange(int[] arr, int target) {
-        // 5,7,7,8,8,10 target 8 
-        
+    public int[] searchRange(int[] nums, int target) {
+      int firstIndex = findFirstIndex(nums, target);
+      int lastIndex = findLastIndex (nums, target);
 
-        int firstIndex = lowerBound(arr, target);
-        int lastIndex = -1;
-
-        if(firstIndex != -1) {
-          lastIndex = upperBound(arr, target) ;
-          lastIndex = lastIndex == -1 ? arr.length - 1: lastIndex - 1; 
-        } 
-
-        return new int[] {firstIndex , lastIndex};
+      return new int[] {firstIndex, lastIndex};
     }
-    
-    int lowerBound(int[] arr, int target){
-        int low = 0;
-        int high = arr.length - 1;
-         int lowerBound = -1;
 
+    int findFirstIndex(int[] nums, int target){
+        int low = 0 ;
+        int high = nums.length - 1;
+        int firstIndex = -1;
         while(low <= high){
-            int mid = high - (high - low) / 2 ;
+            int mid = (high + low) / 2;
+            //updating firstIndex  every time my moving left 
+            if(nums[mid] == target){
+                firstIndex = mid;
+            }
 
-            if(target == arr[mid])
-                lowerBound = mid;
-
-            if(target <= arr[mid]){
+            if(nums[mid] >= target){
                 high = mid - 1;
-            }else{
+            }
+            else{
                 low = mid + 1;
             }
         }
 
-        return lowerBound;
-    }   
+        return firstIndex;
+    }
 
-     int upperBound(int[] arr, int  target){
+    int findLastIndex (int[] nums, int target){
         int low = 0;
-        int high = arr.length - 1;
-        int upperBound = -1;
-        
-        while( low <= high){
-            int mid = high - (high - low) / 2;
+        int high = nums.length - 1;
+        int lastIndex = -1;
 
-            if(target < arr[mid]){
-                upperBound = mid;
-                high = mid - 1;
-            }
-            else
-               low = mid + 1;
+        while(low <= high){
+          int mid = (high + low ) / 2;
+          
+          //updating last index everytime by moving right side
+          if(nums[mid] == target){
+            lastIndex = mid;
+          }
+          
+          if(nums[mid] <= target){
+            low = mid + 1;
+          }
+          else{
+            high = mid - 1;
+          }
         }
 
-        return upperBound;
-     }
+        return lastIndex;
 
-
+    }
 }
