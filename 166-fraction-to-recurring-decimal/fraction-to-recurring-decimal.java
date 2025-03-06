@@ -10,45 +10,45 @@ Since every remainder is unique before it repeats, the while loop runs at most D
 The HashMap stores at most D remainders, making space complexity O(D).
 */
 class Solution {
-    public String fractionToDecimal(int num, int den) {
-        if (num == 0) 
-            return "0"; // If numerator is 0, return "0"
-        
+    public String fractionToDecimal(int num, int deno) {
+          if (num == 0) 
+              return "0";
         StringBuilder ans = new StringBuilder();
-        
-        // Add sign if the fraction is negative
-        if (num < 0 ^ den < 0) ans.append("-");
 
-        // Convert to long to avoid overflow
+       // if n or d is -ve attach - sign
+        if((num < 0 && deno >= 0 ) || ( num >= 0 && deno < 0))
+            ans.append("-");
+
+        // remove -ve sign , avoid overflow
         long n = Math.abs((long) num);
-        long d = Math.abs((long) den);
-        
-        // Append the integer part of the division to ans
-        ans.append(n / d);
-        long rem = n % d; 
-        
-        if (rem == 0) 
-            return ans.toString(); // If no remainder, return ansult
-        
-        ans.append("."); // Add decimal point
+        long d = Math.abs((long) deno);
 
-        // Map to store remainders and their position in result
-        Map<Long, Integer> seen = new HashMap<>();
+        // if full division
+        ans.append(n/d);
+        long rem = n % d;
+        if(rem == 0)
+            return ans.toString();
         
-        // Process remainder to get decimal part
-        while (rem != 0) {
-            if (seen.containsKey(rem)) {
-                ans.insert(seen.get(rem), "("); // Insert opening bracket at first occurrence
-                ans.append(")"); // Add closing bracket
+        //if fractional division
+        Map<Long, Integer> map = new HashMap<>();
+        ans.append(".");
+
+        while(rem != 0){
+            if(map.containsKey(rem)){
+                int index = map.get(rem);
+                ans.insert(index, "(");
+                ans.append(")");
                 break;
             }
-            
-            seen.put(rem, ans.length()); // Store remainder position
-            rem *= 10;
-            ans.append(rem / d); // Append quotient
-            rem %= d; // Update remainder
+            map.put(rem, ans.length());
+
+            //division
+            rem = rem * 10; // attach 0
+          
+            ans.append(rem / d);
+            rem = rem % d;
         }
-        
+
         return ans.toString();
     }
 }
