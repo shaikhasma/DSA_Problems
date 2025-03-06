@@ -49,38 +49,19 @@ Program -
 
 */
 class Solution {
-    public int coinChange(int[] coins, int amount) {
-       int[][] dp = new int[coins.length][amount + 1];
+    public int coinChange(int[] arr, int amount) {
+      int[][] dp = new int[arr.length][amount + 1];
+      for(int[] no : dp)
+            Arrays.fill(no, -1);
       
-      //base case setting
-       for( int target = 0; target <= amount ; target++){
-           if(target % coins[0] == 0)
-              dp[0][target] = target / coins[0];
-           else
-              dp[0][target] = (int) 1e9;
-       }
-
-       for(int index = 1; index < coins.length; index++){
-           for(int target = 0; target <= amount; target++){
-                //take
-                int take = (int)1e9;
-                if(coins[index] <= target)
-                    take = 1 + dp[index][target - coins[index]];
-
-                // not take
-                int notTake = dp[index - 1][target];
-                dp[index][target] = Math.min(take, notTake);
-           }
-       }
-
-       int ans = dp[coins.length - 1][amount];
-       return ans == (int) 1e9 ?  -1: ans;
+      int ans = solve(arr.length - 1, arr, amount, dp);
+      return ans == (int) 1e9 ? -1 : ans;
     }
 
     int solve(int index, int[] arr, int target, int[][] dp){
         if(target == 0)
-            return 0;
-
+          return 0;
+        
         if(index == 0){
             if(target % arr[index] == 0)
                 return target / arr[index];
@@ -90,15 +71,14 @@ class Solution {
 
         if(dp[index][target] != -1)
             return dp[index][target];
-       
-       //take
-       int take = (int)1e9;
-       if(arr[index] <= target)
-            take = 1 + solve(index, arr, target - arr[index],dp);
 
-       // not take
-       int notTake = solve(index - 1, arr, target, dp);
+        int take = (int) 1e9;
 
-       return dp[index][target] = Math.min(take, notTake);
+        if(arr[index] <= target)
+            take = 1 + solve(index , arr, target- arr[index], dp);
+        
+        int notTake = solve(index - 1, arr, target, dp);
+
+        return dp[index][target] = Math.min(take, notTake);
     }
 }
