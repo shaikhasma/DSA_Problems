@@ -1,6 +1,6 @@
 /*
  String traversal (N)
- appending N * K
+ appending N * K k is max multiplier in input
  TC - 0(NK)
  SC - 0(NK)
  */
@@ -22,7 +22,7 @@ class Solution {
                    numStack.push(number);
                    number = 0;
             }
-            else if(ch != ']'){
+            else if(ch != ']'){ 
                   stringStack.push(ch+"");
             }
             else{
