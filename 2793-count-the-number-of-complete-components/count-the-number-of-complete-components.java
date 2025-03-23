@@ -1,64 +1,66 @@
+/*
+ Approach - 1 Count node & edges of complete component using DFS
+ adjList = V + E
+ DFS = V + E
+ TC - 0(V + E)
+ SC - 0(V + E)adList ,  N stack
+    - 0(V + E)
+                
+ 
+*/
 class Solution {
+    List<List<Integer>> adjList;
+     boolean[] visited ;
+    int n;
+    int compNodes;
+    int compEdges;
+
     public int countCompleteComponents(int n, int[][] edges) {
-        UnionFind uf = new UnionFind(n);
-        // connect components
-        for(int[] edge : edges){
-            uf.union(edge[0], edge[1]);
-        }
-
-        Map<Integer, Integer> edgesCount = new HashMap<Integer, Integer>();
-        // count edges in each components
-        for(int[] edge : edges){ //  u - v
-            int root = uf.find(edge[0]);
-            edgesCount.put(root, edgesCount.getOrDefault(root,0)+1);
-        }
-
-
+        this.n = n;
+        visited = new boolean[n];
         int ans = 0;
-        // check for all the parents 
-        // no of edges in each component == n(n-1) /2 
-        for(int i=0; i<n; i++){
-            if(uf.find(i) == i){            // this node is parent of a component
-                int size = uf.size[i];
-                int e = edgesCount.getOrDefault(i,0);
-                if( e == (size * (size-1))/2 )
-                    ans++;
+
+        adjList = prepareAdjList(edges, n);
+
+        for(int node = 0; node < n; node++){
+            if(!visited[node]){
+                compNodes = 0;
+                compEdges = 0;
+                
+                dfs(node);
+
+                if(compEdges / 2 == (compNodes * (compNodes - 1)) / 2)
+                   ans++;
             }
         }
+        
         return ans;
     }
 
-    class UnionFind{
-        int[] parent;
-        int[] size;
+    void dfs(int node){
+       visited[node] = true;
+       compNodes++;
+       compEdges += adjList.get(node).size();
 
-        public UnionFind(int n){
-            parent = new int[n];
-            size = new int[n];  
-            Arrays.fill(parent, -1);
-            Arrays.fill(size, 1);
+       for(Integer neighbor : adjList.get(node)){
+          if(!visited[neighbor])
+                dfs(neighbor);
+       }
+    }
+
+    List<List<Integer>> prepareAdjList(int[][] edges, int n){
+        List<List<Integer>> list = new ArrayList();
+        for(int node = 0; node < n; node++)
+            list.add(new ArrayList<>());
+        
+        for(int index = 0; index < edges.length; index++){
+            int source = edges[index][0];
+            int target = edges[index][1];
+
+            list.get(source).add(target);
+            list.get(target).add(source);
         }
 
-        int find(int x){
-            if(parent[x] == -1) return x;
-            return parent[x] = find(parent[x]);     // path compression
-        }
-
-        void union(int a, int b){
-            int p1 = find(a);
-            int p2 = find(b);
-            
-            if(p1 == p2) return;
-
-            // combine those two groups
-            if(size[p1] > size[p2]){
-                parent[p2] = p1;
-                size[p1] += size[p2];
-            }else{
-                parent[p1] = p2;
-                size[p2] += size[p1];
-            }
-        }
-
+        return list;
     }
 }
