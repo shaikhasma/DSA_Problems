@@ -1,194 +1,40 @@
-/** Asma shaikh
-Approach - 1 Recursion
- TC : 0(N) + 0(2^n)
- SC : 0(N)  
-
-Program - 
-    public boolean canPartition(int[] nums) {
-     int totSum = 0;
-     for(int index = 0; index < nums.length; index++)
-        totSum += nums[index];
-
-     if( totSum % 2 == 1)
-        return false;
-        
-     return solv(nums, totSum / 2, nums.length - 1);
-    }
-
-    boolean solv(int[] A, int target, int index){
-        if(target == 0)
-            return true;
-    
-        if(index == 0)
-            return A[index] == target;
-                
-        boolean pick = false;
-        if(A[index] <= target)
-            pick = solv(A, target - A[index], index - 1);
-
-        boolean notPick = solv(A, target, index - 1);
-
-        return pick || notPick;
-    }
-
-Approach - 2 Recursion + Memoiation 
-TC - 0(NT) - 0(N) sum 
-SC - 0(NT) + 0(N) dp[][] & stack
-
-Program -   
-    public boolean canPartition(int[] nums) {
-     int totSum = 0;
-     for(int index = 0; index < nums.length; index++)
-        totSum += nums[index];
-
-     if( totSum % 2 == 1)
-        return false;
-
-     int[][] dp = new int[nums.length][totSum / 2 + 1];
-     for(int[] row : dp)
-        Arrays.fill(row, -1);
-
-     return solv(nums, totSum / 2, nums.length - 1, dp);
-    }
-
-    boolean solv(int[] A, int target, int index,int[][] dp){
-        if(target == 0)
-            return true;
-    
-        if(index == 0)
-            return A[index] == target;
-                
-        if(dp[index][target] != -1)
-            return dp[index][target] == 1 ? true : false;
-
-        boolean pick = false;
-        if(A[index] <= target)
-            pick = solv(A, target - A[index], index - 1, dp);
-
-        boolean notPick = solv(A, target, index - 1, dp);
-
-        dp[index][target] = (pick || notPick) ? 1 : 0;
-
-        return pick || notPick;
-    }
-
-Approach - 3 Tabulation / Bottom up
-TC - 0(NT) + 0(N) 
-SC - 0(NT) 
-
-Program - 
-    public boolean canPartition(int[] nums) {
-     int totSum = 0;
-     for(int index = 0; index < nums.length; index++)
-        totSum += nums[index];
-
-     if( totSum % 2 == 1)
-        return false;
-
-     int T = totSum / 2;
-     boolean[][] dp = new boolean[nums.length][T + 1];
-
-     //Base Case initialize 1
-     for(int index = 0; index < nums.length; index++)
-        dp[index][0] = true;
-
-    //Base Case initialize 2
-     if(nums[0] <= T)
-        dp[0][nums[0]] = true;
-     
-     for( int index = 1; index < nums.length ; index++){
-        for(int target = 0; target <= T; target++){
-         
-         boolean pick = false ;
-         if(nums[index] <= target )
-            pick = dp[index - 1][target - nums[index]];
-
-         boolean notPick = dp[index - 1][target];
-
-         dp[index][target] = pick || notPick;
-        }
-     }
-     return dp[nums.length - 1][T];
-    }
-
-Approach - 4 Space Optimization
-TC - 0(NT) + 0(N)
-SC - 0(T) + 0(T) 
-
-Program - 
-    public boolean canPartition(int[] nums) {
-     int totSum = 0;
-     for(int index = 0; index < nums.length; index++)
-        totSum += nums[index];
-
-     if( totSum % 2 == 1)
-        return false;
-
-     int T = totSum / 2;
-     boolean[] prevRow = new boolean[T + 1];
-
-     //Base Case initialize 1)
-        prevRow[0] = true;
-
-    //Base Case initialize 2
-     if(nums[0] <= T)
-        prevRow[nums[0]] = true;
-     
-     for( int index = 1; index < nums.length ; index++){
-        
-        boolean[] currentRow = new boolean[T + 1];
-        for(int target = 0; target <= T; target++){
-         
-            boolean pick = false ;
-            if(nums[index] <= target )
-                pick = prevRow[target - nums[index]];
-
-            boolean notPick = prevRow[target];
-
-            currentRow[target] = pick || notPick;
-        }
-
-        prevRow = currentRow;
-     }
-     return prevRow[T];
-    }
-
- */
 class Solution {
+    int[][] dp ;
     public boolean canPartition(int[] nums) {
-     int totSum = 0;
-     for(int index = 0; index < nums.length; index++)
-        totSum += nums[index];
+        int sum = 0;
+       
+        for(int index = 0; index < nums.length; index++)
+            sum+= nums[index];
 
-     if( totSum % 2 == 1)
-        return false;
+        if(sum % 2 == 1)
+            return false;
 
-     int T = totSum / 2;
-     boolean[] prevRow = new boolean[T + 1];
+        dp = new int[sum/2 + 1][nums.length];
+        for(int[] arr : dp)
+            Arrays.fill(arr, -1);
 
-     //Base Case initialize 1)
-        prevRow[0] = true;
+        return solve(nums, 0, sum/2);
+    }
 
-    //Base Case initialize 2
-     if(nums[0] <= T)
-        prevRow[nums[0]] = true;
-     
-     for( int index = 1; index < nums.length ; index++){
+    boolean solve(int[] nums, int index, int target){
+        if(target == 0)
+            return true;
         
-        boolean[] currentRow = new boolean[T + 1];
-        for(int target = 0; target <= T; target++){
-         
-            boolean pick = false ;
-            if(nums[index] <= target )
-                pick = prevRow[target - nums[index]];
+        if(index == nums.length - 1) 
+            return nums[index] == target;
+        
+        if(dp[target][index] != -1)
+            return dp[target][index] == 1 ? true : false;
 
-            boolean notPick = prevRow[target];
+        //1. take 
+        boolean take = false;
+        if(nums[index] <= target)
+            take = solve( nums, index + 1, target - nums[index]);
+        
+        // 2. not take
+        boolean notTake = solve(nums, index + 1, target);
 
-            currentRow[target] = pick || notPick;
-        }
-
-        prevRow = currentRow;
-     }
-     return prevRow[T];
+        dp[target][index] = (take || notTake) ? 1 : 0;
+        return dp[target][index] == 1 ? true: false;
     }
 }
