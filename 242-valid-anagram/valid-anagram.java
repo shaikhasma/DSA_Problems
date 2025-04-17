@@ -3,17 +3,18 @@ class Solution {
         if(str1.length() != str2.length())
             return false;
         
+        int[] freq = new int[26];
         for(int index = 0; index < str1.length(); index++){
-            char ch = str1.charAt(index);
-            int indexOfChar = str2.indexOf(ch);
+            char ch1 = str1.charAt(index);
+            char ch2 = str2.charAt(index);
+            freq[ch1 - 'a'] ++;
+            freq[ch2 - 'a'] --;
+        }
 
-            if(indexOfChar != -1 ){
-               str2 = str2.substring(0, indexOfChar) +
-                str2.substring( indexOfChar + 1, str2.length());
-            }
-            else{
+        for(int index = 0; index < freq.length; index++)
+        {
+            if(freq[index] != 0)
                 return false;
-            }
         }
 
         return true;
