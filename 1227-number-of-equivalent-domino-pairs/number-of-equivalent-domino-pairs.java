@@ -37,6 +37,21 @@ Since 1 < 2, it becomes: 2*10 + 1 = 21
 
 \U0001f449 Both [1,2] and [2,1] are stored at the same index 21 in the mpp array.
 
+class Solution {
+    public int numEquivDominoPairs(int[][] dominoes) {
+        int[] mpp = new int[100];
+        for (int[] d : dominoes) 
+            if (d[0] > d[1]) mpp[d[0] * 10 + d[1]]++;
+            else mpp[d[1] * 10 + d[0]]++;
+        
+        int count = 0;
+        for (int freq : mpp)
+            count += (freq - 1) * freq / 2;
+        
+        return count;
+    }
+}
+
 
 */
 class Solution {
