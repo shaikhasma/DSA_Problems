@@ -4,6 +4,7 @@ class Solution {
         for(int index = 0; index < arr.length; index++){
             if(arr[index] % 2 == 1){
                 len++;
+                
                 if(len == 3)
                     return true;
             }
