@@ -15,11 +15,12 @@ class Solution {
         while( tempN > 0){
             if((tempN & 1) == 1){
                ans = ans * x;
-               //tempN--;
+               tempN--;
             }
-            
-            x = x * x;
-            tempN >>= 1;
+            else{ 
+             x = x * x;
+             tempN >>= 1;
+            }
         }
 
         return ans;
