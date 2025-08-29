@@ -13,9 +13,9 @@ class Solution {
         double ans = 1.0;
         // N times multiplication
         while( tempN > 0){
-            if(tempN % 2 == 1){
+            if((tempN & 1) == 1){
                ans = ans * x;
-               tempN--;
+               //tempN--;
             }
             
             x = x * x;
