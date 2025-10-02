@@ -1,33 +1,26 @@
-/* Approach
-1. Drink numBottles make it empty & count completed water
-   ans = numBottles;
-2. Exchange empty Bottles with new filled water
-3. prev emptyBottles + newEmpty Bottles ( can make is empty after drunk)
+/*
+At each step, empties shrinks roughly by a factor proportional to numExchange.
 
-always count new filled bottles
-
-Once Empty Bottle < exchange bottle we have to stop
+The number of iterations is bounded by O(numBottles / numExchange).
+TC - O(N/M)
+SC - 0(1)
 */
 class Solution {
     public int numWaterBottles(int numBottles, int numExchange) {
-      int ans = numBottles;
-      int remaningEmptyBottles = numBottles;
-
-      while(remaningEmptyBottles >= numExchange){
-        int newBottles = remaningEmptyBottles / numExchange;
-        ans += newBottles;
-
-        remaningEmptyBottles = (remaningEmptyBottles % numExchange) + newBottles;
-      }
       
-      return ans;
+      if(numBottles < numExchange)  
+        return numBottles;
+      
+     int totalDrinks = numBottles;
+     int remainingBottle = numBottles;
+     int newBottle = 0;
+
+     while(remainingBottle >= numExchange){
+       
+        newBottle = remainingBottle / numExchange; //15 / 4
+        remainingBottle = (remainingBottle % numExchange ) + newBottle;
+        totalDrinks += newBottle;  
+     }
+     return totalDrinks;
     }
 }
-
-  /* 9 / 3. 3/3 
-9.  3.      1
-   15/4  3/4
-15. 3    1
-7. 2. 3 1 0
-7 3 
-*/
