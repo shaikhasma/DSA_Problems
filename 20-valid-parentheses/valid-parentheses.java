@@ -11,38 +11,46 @@ SC - 0(N)
 */
 class Solution {
     public boolean isValid(String s) {
-    Stack<Character> stack = new Stack<>();
-    for(int index = 0; index < s.length(); index++){
-        Character ch = s.charAt(index);
+          Stack<Character> stack = new Stack<>();
 
-        if(isOpeningBracket(ch)){
-            stack.push(ch);
-        }else if (isClosingBracket(ch)){
-            if(stack.isEmpty()){
-                return false;
-            }else if(isMatchingBracket( stack.peek() , ch)){
-                stack.pop();
-                continue;
-            }else{
-                return false;
+          for(int index = 0; index < s.length() ; index++){
+            Character ch = s.charAt(index);
+            if(isOpening(ch)){
+                stack.push(ch);
+            }else if (isClosing(ch)){
+                if(stack.isEmpty())
+                    return false;
+                else if(isMatching( stack.peek() , ch)){
+                    stack.pop();
+                    continue;
+                }else
+                    return false;
             }
-        }
-     }
-     return stack.isEmpty();
+          }
+
+          return stack.isEmpty();
     }
 
-    private boolean isOpeningBracket(char ch){
-        return (ch == '{' || ch == '(' || ch == '[') ;
+    boolean isOpening(char ch){
+        if( ch == '(' || ch== '[' || ch == '{')
+          return true;
+
+        return false;
+    }
+     boolean isClosing(char ch){
+        if( ch == ')' || ch== ']' || ch == '}')
+          return true;
+
+        return false;
     }
 
-    private boolean isClosingBracket(char ch){
-        return (ch == '}' || ch == ')' || ch ==']');
+    boolean isMatching(char ch1, char ch2 ){
+        if( (ch1 == '('  && ch2 == ')' )
+            || (ch1 == '['  && ch2 == ']' )
+            || (ch1 == '{'  && ch2 == '}'))
+          return true;
+          
+        return false;
     }
 
-    private boolean isMatchingBracket(Character openingBracket, Character closingBracket){
-        return (openingBracket == '{' && closingBracket == '}') || 
-               (openingBracket == '[' && closingBracket == ']') ||
-               (openingBracket == '(' && closingBracket == ')');
-    }
-    
 }
