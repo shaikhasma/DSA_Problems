@@ -11,11 +11,7 @@ SC - 0(N)
 
 "abcabcbb"
 
-
-*/
-
-class Solution {  
-    public int lengthOfLongestSubstring(String s) {
+public int lengthOfLongestSubstring(String s) {
         HashSet<Character> set = new HashSet<>();
         int left = 0;
         int right = 0;
@@ -37,5 +33,32 @@ class Solution {
         }
 
         return max;
+    }
+
+    TC - 0(n^2) Note - Restart right from evey index
+    SC - 0(N)
+
+
+*/
+
+class Solution {  
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        int left = 0;
+        int maxLen = 0;
+
+        for(int right = 0; right < s.length(); right++){
+            Character ch = s.charAt(right);
+
+            if(map.containsKey(ch)){
+                Integer preIndex = map.get(ch);
+                left = Math.max(left, preIndex + 1) ;
+            }
+            
+            map.put(ch, right);
+            maxLen = Math.max(maxLen, right - left + 1);
+        }
+        
+        return maxLen;
     }
 }
