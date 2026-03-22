@@ -38,6 +38,15 @@ public int lengthOfLongestSubstring(String s) {
     TC - 0(n^2) Note - Restart right from evey index
     SC - 0(N)
 
+Approach - 2 Using HashMap store char + index & avoid restarting window for each time
+ - If char present in map compare prevIndex + 1 and current left
+      this is to check duplicate character is current window of left -> right 
+       if yes then move left to maxIndex
+       update index(right) to map for that character 
+
+       Note this is just to avoid moving left to backwoard
+
+-- if not present put new char + index
 
 */
 
