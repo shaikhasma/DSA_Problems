@@ -40,12 +40,12 @@ class Solution {
         if(nums[right] == 0)
             zeroCount++;
         
-            while(zeroCount > k){
-                if(nums[left] == 0)
-                    zeroCount--;
+        while(zeroCount > k){
+            if(nums[left] == 0)
+                zeroCount--;
 
-                left++;
-            }
+            left++;
+        }
 
         maxLen = Math.max(maxLen, right - left + 1);
         right++; 
