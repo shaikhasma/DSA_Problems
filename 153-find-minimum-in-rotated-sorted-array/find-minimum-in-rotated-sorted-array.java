@@ -1,26 +1,16 @@
-/*
-[4,5,6,7,0,1,2]
- 0 1 2 3 4 5 6
-         l.  g 
- min +
- which part sorted
- before moving to other part take min from sorted part
-*/
 class Solution {
-    public int findMin(int[] arr) {
+    public int findMin(int[] nums) {
+        int low = 0;
+        int high = nums.length - 1;
         int min = Integer.MAX_VALUE;
 
-        int low = 0;
-        int high = arr.length - 1;
-
         while(low <= high){
-            int mid = high - ( high - low) / 2;
-            
-            if(arr[low] <= arr[mid]){
-                min = Math.min(min, arr[low]);
+            int mid = high - (high - low) / 2;
+            if(nums[mid] >= nums[low]){
+                min = Math.min(min, nums[low]);
                 low = mid + 1;
             }else{
-                min = Math.min(min, arr[mid]);
+                min = Math.min(min, nums[mid]);
                 high = mid - 1;
             }
         }
