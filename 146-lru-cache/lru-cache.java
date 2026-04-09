@@ -16,13 +16,6 @@ class LRUCache {
             this.val = val;
         }
 
-        public int getKey(){
-            return key;
-        }
-        public int getVal(){
-            return val;
-        }
-    
     }
     public LRUCache(int capacity) {
         this.capacity = capacity;
