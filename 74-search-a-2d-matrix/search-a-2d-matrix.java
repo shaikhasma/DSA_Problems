@@ -1,82 +1,27 @@
-/* approach - 2
-- first row last col element < target
-   find in same row
-- first row last col element > target
-   find in next row
+/* Appraoch - 1 Normal 2D traversal search
+TC = 0(NM)
+SC : 0(1)
 
-public boolean searchMatrix(int[][] matrix, int target) {
-        int col = matrix[0].length - 1; 
-        int row = 0;
-        while(col >= 0 && row <= matrix.length - 1){
-           if(target == matrix[row][col])
-                return true;
-           else if(target < matrix[row][col] )
-               col--;
-           else 
-              row++;
-        }
+Appraoch- 2 Decide Row or Col traversal based on target value (Using properify of sorting row and col)
+TC : 0(max(n,m))
+SC : 0(1)
 
-        return false;
-    }
-TC - 0(N) worst case either  row or  column need to traverse
-
-Approach - 3 cansider single sorted array + binary search
-Tot size = row & col
-low = 0 high = totSize - 1;
-middle = low + (high - 1) / 2
-get row = middle / column
-get col = middle % col
-
-public boolean searchMatrix(int[][] matrix, int target) {
-        
-       int n = matrix.length ;
-       int m = matrix[0].length;
-
-       int low = 0;
-       int high = (n * m) - 1;
-
-       while(low <= high){
-        
-        int mid = low + ( high - low ) / 2;
-        int row = mid / m;
-        int col = mid % m;
-
-        if(target == matrix[row][col])
-            return true;
-        else if(target < matrix[row][col])
-             high = mid - 1;
-        else
-             low = mid + 1;
-       }
-       return false;
-    }
-
-    TC - 0(log MN)
-    SC - 0(1)
- 
 */
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-        
-       int n = matrix.length ;
-       int m = matrix[0].length;
+      int row = 0;
+      int col = matrix[0].length - 1;
 
-       int low = 0;
-       int high = (n * m) - 1;
-
-       while(low <= high){
-        
-        int mid = low + ( high - low ) / 2;
-        int row = mid / m;
-        int col = mid % m;
-
-        if(target == matrix[row][col])
+      while( row <= matrix.length - 1 && col >= 0){
+        if(matrix[row][col] == target)
             return true;
-        else if(target < matrix[row][col])
-             high = mid - 1;
+        
+        if(matrix[row][col] < target)
+            row++;
         else
-             low = mid + 1;
-       }
-       return false;
+            col--;    
+        
+      }        
+      return false;
     }
 }
