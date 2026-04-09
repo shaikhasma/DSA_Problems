@@ -1,44 +1,39 @@
 class Solution {
     public List<Integer> spiralOrder(int[][] matrix) {
-     List<Integer> spiralList = new ArrayList<>();
-     int totalElement = matrix.length * matrix[0].length;
-     int firstRow = 0;
-     int lastCol = matrix[0].length - 1;
-     int lastRow = matrix.length - 1;
-     int firstCol = 0;
+      int firstRow = 0;
+      int lastCol = matrix[0].length - 1;
+      int lastRow = matrix.length - 1;    
+      int firstCol = 0;
+      List<Integer> list = new ArrayList<>();
+      int N = matrix.length * matrix[0].length;
 
-     while(spiralList.size() < totalElement){
-        // 1stRow traversal
-        for(int col = firstCol; col <= lastCol && spiralList.size() < totalElement;  col++){
-            spiralList.add(matrix[firstRow][col]);
-        }
-        firstRow++;
+      while(firstRow <= matrix.length - 1 && lastRow >= 0 && 
+                firstCol <= matrix[0].length - 1 &&  lastCol >= 0 && list.size() < N){
 
-        // lastCol traversal
-            for(int row = firstRow; row <= lastRow && spiralList.size() < totalElement;  row++){
-            spiralList.add(matrix[row][lastCol]);
-        }
-        lastCol--;
+            //firstRow
+            for(int index = firstRow;  index <= lastCol &&  list.size() < N ; index++){
+                list.add(matrix[firstRow][index]);
+            }
+            firstRow++;
 
+            //lastCol
+            for(int index = firstRow; index <= lastRow && list.size() < N; index++){
+                list.add(matrix[index][lastCol]);
+            }     
+            lastCol--;
 
-        //lastRow traversal
-        for(int col = lastCol; col >= firstCol && spiralList.size() < totalElement;  col--){
-            spiralList.add(matrix[lastRow][col]);
-        }
-        lastRow--;
+            //lastRow
+            for(int index = lastCol ; index >= firstCol && list.size() < N; index--){
+                list.add(matrix[lastRow][index]);
+            }
+            lastRow--;
 
-        
-        //firstCol Traverse
-        for(int row = lastRow; row >= firstRow && spiralList.size() < totalElement;  row--){
-            spiralList.add(matrix[row][firstCol]);
-        }
-        firstCol++;
-
-        }
-        return spiralList;
+            //firstCol
+            for(int index = lastRow; index >= firstRow && list.size() < N ; index--){
+                list.add(matrix[index][firstCol]);
+            }
+            firstCol++;
+      }
+      return list;
     }
 }
-
-
-
-
