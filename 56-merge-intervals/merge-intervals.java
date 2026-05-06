@@ -1,4 +1,5 @@
-/* Approach 2 - Sort pairs
+/*
+Approach 2 - Sort pairs
 
 1. Sort pairs
 2. Traverse 0 - N all pairs ( i)
@@ -14,29 +15,39 @@
 TC - 0(logn) + 0(n) only one traversal
 SC - 0(n)
 */
-
 class Solution {
     public int[][] merge(int[][] arr) {
-    
-    sortPair(arr);      
-    List<List<Integer>> interval = new ArrayList<>();
-    for(int p1 = 0; p1 < arr.length; p1++){
-        int start = arr[p1][0];
-        int end = arr[p1][1];
-        //if we dont have previous
-        // if we have prevous + current start > previous.end 
-        // then add as new interval
-        if(interval.isEmpty() || start > interval.get(interval.size() - 1).get(1)){
-            interval.add(Arrays.asList(start, end));
-        }else{
-            // if we have previous + current pair start is lie between previous interval
-            //update previous index end here it self
-            interval.get( interval.size() - 1 )
-                    .set( 1, Math.max(end, interval.get(interval.  size() - 1).get(1)));
+        int n = arr.length;
+
+        // sort the givent intervals
+        sortPairs(arr);
+
+        List<List<Integer>> ans = new ArrayList<>();
+
+        for(int index = 0; index < arr.length; index++){
+            int start = arr[index][0];
+            int end = arr[index][1];
+
+            // if 1st pair and dont have previous or current start > prev end then add new interval in ans
+            if(ans.isEmpty() || start > ans.get(ans.size() - 1).get(1)){
+                ans.add(Arrays.asList(start, end));
+            }else{
+                // here we have prev pair, and can overlap 
+                int maxEnd = Math.max(end, ans.get(ans.size() - 1).get(1));
+                ans.get(ans.size() - 1).set(1, maxEnd);
+            }
         }
+
+        return listTo2DArray(ans);
+
     }
 
-     return listTo2DArray(interval);
+    void sortPairs(int[][] arr){
+        Arrays.sort(arr, new Comparator<int[]> (){
+            public int compare(int[] a, int[] b){
+                return a[0] - b[0];
+            }
+        });
     }
 
     int[][] listTo2DArray(List<List<Integer>> list){
@@ -54,22 +65,4 @@ class Solution {
 
        return arr;
     }
-
-    void sortPair(int[][] arr){
-        Arrays.sort(arr, new Comparator<>(){
-          
-          public int compare(int[] a, int[] b){
-              return a[0] - b[0];
-          }
-        });
-    }
 }
-
-/*   [[1,3],[2,6],[8,10],[15,18]]
-     [[1,6],[8,10],[15,18]]
-
-     start 1
-     end  6
-
-      [[1,4],[2,3],[8,10],[15,18]]
-*/
