@@ -1,39 +1,41 @@
 class Solution {
-    public List<Integer> spiralOrder(int[][] matrix) {
-      int firstRow = 0;
-      int lastCol = matrix[0].length - 1;
-      int lastRow = matrix.length - 1;    
-      int firstCol = 0;
-      List<Integer> list = new ArrayList<>();
-      int N = matrix.length * matrix[0].length;
+    public List<Integer> spiralOrder(int[][] arr) {
+        int row = arr.length;
+        int col = arr[0].length;
+        int size = row * col;
+        
+        List<Integer> list = new ArrayList<>();
+        int firstRow = 0;
+        int lastCol = col - 1;
+        int lastRow = row - 1;
+        int firstCol = 0;
 
-      while(firstRow <= matrix.length - 1 && lastRow >= 0 && 
-                firstCol <= matrix[0].length - 1 &&  lastCol >= 0 && list.size() < N){
+        while(list.size() < size){
+             // first Row traverse ( change col)
+             for(int index = firstCol ; index <= lastCol && list.size() < size ; index++){
+               list.add(arr[firstRow][index]);
+             }
+             firstRow++;
 
-            //firstRow
-            for(int index = firstRow;  index <= lastCol &&  list.size() < N ; index++){
-                list.add(matrix[firstRow][index]);
-            }
-            firstRow++;
-
-            //lastCol
-            for(int index = firstRow; index <= lastRow && list.size() < N; index++){
-                list.add(matrix[index][lastCol]);
-            }     
-            lastCol--;
-
-            //lastRow
-            for(int index = lastCol ; index >= firstCol && list.size() < N; index--){
-                list.add(matrix[lastRow][index]);
-            }
+             // last col traverse (change row)
+             for(int index = firstRow; index <= lastRow && list.size() < size; index++){
+                list.add(arr[index][lastCol]);
+             }
+             lastCol--;
+             
+             // last row in reverse order
+                for(int index = lastCol; index >= firstCol && list.size() < size; index--){
+                    list.add(arr[lastRow][index]);
+                }
             lastRow--;
 
-            //firstCol
-            for(int index = lastRow; index >= firstRow && list.size() < N ; index--){
-                list.add(matrix[index][firstCol]);
-            }
-            firstCol++;
-      }
-      return list;
+             // 1st colum in reverse order
+             for(int index = lastRow ; index >= firstRow && list.size() < size; index--){
+                list.add(arr[index][firstCol]);
+             }
+             firstCol++;
+        }
+
+        return list;
     }
 }
