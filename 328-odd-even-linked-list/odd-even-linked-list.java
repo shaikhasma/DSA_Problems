@@ -10,21 +10,27 @@
  */
 class Solution {
     public ListNode oddEvenList(ListNode head) {
-        if(head == null || head.next == null) return head;
-        
-        ListNode temp1 = head;
-        ListNode evenListHead = head.next;
+        if(head == null || head.next == null)
+            return head;
 
-        ListNode temp2 = evenListHead;
-        
-        while(temp2 != null && temp2.next != null ){
-            temp1.next = temp2.next;
-            temp1 = temp1.next;
+        // store evenHead
+        // take two pointer evenList & odd List
+        ListNode oddNode = head;
+        ListNode evenNode = head.next;
+        ListNode evenHead = evenNode;
 
-            temp2.next = temp1.next;
-            temp2 = temp2.next;
+        while(evenNode != null && evenNode.next != null){
+
+            // reference evenList nodes
+            oddNode.next = evenNode.next;
+            oddNode = oddNode.next;
+
+            evenNode.next = oddNode.next;
+            evenNode = evenNode.next;
         }
-        temp1.next = evenListHead;
+
+        // attach oddnode to head of evenHead
+        oddNode.next = evenHead;
         return head;
     }
 }
