@@ -15,20 +15,19 @@
  */
 class Solution {
     public int sumNumbers(TreeNode root) {
-      return solv(root, 0);
+       return solv(root, 0);
     }
 
-    int solv(TreeNode root, int sum){
-        if(root == null)
-            return 0;
-        sum = sum * 10 + root.val;
-
-        if(root.left == null && root.right == null)
-            return sum;
-        
-        int left = solv(root.left, sum);
-        int right = solv(root.right, sum);
-
-        return left + right;
+    int solv(TreeNode root, int no){
+       //base case
+       if(root == null)
+           return 0;
+           
+       // core logic
+       int sum = no * 10 + root.val;
+       if(root.left == null && root.right == null)
+           return sum;
+       // recurive call
+       return solv(root.left, sum) + solv(root.right, sum);
     }
 }
