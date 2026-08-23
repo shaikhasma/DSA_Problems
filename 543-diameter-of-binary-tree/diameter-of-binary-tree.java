@@ -15,22 +15,21 @@
  */
 class Solution {
     public int diameterOfBinaryTree(TreeNode root) {
-        // base 
-        if(root == null)
-            return 0;
-
-        // core logic
-         int diameter = height(root.left) + height(root.right);
-        // recurcive call
-        int leftDia = diameterOfBinaryTree(root.left);
-         int rightDia = diameterOfBinaryTree(root.right);
-        return Math.max(diameter, Math.max(leftDia, rightDia));
+        int[] diameter = new int[1];
+          height(root,diameter);
+          return diameter[0];
     }
 
-    int height(TreeNode root){
-        if(root == null)
+    int height(TreeNode root, int[] diameter){
+        if(root == null){
             return 0;
+        }
         
-        return Math.max(height(root.left), height(root.right)) + 1;
+        int lh = height(root.left, diameter);
+        int rh = height(root.right, diameter);
+
+        diameter[0] = Math.max(diameter[0],lh + rh);
+        
+        return Math.max(lh,rh) + 1;
     }
 }
