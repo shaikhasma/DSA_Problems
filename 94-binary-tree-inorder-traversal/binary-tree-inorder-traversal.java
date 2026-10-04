@@ -14,37 +14,40 @@
  * }
  */
 class Solution {
-   
     public List<Integer> inorderTraversal(TreeNode root) {
-       List<Integer> list = new ArrayList<>();
+        List<Integer> inOrder = new ArrayList<>();
+        if(root == null)
+            return inOrder;
+        
+        TreeNode current = root;
 
-       TreeNode current = root;
-
-       while(current != null){
-        //case 1 - if left null 
-        if(current.left == null){
-            list.add(current.val);
-            current = current.right;
-        }
-        else{
-            //case - goto right most node of left subtree
-            TreeNode temp = current.left;
-
-            while(temp.right != null && temp.right != current){
+        while(current != null){
+            // left subtree present
+            if(current.left != null){
+             TreeNode temp = current.left;
+             while(temp.right != null && temp.right != current){
                 temp = temp.right;
-            }
+             }
 
-            // if link is not exist then create
+             //going to left
             if(temp.right == null){
+                //create link 
                 temp.right = current;
                 current = current.left;
             }else{
-                temp.right = null;
-                list.add(current.val);
-                current = current.right;
+             //comming from left
+              //remove link 
+              temp.right = null;
+              inOrder.add(current.val);
+              current = current.right;
+            }
+        }else{
+            //left subtree not available
+             inOrder.add(current.val);
+             current = current.right;
             }
         }
-       }
-       return list;
+    
+    return inOrder;
     }
 }
