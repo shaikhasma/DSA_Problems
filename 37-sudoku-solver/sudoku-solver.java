@@ -1,44 +1,46 @@
 class Solution {
-    private final char EMPTY_CELL = '.';
-
     public void solveSudoku(char[][] board) {
         solve(board);
     }
+
     boolean solve(char[][] grid){
-        for(int row = 0; row < grid.length; row++){
-            for(int col = 0; col < grid[0].length; col++){
-                if(grid[row][col] == EMPTY_CELL){
-                    //try all 1-9 characters
-                    for(char ch = '1'; ch <= '9' ; ch++){
-                        if(valid(grid, row, col,ch)){
+        for(int row = 0; row < grid.length ; row++){
+            for(int col = 0; col < grid[0].length ; col++){
+                //1. find empty cell
+                if(grid[row][col] == '.'){
+                    //try all possiblities
+                    for(char ch = '1' ; ch <='9'; ch++){
+                        if(validPlace(grid, row, col, ch)){
+                            //place
                             grid[row][col] = ch;
-                            
+                            //explore
                             if(solve(grid))
                                 return true;
-                            //backtract if not able fill all empty cell
-                            grid[row][col] = EMPTY_CELL;   
+
+                            grid[row][col] ='.';
                         }
-                    }//for end
+                    }
                     return false;
                 }
-            }
+           }
         }
-     return true;
+
+        return true;
     }
 
-    //check
-    boolean valid(char[][] grid, int row, int col, char ch){
-      for(int index = 0; index <= 8; index++){
+    boolean validPlace(char[][] grid, int row, int col, char ch){
+     for(int index = 0; index <= 8 ; index++){
         if(grid[row][index] == ch || grid[index][col] == ch)
-            return false;
-        
-        int subGridRow = 3 * (row / 3) + (index / 3);
-        int subGridCol = 3 * (col / 3) + (index % 3);
+          return false;
 
-        if(grid[subGridRow][subGridCol] == ch)
+        int subRow = 3 * (row / 3 ) + ( index / 3);  // row = 2 col = 3
+        int subCol =  3 * (col / 3 ) + (index % 3);
+    
+        if(grid[subRow][subCol] == ch)
             return false;
-      }
+      
+    }
 
-      return true;
+    return true;
     }
 }
