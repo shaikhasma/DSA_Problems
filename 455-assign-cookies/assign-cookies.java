@@ -1,30 +1,18 @@
-/*
-  Approach - greedy Algo
-  TC - 0(logN + logN) + max(g,s)
-      - 0(log N) + max(g,s)
-  SC - 0(1)
-  [7,8,9,10] child
-  [5 6 7 8].  cookies
-
-  */
 class Solution {
-    public int findContentChildren(int[] child, int[] cookies) {
-        Arrays.sort(child);
+    public int findContentChildren(int[] student, int[] cookies) {
+        Arrays.sort(student);
         Arrays.sort(cookies);
-
-        int left = 0;
-        int right = 0;
-
-        while( left < cookies.length && right < child.length){
-            if(cookies[left] >= child[right]){
-               left++;
-               right++;
+        int s = 0; 
+        int c = 0;
+        //int count=0;
+        while(s < student.length && c < cookies.length){
+            if(student [s ]<= cookies[c]){
+          //       count++;
+                s++;   
             }
-            else{
-                left++;
-            }
+            c++;
+            
         }
-
-        return right;
-    }
+        return s;
+    }   
 }
